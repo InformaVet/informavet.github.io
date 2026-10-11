@@ -158,3 +158,19 @@ button {
 .texto-registro a:hover {
     text-decoration: underline;
 }
+
+.enlace-inicio {
+    display: inline-block;
+    text-decoration: none;
+    color: #92400e;
+    font-size: 15px;
+    font-weight: 600;
+    padding: 8px 16px;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+}
+
+.enlace-inicio:hover {
+    background-color: #ffedd5;
+    color: #d97706;
+}
