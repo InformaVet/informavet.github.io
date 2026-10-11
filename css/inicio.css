@@ -1,0 +1,398 @@
+
+/* CONFIGURACION GENERAL */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background-color: #fff4cc;
+    color: #333;
+}
+
+a {
+    text-decoration: none;
+}
+
+/* BARRA DE NAVEGACION */
+
+header {
+    background-color: white;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.navbar {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+    color: #d97706;
+}
+
+.nav-links {
+    display: flex;
+    gap: 30px;
+}
+
+.nav-links a {
+    color: #92400e;
+    font-size: 15px;
+    font-weight: 600;
+    transition: 0.3s;
+}
+
+.nav-links a:hover {
+    color: #f59e0b;
+}
+
+.btn-login {
+    display: inline-block;
+    background-color: #f59e0b;
+    color: white;
+    padding: 12px 22px;
+    border-radius: 8px;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.btn-login:hover {
+    background-color: #d97706;
+}
+
+/* PRESENTACION PRINCIPAL */
+
+.hero {
+    max-width: 1200px;
+    margin: 35px auto 0;
+    background-color: #ffebad;
+    border-radius: 18px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    min-height: 440px;
+    overflow: hidden;
+    box-shadow: 0 8px 22px rgba(0,0,0,0.07);
+}
+
+.hero-texto {
+    padding: 50px;
+}
+
+.etiqueta {
+    display: inline-block;
+    background-color: white;
+    color: #92400e;
+    padding: 9px 15px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.hero h1 {
+    font-size: 44px;
+    line-height: 1.2;
+    margin-top: 24px;
+    margin-bottom: 18px;
+}
+
+.hero h1 span {
+    color: #d97706;
+}
+
+.hero p {
+    color: #665849;
+    font-size: 16px;
+    line-height: 1.7;
+    margin-bottom: 25px;
+}
+
+.hero-botones {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.btn-principal {
+    display: inline-block;
+    background-color: #f59e0b;
+    color: white;
+    padding: 13px 22px;
+    border-radius: 8px;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.btn-principal:hover {
+    background-color: #d97706;
+}
+
+.btn-secundario {
+    display: inline-block;
+    background-color: white;
+    color: #d97706;
+    border: 2px solid #f59e0b;
+    padding: 11px 20px;
+    border-radius: 8px;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.btn-secundario:hover {
+    background-color: #fff4cc;
+}
+
+/* IMAGEN PRINCIPAL */
+
+.hero-imagen {
+    height: 100%;
+    min-height: 440px;
+}
+
+.hero-imagen img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+/* BENEFICIOS */
+
+.beneficios {
+    max-width: 1120px;
+    margin: -20px auto 0;
+    padding: 25px;
+    background-color: white;
+    border-radius: 14px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    position: relative;
+}
+
+.beneficio {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.beneficio span {
+    font-size: 28px;
+}
+
+.beneficio h3 {
+    color: #92400e;
+    font-size: 14px;
+    margin-bottom: 5px;
+}
+
+.beneficio p {
+    color: #666;
+    font-size: 12px;
+}
+
+/* CATEGORIAS DE ANIMALES */
+
+.categorias {
+    max-width: 1200px;
+    margin: 65px auto;
+    padding: 0 20px;
+}
+
+.encabezado-seccion {
+    margin-bottom: 25px;
+}
+
+.subtitulo {
+    color: #d97706;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.encabezado-seccion h2 {
+    color: #92400e;
+    font-size: 28px;
+    margin-top: 7px;
+}
+
+.grid-categorias {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 18px;
+}
+
+.categoria {
+    background-color: white;
+    border: 2px solid #fce3a3;
+    border-radius: 14px;
+    padding: 15px;
+    text-align: center;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.categoria:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 18px rgba(0,0,0,0.1);
+}
+
+.categoria img {
+    width: 100%;
+    height: 155px;
+    object-fit: cover;
+    border-radius: 10px;
+    margin-bottom: 12px;
+}
+
+.categoria h3 {
+    color: #92400e;
+    font-size: 16px;
+    margin-bottom: 6px;
+}
+
+.categoria p {
+    color: #666;
+    font-size: 12px;
+}
+
+/* COLORES DE CATEGORIAS */
+
+.perro {
+    background-color: #fce4c7;
+}
+
+.gato {
+    background-color: #f9ded9;
+}
+
+.conejo {
+    background-color: #f1e2f4;
+}
+
+.ave {
+    background-color: #fff0c2;
+}
+
+.granja {
+    background-color: #e5efdc;
+}
+
+/* SOBRE NOSOTROS */
+
+.nosotros {
+    max-width: 1200px;
+    margin: 30px auto 65px;
+    padding: 45px;
+    background-color: #ffebad;
+    border-radius: 18px;
+    text-align: center;
+}
+
+.nosotros h2 {
+    color: #92400e;
+    font-size: 28px;
+    margin-bottom: 15px;
+}
+
+.nosotros p {
+    color: #665849;
+    line-height: 1.7;
+    max-width: 650px;
+    margin: 0 auto;
+}
+
+/* PIE DE PAGINA */
+
+footer {
+    background-color: #92400e;
+    color: white;
+    padding: 30px;
+    text-align: center;
+}
+
+footer p {
+    margin: 5px;
+}
+
+/* ADAPTACION A PANTALLAS PEQUEÑAS */
+
+@media (max-width: 900px) {
+
+    .navbar {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .hero {
+        grid-template-columns: 1fr;
+        margin: 20px;
+    }
+
+    .hero-imagen {
+        min-height: 300px;
+        height: 300px;
+    }
+
+    .hero h1 {
+        font-size: 35px;
+    }
+
+    .beneficios {
+        margin: 20px;
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .grid-categorias {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+}
+
+@media (max-width: 520px) {
+
+    .nav-links {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 15px;
+    }
+
+    .hero-texto {
+        padding: 30px 22px;
+    }
+
+    .hero h1 {
+        font-size: 30px;
+    }
+
+    .beneficios {
+        grid-template-columns: 1fr;
+    }
+
+    .grid-categorias {
+        grid-template-columns: 1fr;
+    }
+
+    .categoria img {
+        height: 220px;
+    }
+
+    .nosotros {
+        margin: 20px;
+        padding: 25px;
+    }
+
+}
