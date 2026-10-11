@@ -78,9 +78,10 @@ button {
 
 .tarjeta-login {
     background-color: #ffffff;
-    padding: 40px;
-    border-radius: 12px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+    padding: 45px;
+    border-radius: 20px;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.08);
+    border: 2px solid #ff9a2d;
     width: 100%;
     max-width: 400px;
     text-align: center;
