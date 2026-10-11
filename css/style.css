@@ -1,3 +1,4 @@
+
 * {
     margin: 0;
     padding: 0;
@@ -6,7 +7,7 @@
 }
 
 body {
-    background-color: #f0f8ff; 
+    background-color: #fff4cc;
     color: #333;
 }
 
@@ -21,7 +22,7 @@ nav {
     justify-content: space-between;
     align-items: center;
     max-width: 1200px;
-    margin: 0 auto; /
+    margin: 0 auto;
 }
 
 .nav-Inf, .nav-Registro {
@@ -32,7 +33,7 @@ nav {
 button {
     background-color: transparent;
     border: 2px solid transparent;
-    color: #555;
+    color: #92400e;
     font-size: 15px;
     font-weight: 600;
     padding: 8px 16px;
@@ -42,36 +43,36 @@ button {
 }
 
 .nav-Inf button:hover {
-    background-color: #e6f2ff;
-    color: #007bb5;
+    background-color: #ffedd5;
+    color: #c2410c;
 }
 
 .nav-Registro button:first-child {
-    color: #007bb5;
-    border-color: #007bb5;
+    color: #d97706;
+    border-color: #d97706;
 }
 
 .nav-Registro button:first-child:hover {
-    background-color: #007bb5;
+    background-color: #d97706;
     color: #ffffff;
 }
 
 .nav-Registro button:last-child {
-    background-color: #007bb5;
-    color: white;
-    border-color: #007bb5;
+    background-color: #f59e0b;
+    color: #ffffff;
+    border-color: #f59e0b;
 }
 
 .nav-Registro button:last-child:hover {
-    background-color: #005a87;
-    border-color: #005a87;
+    background-color: #d97706;
+    border-color: #d97706;
 }
 
 .contenedor-principal {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: calc(100vh - 80px); 
+    min-height: calc(100vh - 80px);
     padding: 20px;
 }
 
@@ -86,7 +87,7 @@ button {
 }
 
 .tarjeta-login h2 {
-    color: #007bb5;
+    color: #d97706;
     margin-bottom: 10px;
 }
 
@@ -122,14 +123,14 @@ button {
 }
 
 .grupo-input input:focus {
-    border-color: #007bb5;
-    outline: none; 
+    border-color: #f59e0b;
+    outline: none;
 }
 
 .btn-ingresar {
     width: 100%;
-    background-color: #28a745; 
-    color: white;
+    background-color: #f59e0b;
+    color: #ffffff;
     border: none;
     padding: 12px;
     font-size: 16px;
@@ -139,7 +140,7 @@ button {
 }
 
 .btn-ingresar:hover {
-    background-color: #218838;
+    background-color: #d97706;
 }
 
 .texto-registro {
@@ -148,7 +149,7 @@ button {
 }
 
 .texto-registro a {
-    color: #007bb5;
+    color: #c2410c;
     text-decoration: none;
     font-weight: 600;
 }
