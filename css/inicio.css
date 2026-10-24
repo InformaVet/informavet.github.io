@@ -158,14 +158,18 @@ header {
 /* IMAGEN PRINCIPAL */
 
 .hero-imagen {
-    height: 100%;
-    min-height: 440px;
+    height: 440px;
+    min-height: 0;
+    background-color: #ffebad;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .hero-imagen img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain;
     display: block;
 }
 
@@ -461,5 +465,103 @@ footer p {
 @media (max-width: 600px) {
     .secciones-gatos {
         grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 900px) {
+    .hero-imagen {
+        height: auto;
+        min-height: 0;
+    }
+
+    .hero-imagen img {
+        width: 100%;
+        height: auto;
+        object-fit: contain;
+    }
+}
+
+
+/* PAGINA ANIMALES EXOTICOS */
+
+.pagina-exoticos {
+    max-width: 1365px;
+    margin: 60px auto;
+    padding: 20px;
+    text-align: center;
+}
+
+.pagina-exoticos h1 {
+    color: #d97706;
+    font-size: 44px;
+    margin-bottom: 20px;
+}
+
+.pagina-exoticos > p {
+    color: #665849;
+    font-size: 20px;
+    margin-bottom: 50px;
+}
+
+/* TARJETAS */
+
+.secciones-exoticos {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 32px;
+    margin-bottom: 40px;
+}
+
+.seccion-exotico {
+    background-color: white;
+    border: 2px solid #fce3a3;
+    border-radius: 18px;
+    padding: 48px 30px;
+    min-height: 175px;
+    text-align: center;
+}
+
+.seccion-exotico h2 {
+    color: #92400e;
+    font-size: 30px;
+    margin-bottom: 20px;
+}
+
+.seccion-exotico p {
+    color: #333;
+    font-size: 20px;
+}
+
+/* ADAPTACION A CELULARES */
+
+@media (max-width: 768px) {
+
+    .pagina-exoticos {
+        margin: 30px auto;
+    }
+
+    .pagina-exoticos h1 {
+        font-size: 32px;
+    }
+
+    .pagina-exoticos > p {
+        font-size: 16px;
+    }
+
+    .secciones-exoticos {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .seccion-exotico {
+        padding: 30px 20px;
+    }
+
+    .seccion-exotico h2 {
+        font-size: 24px;
+    }
+
+    .seccion-exotico p {
+        font-size: 16px;
     }
 }
