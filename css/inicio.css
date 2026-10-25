@@ -756,3 +756,56 @@ footer p {
         grid-template-columns: 1fr;
     }
 }
+
+/* ── Tarjetas expandibles (details/summary) ── */
+.tarjeta-info {
+    background-color: white;
+    border: 2px solid #fce3a3;
+    border-radius: 12px;
+    overflow: hidden;
+    transition: box-shadow 0.2s;
+}
+
+.tarjeta-info:hover {
+    box-shadow: 0 6px 18px rgba(0,0,0,0.09);
+}
+
+.tarjeta-info summary {
+    padding: 14px 18px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    list-style: none;
+    user-select: none;
+}
+
+.tarjeta-info summary::-webkit-details-marker { display: none; }
+
+.tarjeta-info[open] summary {
+    border-bottom: 2px solid #fce3a3;
+    background-color: #fffdf5;
+}
+
+.tarjeta-meta {
+    font-size: 11px;
+    color: #aaa;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.tarjeta-cuerpo {
+    padding: 14px 18px;
+    font-size: 13px;
+    color: #555;
+    line-height: 1.7;
+}
+
+.tarjeta-titulo {
+    color: #92400e;
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 1.3;
+    flex: 1;   /* ← solo agrega esta línea */
+}

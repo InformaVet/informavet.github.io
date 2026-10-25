@@ -40,14 +40,11 @@ function llenarSelect(select, items, campoId, campoNombre, textoTodos) {
 function crearTarjeta(item, campoCuerpo) {
     const tarjeta = document.createElement('details')
     tarjeta.className = 'tarjeta-info'
-
     const resumen = document.createElement('summary')
-
     const titulo = document.createElement('span')
     titulo.className = 'tarjeta-titulo'
     titulo.textContent = item.titulo
     resumen.appendChild(titulo)
-
     const meta = document.createElement('span')
     meta.className = 'tarjeta-meta'
     const animal = item.categoria && item.categoria.tipo_animal
@@ -56,14 +53,11 @@ function crearTarjeta(item, campoCuerpo) {
     const categoria = item.categoria ? item.categoria.ca_nombre : ''
     meta.textContent = [animal, categoria].filter(Boolean).join(' · ')
     resumen.appendChild(meta)
-
     tarjeta.appendChild(resumen)
-
     const cuerpo = document.createElement('p')
     cuerpo.className = 'tarjeta-cuerpo'
     cuerpo.textContent = item[campoCuerpo] || ''
     tarjeta.appendChild(cuerpo)
-
     return tarjeta
 }
 
@@ -95,15 +89,12 @@ function textoConteo(guias, tips) {
 // ---------------------------------------------------------------
 async function buscar() {
     const miBusqueda = ++numeroBusqueda
-
     const filtros = {
         idTipo: selTipo.value,
         idCategoria: selCategoria.value,
         texto: inpTexto.value
     }
-
     estado.textContent = 'Buscando...'
-
     try {
         const [guias, tips] = await Promise.all([
             buscarGuias(filtros),
@@ -150,17 +141,13 @@ async function limpiar() {
 // ---------------------------------------------------------------
 async function iniciar() {
     try {
-        const [tipos, categorias] = await Promise.all([
-            cargarTiposAnimal(),
-            cargarCategorias()
-        ])
+        const [tipos, categorias] = await Promise.all([cargarTiposAnimal(),cargarCategorias()])
         llenarSelect(selTipo, tipos, 'id_tipo', 'ta_nombre', 'Todos los animales')
         llenarSelect(selCategoria, categorias, 'id_categoria', 'ca_nombre', 'Todas las categorías')
     } catch (error) {
         mostrarError(error)
         return
     }
-
     selTipo.addEventListener('change', alCambiarTipo)
     selCategoria.addEventListener('change', buscar)
     btnLimpiar.addEventListener('click', limpiar)
@@ -168,8 +155,6 @@ async function iniciar() {
         evento.preventDefault()
         buscar()
     })
-
-    buscar()
 }
 
 document.addEventListener('DOMContentLoaded', iniciar)
