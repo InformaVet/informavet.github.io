@@ -182,8 +182,38 @@
             </div>
         </section>
 
+        <!-- HERRAMIENTA: ESTIMADOR DE RAZA POR FOTO -->
+        <section class="nosotros" id="identificador-raza" style="margin-bottom: 30px;">
+            <span class="etiqueta" style="margin-bottom: 10px;">Inteligencia Artificial</span>
+            <h2>¿No sabes la raza de tu mascota?</h2>
+            <p>Sube una foto de tu perro o gato para estimar su raza, patrón y características principales con visión artificial.</p>
+
+            <div style="margin: 25px 0;">
+                <label for="fotoMascotaInput" class="btn-principal" style="cursor: pointer;">
+                    Subir Fotografía
+                </label>
+                <input type="file" id="fotoMascotaInput" accept="image/*" style="display: none;">
+            </div>
+
+            <!-- Vista previa de la foto subida -->
+            <img id="previewFoto" src="" alt="Vista previa" style="max-width: 260px; max-height: 260px; border-radius: 14px; margin: 0 auto 15px; display: none; border: 3px solid #f59e0b; object-fit: cover;">
+            
+            <!-- Mensaje de estado -->
+            <p id="estadoCarga" style="display: none; font-weight: bold; color: #d97706; margin-bottom: 15px;"></p>
+
+            <!-- Ficha con los resultados -->
+            <div id="resultadoIdentificacion" class="categoria" style="display: none; max-width: 500px; margin: 0 auto; text-align: left; padding: 25px; background: white;">
+                <h3 style="font-size: 22px; color: #d97706; margin-bottom: 12px;" id="resRaza">Raza</h3>
+                <p style="margin-bottom: 8px;"><strong>Especie:</strong> <span id="resAnimal"></span></p>
+                <p style="margin-bottom: 8px;"><strong>Patrón / Pelaje:</strong> <span id="resPatron"></span></p>
+                <p style="margin-bottom: 8px;"><strong>Temperamento:</strong> <span id="resTemperamento"></span></p>
+                <p style="margin-bottom: 8px;"><strong>Esperanza de vida:</strong> <span id="resEsperanza"></span></p>
+                <p><strong>Origen:</strong> <span id="resOrigen"></span></p>
+            </div>
+        </section>
 
         <!-- INFORMACION DEL PROYECTO -->
+
         <section class="nosotros" id="nosotros">
 
             <h2>Cuidamos a quienes más quieres</h2>
@@ -213,5 +243,8 @@
 
     </footer>
 
+    <!-- Orden importante: config.js antes que fotos.js -->
+    <script src="js/config.js"></script>
+    <script src="js/fotos.js"></script>
 </body>
 </html>
