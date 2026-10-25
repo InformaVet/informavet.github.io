@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guías y consejos - InformaVet</title>
+    <link rel="stylesheet" href="../css/index.css">
+</head>
+
+<body>
+
+    <!-- BARRA DE NAVEGACION -->
+    <header>
+        <nav class="navbar">
+            <a href="../" class="logo">
+                InformaVet
+            </a>
+            <div class="nav-links">
+                <a href="../#inicio">Inicio</a>
+                <a href="filtros.html">Cuidados</a>
+                <a href="../#beneficios">Nuestros Servicios</a>
+                <a href="../#contacto">Contacto</a>
+            </div>
+            <div class="nav-cuenta">
+                <a href="login.html" class="btn-login">
+                    Iniciar Sesión
+                </a>
+            </div>
+        </nav>
+    </header>
+    <main>
+        <!-- GUIAS Y TIPS CON FILTROS -->
+        <section class="guias" id="guias">
+            <div class="encabezado-seccion">
+                <span class="subtitulo">
+                    GUÍAS Y CONSEJOS
+                </span>
+                <h2>Encuentra información para tu mascota</h2>
+            </div>
+            <form class="filtros" id="form-filtros">
+                <label>
+                    Animal
+                    <select id="filtro-tipo">
+                        <option value="">Todos los animales</option>
+                    </select>
+                </label>
+                <label>
+                    Categoría
+                    <select id="filtro-categoria">
+                        <option value="">Todas las categorías</option>
+                    </select>
+                </label>
+                <label class="filtro-texto">
+                    Buscar
+                    <input type="search" id="filtro-texto" placeholder="Ej: vacunas, alimentación">
+                </label>
+                <div class="filtros-botones">
+                    <button type="submit" class="btn-principal">Buscar</button>
+                    <button type="button" class="btn-secundario" id="btn-limpiar">Limpiar</button>
+                </div>
+            </form>
+            <p class="estado-resultados" id="estado-resultados" role="status" aria-live="polite">
+                Cargando...
+            </p>
+            <div class="bloque-resultados" hidden>
+                <h3>Guías de cuidado</h3>
+                <div class="grid-resultados" id="resultados-guias"></div>
+            </div>
+            <div class="bloque-resultados" hidden>
+                <h3>Tips de cuidado</h3>
+                <div class="grid-resultados" id="resultados-tips"></div>
+            </div>
+        </section>
+    </main>
+    <!-- PIE DE PAGINA -->
+    <footer id="contacto">
+        <p>
+            Mundo Animal - Proyecto de cuidado veterinario
+        </p>
+        <p>
+            Sección de contacto en desarrollo
+        </p>
+    </footer>
+    <!-- El orden importa: primero la libreria, luego la conexion, luego la logica -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../js/configuracion/cliente-supabase.js"></script>
+    <script src="../js/aplicacion.js"></script>
+
+</body>
+</html>
