@@ -1,5 +1,3 @@
-
-
 * {
     margin: 0;
     padding: 0;
@@ -563,5 +561,198 @@ footer p {
 
     .seccion-exotico p {
         font-size: 16px;
+    }
+}
+
+
+/* ============================================================
+   PÁGINA DE FILTROS (filtros.html)
+   ============================================================ */
+
+.guias {
+    max-width: 1200px;
+    margin: 60px auto;
+    padding: 0 20px 60px;
+}
+
+/* Formulario de filtros */
+.filtros {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    align-items: flex-end;
+    background-color: white;
+    border-radius: 14px;
+    padding: 24px 28px;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.07);
+    margin-bottom: 32px;
+}
+
+.filtros label {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #92400e;
+}
+
+.filtros select,
+.filtros input[type="search"] {
+    padding: 10px 14px;
+    border: 2px solid #fce3a3;
+    border-radius: 8px;
+    font-size: 14px;
+    color: #333;
+    background-color: #fffdf5;
+    transition: border-color 0.2s;
+    min-width: 180px;
+}
+
+.filtros select:focus,
+.filtros input[type="search"]:focus {
+    outline: none;
+    border-color: #f59e0b;
+}
+
+.filtro-texto {
+    flex: 1;
+    min-width: 200px;
+}
+
+.filtros-botones {
+    display: flex;
+    gap: 10px;
+    padding-top: 18px;
+}
+
+.filtros-botones button {
+    cursor: pointer;
+    border: none;
+    font-size: 14px;
+}
+
+/* Estado / mensaje de resultados */
+.estado-resultados {
+    font-size: 14px;
+    color: #92400e;
+    margin-bottom: 20px;
+    min-height: 20px;
+}
+
+/* Secciones de resultados */
+.bloque-resultados {
+    margin-bottom: 40px;
+}
+
+.bloque-resultados h3 {
+    color: #92400e;
+    font-size: 20px;
+    margin-bottom: 18px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid #fce3a3;
+}
+
+/* Grid de tarjetas */
+.grid-resultados {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 20px;
+}
+
+/* Tarjeta genérica */
+.tarjeta-resultado {
+    background-color: white;
+    border: 2px solid #fce3a3;
+    border-radius: 14px;
+    padding: 22px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.tarjeta-resultado:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.09);
+}
+
+/* Etiquetas dentro de la tarjeta */
+.tarjeta-etiquetas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.etiqueta-animal {
+    background-color: #ffebad;
+    color: #92400e;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 20px;
+    text-transform: uppercase;
+}
+
+.etiqueta-tipo {
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 20px;
+    text-transform: capitalize;
+    background-color: #e5efdc;
+    color: #2d5016;
+}
+
+/* Colores por tipo de cuidado */
+.etiqueta-nutricion  { background-color: #fce4c7; color: #7c3500; }
+.etiqueta-dental     { background-color: #dbeafe; color: #1e3a8a; }
+.etiqueta-ejercicio  { background-color: #d1fae5; color: #065f46; }
+.etiqueta-salud      { background-color: #ede9fe; color: #4c1d95; }
+.etiqueta-vacunacion { background-color: #fef3c7; color: #78350f; }
+.etiqueta-higiene    { background-color: #e0f2fe; color: #0c4a6e; }
+.etiqueta-conducta   { background-color: #fce7f3; color: #831843; }
+.etiqueta-emergencia { background-color: #fee2e2; color: #7f1d1d; }
+.etiqueta-prevencion { background-color: #f0fdf4; color: #14532d; }
+.etiqueta-bienestar  { background-color: #fffbeb; color: #713f12; }
+
+.tarjeta-titulo {
+    color: #92400e;
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 1.3;
+}
+
+.tarjeta-subtitulo {
+    font-size: 12px;
+    color: #999;
+    font-style: italic;
+}
+
+.tarjeta-texto {
+    font-size: 13px;
+    color: #555;
+    line-height: 1.65;
+}
+
+/* Responsive */
+@media (max-width: 700px) {
+    .filtros {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .filtros select,
+    .filtros input[type="search"] {
+        min-width: 0;
+        width: 100%;
+    }
+
+    .filtros-botones {
+        padding-top: 0;
+    }
+
+    .grid-resultados {
+        grid-template-columns: 1fr;
     }
 }
