@@ -1,0 +1,216 @@
+
+/* CONTENEDOR GENERAL */
+
+.ficha-contenedor {
+    max-width: 1200px;
+    margin: 40px auto;
+}
+
+.btn-volver {
+    display: inline-block;
+    color: #d97706;
+    font-weight: bold;
+    text-decoration: none;
+    margin-bottom: 25px;
+}
+
+.btn-volver:hover {
+    text-decoration: underline;
+}
+
+/* INFORMACION DE LA MASCOTA */
+
+.cabecera-ficha {
+    background-color: white;
+    border: 2px solid #fce3a3;
+    border-radius: 20px;
+    padding: 30px;
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    margin-bottom: 40px;
+}
+
+#foto-ficha img {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 3px solid #f59e0b;
+}
+
+#foto-ficha .icono-mascota {
+    font-size: 70px;
+}
+
+.datos-ficha h1 {
+    color: #d97706;
+    font-size: 36px;
+    margin-bottom: 12px;
+}
+
+.datos-ficha p {
+    color: #555;
+    line-height: 1.8;
+    white-space: pre-line;
+}
+
+/* HISTORIAL */
+
+.historial > h2 {
+    color: #92400e;
+    font-size: 28px;
+    margin-bottom: 10px;
+}
+
+.descripcion-historial {
+    color: #665849;
+    margin-bottom: 30px;
+}
+
+.paneles-ficha {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 25px;
+}
+
+.panel-ficha {
+    background-color: white;
+    border: 2px solid #fce3a3;
+    border-radius: 18px;
+    padding: 30px;
+}
+
+.panel-ficha h2 {
+    color: #92400e;
+    font-size: 23px;
+    margin-bottom: 15px;
+}
+
+.panel-ficha > p {
+    color: #666;
+    line-height: 1.6;
+    margin-bottom: 25px;
+}
+
+.panel-ficha h3 {
+    color: #92400e;
+    margin-top: 30px;
+    margin-bottom: 15px;
+}
+
+/* FORMULARIOS */
+
+.form-ficha {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.form-ficha label {
+    color: #444;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.form-ficha input,
+.form-ficha select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 14px;
+    background-color: white;
+}
+
+.form-ficha input:focus,
+.form-ficha select:focus {
+    outline: none;
+    border-color: #f59e0b;
+}
+
+.form-ficha button {
+    background-color: #f59e0b;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 13px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.form-ficha button:hover {
+    background-color: #d97706;
+}
+
+/* REGISTROS */
+
+.lista-historial {
+    list-style: none;
+}
+
+.registro-ficha {
+    border: 1px solid #fce3a3;
+    background-color: #fffbeb;
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+}
+
+.registro-ficha strong {
+    color: #92400e;
+}
+
+.registro-ficha p {
+    font-size: 13px;
+    color: #666;
+    margin-top: 6px;
+}
+
+.registro-ficha button {
+    color: #b91c1c;
+    background-color: white;
+    border: 1px solid #b91c1c;
+    border-radius: 7px;
+    padding: 8px 12px;
+    cursor: pointer;
+}
+
+.sin-registros {
+    color: #777;
+    font-size: 14px;
+    padding: 12px 0;
+}
+
+#error-mascota {
+    background: white;
+    border: 2px solid #fce3a3;
+    border-radius: 12px;
+    padding: 25px;
+}
+
+[hidden] {
+    display: none !important;
+}
+
+/* PANTALLAS PEQUEÑAS */
+
+@media (max-width: 768px) {
+    .paneles-ficha {
+        grid-template-columns: 1fr;
+    }
+
+    .cabecera-ficha {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .datos-ficha h1 {
+        font-size: 28px;
+    }
+}

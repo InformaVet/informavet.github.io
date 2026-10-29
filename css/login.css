@@ -47,26 +47,46 @@ button {
     color: #c2410c;
 }
 
-.nav-Registro button:first-child {
+
+/* BOTONES DE NAVEGACION LOGIN Y REGISTRO */
+
+.nav-Registro a {
+    display: inline-block;
+    padding: 8px 16px;
+    border: 2px solid transparent;
+    border-radius: 6px;
+    font-size: 15px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+/* BOTON INICIAR SESION */
+
+.nav-Registro .btn-sesion {
+    background-color: white;
     color: #d97706;
     border-color: #d97706;
 }
 
-.nav-Registro button:first-child:hover {
+.nav-Registro .btn-sesion:hover {
     background-color: #d97706;
-    color: #ffffff;
+    color: white;
 }
 
-.nav-Registro button:last-child {
+/* BOTON REGISTRARSE */
+
+.nav-Registro .btn-registro {
     background-color: #f59e0b;
-    color: #ffffff;
+    color: white;
     border-color: #f59e0b;
 }
 
-.nav-Registro button:last-child:hover {
+.nav-Registro .btn-registro:hover {
     background-color: #d97706;
     border-color: #d97706;
 }
+
 
 .contenedor-principal {
     display: flex;

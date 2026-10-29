@@ -1,0 +1,207 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ficha de Mascota - InformaVet</title>
+
+    <link rel="stylesheet" href="../css/perfil_mascota.css">
+    <link rel="stylesheet" href="../css/ficha_mascota.css">
+</head>
+
+<body>
+
+    <!-- BARRA DE NAVEGACION -->
+    <header>
+        <nav class="navbar">
+            <a href="../index.html" class="logo">
+                InformaVet
+            </a>
+
+            <div class="nav-links">
+                <a href="../index.html">Inicio</a>
+                <a href="../index.html#categorias">Cuidados</a>
+                <a href="perfil_mascota.html">Mis mascotas</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="contenedor ficha-contenedor">
+
+        <!-- VOLVER -->
+        <a href="perfil_mascota.html" class="btn-volver">
+            ← Volver a mis mascotas
+        </a>
+
+        <!-- MENSAJE DE ERROR -->
+        <p id="error-mascota" hidden>
+            No se encontró la mascota seleccionada.
+        </p>
+
+        <div id="contenido-ficha" hidden>
+
+            <!-- INFORMACION DE LA MASCOTA -->
+            <section class="cabecera-ficha">
+
+                <div id="foto-ficha"></div>
+
+                <div class="datos-ficha">
+                    <h1 id="nombre-ficha"></h1>
+                    <p id="informacion-ficha"></p>
+                </div>
+
+            </section>
+
+            <!-- HISTORIAL -->
+            <section class="historial">
+
+                <h2>Historial veterinario</h2>
+
+                <p class="descripcion-historial">
+                    Consulta y registra las vacunas y
+                    controles veterinarios de tu mascota.
+                </p>
+
+                <div class="paneles-ficha">
+
+                    <!-- CONTROLES VETERINARIOS -->
+                    <section class="panel-ficha">
+
+                        <h2> Controles veterinarios</h2>
+
+                        <p>
+                            Registra las visitas y controles
+                            veterinarios de tu mascota.
+                        </p>
+
+                        <form class="form-ficha"
+                              data-tipo="controles">
+
+                            <label for="control-descripcion">
+                                Motivo del control
+                            </label>
+
+                            <input
+                                type="text"
+                                id="control-descripcion"
+                                name="descripcion"
+                                placeholder="Ej: Control general"
+                                maxlength="100"
+                                required
+                            >
+
+                            <label for="control-fecha">
+                                Fecha del control
+                            </label>
+
+                            <input
+                                type="date"
+                                id="control-fecha"
+                                name="fecha"
+                                required
+                            >
+
+                            <label for="control-estado">
+                                Estado
+                            </label>
+
+                            <select id="control-estado"
+                                    name="estado">
+                                <option value="Programado">
+                                    Programado
+                                </option>
+                                <option value="Realizado">
+                                    Realizado
+                                </option>
+                            </select>
+
+                            <button type="submit">
+                                Agregar control
+                            </button>
+
+                        </form>
+
+                        <h3>Historial de controles</h3>
+
+                        <ul id="lista-controles"
+                            class="lista-historial"></ul>
+
+                    </section>
+
+                    <!-- VACUNAS -->
+                    <section class="panel-ficha">
+
+                        <h2> Vacunas</h2>
+
+                        <p>
+                            Lleva un registro de las vacunas
+                            aplicadas y pendientes.
+                        </p>
+
+                        <form class="form-ficha"
+                              data-tipo="vacunas">
+
+                            <label for="vacuna-nombre">
+                                Nombre de la vacuna
+                            </label>
+
+                            <input
+                                type="text"
+                                id="vacuna-nombre"
+                                name="descripcion"
+                                placeholder="Ej: Vacuna antirrábica"
+                                maxlength="100"
+                                required
+                            >
+
+                            <label for="vacuna-fecha">
+                                Fecha de aplicación o programada
+                            </label>
+
+                            <input
+                                type="date"
+                                id="vacuna-fecha"
+                                name="fecha"
+                                required
+                            >
+
+                            <label for="vacuna-estado">
+                                Estado
+                            </label>
+
+                            <select id="vacuna-estado"
+                                    name="estado">
+                                <option value="Pendiente">
+                                    Pendiente
+                                </option>
+                                <option value="Aplicada">
+                                    Aplicada
+                                </option>
+                            </select>
+
+                            <button type="submit">
+                                Agregar vacuna
+                            </button>
+
+                        </form>
+
+                        <h3>Historial de vacunas</h3>
+
+                        <ul id="lista-vacunas"
+                            class="lista-historial"></ul>
+
+                    </section>
+
+                </div>
+
+            </section>
+
+        </div>
+
+    </main>
+
+    <script src="../js/ficha_mascota.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,210 @@
+
+/* CONFIGURACION GENERAL */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: #fff4cc;
+    color: #333;
+}
+
+a {
+    text-decoration: none;
+}
+
+/* BARRA DE NAVEGACION */
+
+header {
+    background-color: white;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.navbar {
+    max-width: 1200px;
+    margin: auto;
+    padding: 15px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+}
+
+.logo {
+    color: #d97706;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.nav-links {
+    display: flex;
+    gap: 25px;
+}
+
+.nav-links a {
+    color: #92400e;
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.nav-links a:hover {
+    color: #d97706;
+}
+
+.btn-login {
+    display: inline-block;
+    background-color: white;
+    color: #d97706;
+    border: 2px solid #f59e0b;
+    border-radius: 8px;
+    padding: 10px 20px;
+    font-size: 15px;
+    font-weight: 600;
+    transition: 0.3s;
+}
+
+.btn-login:hover {
+    background-color: #f59e0b;
+    color: white;
+}
+
+/* CONTENEDOR PRINCIPAL */
+
+.contenedor-registro {
+    min-height: calc(100vh - 80px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 20px;
+}
+
+/* TARJETA DE REGISTRO */
+
+.tarjeta-registro {
+    background-color: white;
+    padding: 40px;
+    border-radius: 22px;
+    border: 2px solid #f59e0b;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+    width: 100%;
+    max-width: 500px;
+}
+
+.tarjeta-registro h1 {
+    color: #d97706;
+    text-align: center;
+    font-size: 30px;
+    margin-bottom: 12px;
+}
+
+.descripcion {
+    color: #666;
+    font-size: 14px;
+    text-align: center;
+    line-height: 1.6;
+    margin-bottom: 30px;
+}
+
+/* CAMPOS DEL FORMULARIO */
+
+.grupo-input {
+    margin-bottom: 20px;
+}
+
+.grupo-input label {
+    display: block;
+    margin-bottom: 7px;
+    color: #444;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.grupo-input input {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #ccc;
+    border-radius: 7px;
+    font-size: 14px;
+    transition: 0.3s;
+}
+
+.grupo-input input:focus {
+    border-color: #f59e0b;
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(245,158,11,0.15);
+}
+
+/* BOTON CREAR CUENTA */
+
+.btn-registrar {
+    width: 100%;
+    background-color: #f59e0b;
+    color: white;
+    border: none;
+    padding: 14px;
+    font-size: 17px;
+    font-weight: bold;
+    border-radius: 7px;
+    margin-top: 10px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn-registrar:hover {
+    background-color: #d97706;
+}
+
+/* MENSAJES DEL FORMULARIO */
+
+.mensaje-registro {
+    color: #92400e;
+    text-align: center;
+    font-size: 14px;
+    margin-top: 10px;
+}
+
+/* INICIAR SESION */
+
+.texto-login {
+    margin-top: 25px;
+    font-size: 14px;
+    text-align: center;
+    color: #666;
+}
+
+.texto-login a {
+    color: #d97706;
+    font-weight: 600;
+}
+
+.texto-login a:hover {
+    text-decoration: underline;
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 768px) {
+
+    .navbar {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .nav-links {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 15px;
+    }
+
+    .tarjeta-registro {
+        padding: 25px;
+    }
+
+    .tarjeta-registro h1 {
+        font-size: 25px;
+    }
+}
