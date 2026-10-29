@@ -1,0 +1,235 @@
+
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mis Mascotas - InformaVet</title>
+    <link rel="stylesheet" href="../css/perfil_mascota.css">
+</head>
+
+<body>
+
+    <!-- BARRA DE NAVEGACION -->
+    <header>
+        <nav class="navbar">
+
+            <a href="../index.html" class="logo">
+                InformaVet
+            </a>
+
+            <div class="nav-links">
+                <a href="../index.html">Inicio</a>
+                <a href="../index.html#categorias">Cuidados</a>
+                <a href="login.html">Volver al login</a>
+            </div>
+
+        </nav>
+    </header>
+
+    <main class="contenedor">
+
+        <!-- BIENVENIDA -->
+        <section class="bienvenida">
+
+            <h1>Mi espacio de mascotas</h1>
+
+            <p>
+                Registra a tus mascotas y mantén su
+                información organizada en un solo lugar.
+            </p>
+
+        </section>
+
+        <!-- FORMULARIO DE MASCOTAS -->
+        <section class="tarjeta-formulario">
+
+            <h2 id="titulo-formulario">
+                Registrar una mascota
+            </h2>
+
+            <form id="form-mascota">
+
+                <!-- NOMBRE -->
+                <div class="grupo-input">
+
+                    <label for="nombre">
+                        Nombre de la mascota
+                    </label>
+
+                    <input
+                        type="text"
+                        id="nombre"
+                        placeholder="Ej: Michi"
+                        maxlength="60"
+                        required
+                    >
+
+                </div>
+
+                <!-- ESPECIE -->
+                <div class="grupo-input">
+
+                    <label for="especie">
+                        Tipo de animal
+                    </label>
+
+                    <select id="especie" required>
+
+                        <option value="">
+                            Selecciona un animal
+                        </option>
+
+                        <option value="Perro">Perro</option>
+                        <option value="Gato">Gato</option>
+                        <option value="Ave">Ave</option>
+                        <option value="Conejo">Conejo</option>
+                        <option value="Animal exótico">
+                            Animal exótico
+                        </option>
+                        <option value="Otro">Otro</option>
+
+                    </select>
+
+                </div>
+
+                <!-- RAZA -->
+                <div class="grupo-input">
+
+                    <label for="raza">
+                        Raza o variedad
+                    </label>
+
+                    <input
+                        type="text"
+                        id="raza"
+                        placeholder="Ej: Siamés"
+                        maxlength="80"
+                    >
+
+                </div>
+
+                <!-- EDAD -->
+                <div class="grupo-input">
+
+                    <label for="edad">
+                        Edad (años)
+                    </label>
+
+                    <input
+                        type="number"
+                        id="edad"
+                        min="0"
+                        max="100"
+                        step="0.1"
+                        placeholder="Ej: 2"
+                        required
+                    >
+
+                </div>
+
+                <!-- PESO -->
+                <div class="grupo-input">
+
+                    <label for="peso">
+                        Peso (kg)
+                    </label>
+
+                    <input
+                        type="number"
+                        id="peso"
+                        min="0.01"
+                        max="1000"
+                        step="0.01"
+                        placeholder="Ej: 4.5"
+                    >
+
+                </div>
+
+                <!-- FOTOGRAFIA -->
+                <div class="grupo-input">
+
+                    <label for="foto">
+                        Fotografía de la mascota
+                    </label>
+
+                    <input
+                        type="file"
+                        id="foto"
+                        accept="image/png,image/jpeg,image/webp"
+                    >
+
+                    <small>
+                        Opcional. JPG, PNG o WEBP,
+                        máximo 5 MB.
+                    </small>
+
+                </div>
+
+                <!-- VISTA PREVIA DE LA FOTOGRAFIA -->
+                <img
+                    id="vista-foto"
+                    class="foto-vista-previa"
+                    alt="Vista previa de la mascota"
+                    hidden
+                >
+
+                <!-- MENSAJES -->
+                <p
+                    id="mensaje-mascota"
+                    role="status"
+                    aria-live="polite"
+                ></p>
+
+                <!-- BOTONES DEL FORMULARIO -->
+                <div class="acciones-formulario">
+
+                    <button
+                        type="submit"
+                        id="btn-guardar"
+                        class="btn-guardar"
+                    >
+                        Guardar mascota
+                    </button>
+
+                    <button
+                        type="button"
+                        id="btn-cancelar"
+                        class="btn-cancelar"
+                        hidden
+                    >
+                        Cancelar edición
+                    </button>
+
+                </div>
+
+            </form>
+
+        </section>
+
+        <!-- LISTADO DE MASCOTAS -->
+        <section class="mis-mascotas">
+
+            <h2>Mis mascotas</h2>
+
+            <!-- MENSAJE CUANDO NO HAY MASCOTAS -->
+            <p id="mensaje-vacio" hidden>
+                Todavía no tienes mascotas registradas.
+            </p>
+
+            <!-- TARJETAS GENERADAS POR JAVASCRIPT -->
+            <div
+                id="lista-mascotas"
+                class="grid-mascotas"
+            ></div>
+
+        </section>
+
+    </main>
+
+    <!-- JAVASCRIPT DEL PERFIL -->
+    <script src="../js/perfil_mascota.js"></script>
+
+</body>
+</html>

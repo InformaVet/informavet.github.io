@@ -1,0 +1,159 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro - InformaVet</title>
+    <link rel="stylesheet" href="../css/registro.css">
+</head>
+
+<body>
+
+    <!-- BARRA DE NAVEGACION -->
+    <header>
+        <nav class="navbar">
+
+            <a href="index.html" class="logo">
+                InformaVet
+            </a>
+
+            <div class="nav-links">
+                <a href="index.html">Inicio</a>
+                <a href="index.html#categorias">Cuidados</a>
+                <a href="index.html#beneficios">Nuestros Servicios</a>
+                <a href="index.html#contacto">Contacto</a>
+            </div>
+
+            <div class="nav-cuenta">
+                <a href="login.html" class="btn-login">
+                    Iniciar Sesión
+                </a>
+            </div>
+
+        </nav>
+    </header>
+
+    <!-- FORMULARIO DE REGISTRO -->
+    <main class="contenedor-registro">
+
+        <div class="tarjeta-registro">
+
+            <h1>Crear una cuenta</h1>
+
+            <p class="descripcion">
+                Únete a InformaVet y comienza a conocer
+                más sobre el cuidado de tus mascotas.
+            </p>
+
+            <form id="formulario-registro" method="post">
+
+                <!-- NOMBRE -->
+                <div class="grupo-input">
+                    <label for="nombre">Nombre completo</label>
+                    <input
+                        type="text"
+                        id="nombre"
+                        name="nombre"
+                        placeholder="Ingresa tu nombre completo"
+                        autocomplete="name"
+                        required
+                    >
+                </div>
+
+                <!-- RUT -->
+                <div class="grupo-input">
+                    <label for="rut">RUT</label>
+                    <input
+                        type="text"
+                        id="rut"
+                        name="rut"
+                        placeholder="Ej: 12345678-9"
+                        required
+                    >
+                </div>
+
+                <!-- CORREO -->
+                <div class="grupo-input">
+                    <label for="correo">Correo electrónico</label>
+                    <input
+                        type="email"
+                        id="correo"
+                        name="correo"
+                        placeholder="ejemplo@correo.com"
+                        autocomplete="email"
+                        required
+                    >
+                </div>
+
+                <!-- CONTRASEÑA -->
+                <div class="grupo-input">
+                    <label for="password">Contraseña</label>
+                    <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        placeholder="Mínimo 8 caracteres"
+                        autocomplete="new-password"
+                        minlength="8"
+                        required
+                    >
+                </div>
+
+                <!-- CONFIRMAR CONTRASEÑA -->
+                <div class="grupo-input">
+                    <label for="confirmar">Confirmar contraseña</label>
+                    <input
+                        type="password"
+                        id="confirmar"
+                        name="confirmar"
+                        placeholder="Repite tu contraseña"
+                        autocomplete="new-password"
+                        minlength="8"
+                        required
+                    >
+                </div>
+
+                <p id="mensaje-registro"
+                   class="mensaje-registro"
+                   role="status"
+                   aria-live="polite"></p>
+
+                <!-- BOTON REGISTRARSE -->
+                <button type="submit" class="btn-registrar">
+                    Crear mi cuenta
+                </button>
+
+            </form>
+
+            <p class="texto-login">
+                ¿Ya tienes una cuenta?
+                <a href="login.html">Inicia sesión aquí</a>
+            </p>
+
+        </div>
+
+    </main>
+
+    <script>
+        const formulario = document.getElementById("formulario-registro");
+        const mensaje = document.getElementById("mensaje-registro");
+
+        formulario.addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            const password = document.getElementById("password").value;
+            const confirmar = document.getElementById("confirmar").value;
+
+            if (password !== confirmar) {
+                mensaje.textContent = "Las contraseñas no coinciden.";
+                return;
+            }
+
+            mensaje.textContent =
+                "Formulario validado. Falta conectar el registro con Supabase para crear la cuenta.";
+        });
+    </script>
+
+</body>
+</html>

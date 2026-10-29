@@ -1,0 +1,416 @@
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, sans-serif;
+}
+
+body {
+    background-color: #fff4cc;
+    color: #333;
+}
+
+a {
+    text-decoration: none;
+}
+
+/* NAVEGACION */
+
+header {
+    background-color: white;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.navbar {
+    max-width: 1200px;
+    margin: auto;
+    padding: 20px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+}
+
+.logo {
+    color: #d97706;
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.nav-links {
+    display: flex;
+    gap: 25px;
+}
+
+.nav-links a {
+    color: #92400e;
+    font-weight: 600;
+}
+
+/* CONTENIDO */
+
+.contenedor {
+    max-width: 1100px;
+    margin: 45px auto;
+    padding: 20px;
+}
+
+.bienvenida {
+    text-align: center;
+    margin-bottom: 35px;
+}
+
+.bienvenida h1 {
+    color: #d97706;
+    font-size: 36px;
+    margin-bottom: 12px;
+}
+
+.bienvenida p {
+    color: #665849;
+}
+
+/* FORMULARIO */
+
+.tarjeta-formulario {
+    max-width: 550px;
+    margin: 0 auto 50px;
+    background-color: white;
+    padding: 35px;
+    border: 2px solid #ff9a2d;
+    border-radius: 20px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+}
+
+.tarjeta-formulario h2 {
+    text-align: center;
+    color: #d97706;
+    margin-bottom: 25px;
+}
+
+.grupo-input {
+    margin-bottom: 18px;
+}
+
+.grupo-input label {
+    display: block;
+    font-weight: 600;
+    font-size: 14px;
+    margin-bottom: 7px;
+}
+
+.grupo-input input,
+.grupo-input select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 14px;
+    background-color: white;
+}
+
+.grupo-input input:focus,
+.grupo-input select:focus {
+    border-color: #f59e0b;
+    outline: none;
+}
+
+.btn-guardar {
+    width: 100%;
+    padding: 14px;
+    background-color: #f59e0b;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.btn-guardar:hover {
+    background-color: #d97706;
+}
+
+/* PERFILES DE MASCOTAS */
+
+.mis-mascotas h2 {
+    color: #92400e;
+    margin-bottom: 20px;
+}
+
+#mensaje-vacio {
+    color: #666;
+    margin-bottom: 20px;
+}
+
+.grid-mascotas {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.tarjeta-mascota {
+    min-width: 0;
+}
+
+@media (max-width: 900px) {
+    .grid-mascotas {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 600px) {
+    .grid-mascotas {
+        grid-template-columns: 1fr;
+    }
+}
+
+.tarjeta-mascota {
+    background-color: white;
+    border: 2px solid #fce3a3;
+    border-radius: 16px;
+    padding: 25px;
+    text-align: center;
+}
+
+.icono-mascota {
+    font-size: 55px;
+    margin-bottom: 15px;
+}
+
+.tarjeta-mascota h3 {
+    color: #d97706;
+    font-size: 23px;
+    margin-bottom: 15px;
+}
+
+.tarjeta-mascota p {
+    white-space: pre-line;
+    line-height: 1.9;
+    color: #555;
+}
+
+.btn-eliminar {
+    background-color: white;
+    color: #b91c1c;
+    border: 1px solid #b91c1c;
+    border-radius: 8px;
+    padding: 10px 15px;
+    margin-top: 20px;
+    cursor: pointer;
+}
+
+.btn-eliminar:hover {
+    background-color: #fee2e2;
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 768px) {
+    .navbar {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .nav-links {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .grid-mascotas {
+        grid-template-columns: 1fr;
+    }
+
+    .tarjeta-formulario {
+        padding: 25px;
+    }
+
+    .bienvenida h1 {
+        font-size: 28px;
+    }
+}
+
+
+/* FOTOGRAFIA EN EL FORMULARIO */
+
+.grupo-input input[type="file"] {
+    border: 1px dashed #f59e0b;
+    background-color: #fffaf0;
+    cursor: pointer;
+}
+
+.grupo-input small {
+    display: block;
+    margin-top: 8px;
+    color: #777;
+    font-size: 12px;
+}
+
+.foto-vista-previa {
+    display: block;
+    width: 110px;
+    height: 110px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 3px solid #f59e0b;
+    margin: 15px auto;
+}
+
+/* FOTOGRAFIA DE LA TARJETA */
+
+.foto-mascota {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 3px solid #fce3a3;
+    margin-bottom: 15px;
+}
+
+/* BOTONES DEL FORMULARIO */
+
+.acciones-formulario {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.acciones-formulario .btn-guardar {
+    flex: 1;
+    min-width: 160px;
+}
+
+.btn-cancelar {
+    background-color: white;
+    color: #d97706;
+    border: 2px solid #f59e0b;
+    border-radius: 8px;
+    padding: 12px 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.btn-cancelar:hover {
+    background-color: #fff4cc;
+}
+
+/* BOTONES DE LAS MASCOTAS */
+
+.acciones-tarjeta {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 20px;
+}
+
+.btn-editar {
+    background-color: #f59e0b;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 15px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.btn-editar:hover {
+    background-color: #d97706;
+}
+
+.acciones-tarjeta .btn-eliminar {
+    margin-top: 0;
+}
+
+/* MENSAJES */
+
+#mensaje-mascota {
+    text-align: center;
+    color: #92400e;
+    margin: 12px 0;
+    font-size: 14px;
+}
+
+[hidden] {
+    display: none !important;
+}
+
+
+
+/* DISTRIBUCION DE LAS MASCOTAS */
+
+.grid-mascotas {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 25px;
+}
+
+/* TARJETAS MAS COMPACTAS */
+
+.tarjeta-mascota {
+    min-width: 0;
+    background-color: white;
+    border: 2px solid #fce3a3;
+    border-radius: 18px;
+    padding: 25px 20px;
+    text-align: center;
+}
+
+.foto-mascota {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 3px solid #fce3a3;
+    margin-bottom: 12px;
+}
+
+.tarjeta-mascota h3 {
+    color: #d97706;
+    font-size: 23px;
+    margin-bottom: 10px;
+}
+
+.tarjeta-mascota p {
+    font-size: 15px;
+    line-height: 1.7;
+    color: #555;
+    white-space: pre-line;
+}
+
+/* BOTONES */
+
+.acciones-tarjeta {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 20px;
+}
+
+/* CELULARES */
+
+@media (max-width: 650px) {
+    .grid-mascotas {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* BOTON INGRESAR A LA MASCOTA */
+
+.btn-ingresar-mascota {
+    display: inline-block;
+    background-color: #92400e;
+    color: white;
+    padding: 10px 18px;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: bold;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+.btn-ingresar-mascota:hover {
+    background-color: #d97706;
+}
