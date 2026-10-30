@@ -20,8 +20,21 @@ async function cargarTiposAnimal() {
     return data
 }
 
-// Categorias. Cada categoria pertenece a un tipo de animal (id_tipo).
-// Si se entrega idTipo, solo devuelve las de ese animal.
+// Razas. Si se entrega idTipo, solo devuelve las de ese animal.
+async function cargarRazas(idTipo) {
+    let consulta = db
+        .from('raza')
+        .select('id_raza, r_nombre, id_tipo')
+        .order('r_nombre')
+
+    if (idTipo) consulta = consulta.eq('id_tipo', idTipo)
+
+    const { data, error } = await consulta
+    if (error) throw error
+    return data
+}
+
+// Categorías. Si se entrega idTipo, solo devuelve las de ese animal.
 async function cargarCategorias(idTipo) {
     let consulta = db
         .from('categoria')
@@ -34,29 +47,33 @@ async function cargarCategorias(idTipo) {
     if (error) throw error
     return data
 }
+
 // ---------------------------------------------------------------
 // BUSQUEDA DE CONTENIDO
 // ---------------------------------------------------------------
-// guia_cuidado y tip_cuidado no se relacionan directo con tipo_animal:
-// van a traves de categoria (categoria.id_tipo). Por eso se une con
-// categoria y el filtro por animal se aplica sobre esa union.
-//
-// filtros = { idTipo, idCategoria, texto }  (todos opcionales)
-// campoTexto = columna larga donde tambien se busca el texto
+// filtros = { idTipo, idCategoria, tipoCuidado, texto }  (todos opcionales)
 async function buscarContenido(tabla, campoTexto, filtros) {
-    const idTipo = filtros.idTipo
+    const idTipo      = filtros.idTipo
     const idCategoria = filtros.idCategoria
+    const tipoCuidado = filtros.tipoCuidado
     // se quitan los caracteres que rompen la sintaxis del filtro .or()
     const texto = (filtros.texto || '').replace(/[%,()*]/g, ' ').trim()
 
     let consulta = db
         .from(tabla)
         .select('*, categoria!inner(id_categoria, ca_nombre, id_tipo, tipo_animal(ta_nombre))')
+        .order('tipo')
         .order('titulo')
 
-    if (idTipo) consulta = consulta.eq('categoria.id_tipo', idTipo)
-    if (idCategoria) consulta = consulta.eq('id_categoria', idCategoria)
-    if (texto) consulta = consulta.or(`titulo.ilike.%${texto}%,${campoTexto}.ilike.%${texto}%`)
+    if (idCategoria) {
+        // filtro exacto por categoría (Adulto Pequeño, Adulto Grande, etc.)
+        consulta = consulta.eq('id_categoria', idCategoria)
+    } else if (idTipo) {
+        // sin categoría: filtra solo por tipo de animal
+        consulta = consulta.eq('categoria.id_tipo', idTipo)
+    }
+    if (tipoCuidado) consulta = consulta.eq('tipo', tipoCuidado)
+    if (texto)       consulta = consulta.or(`titulo.ilike.%${texto}%,${campoTexto}.ilike.%${texto}%`)
 
     const { data, error } = await consulta
     if (error) throw error

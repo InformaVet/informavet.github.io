@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Guías y consejos - InformaVet</title>
     <link rel="stylesheet" href="../css/index.css">
+    <link rel="stylesheet" href="../css/filtros.css">
 </head>
 
 <body>
@@ -45,9 +46,31 @@
                     </select>
                 </label>
                 <label>
+                    Raza
+                    <select id="filtro-raza">
+                        <option value="">Todas las razas</option>
+                    </select>
+                </label>
+                <label>
                     Categoría
                     <select id="filtro-categoria">
                         <option value="">Todas las categorías</option>
+                    </select>
+                </label>
+                <label>
+                    Tipo de cuidado
+                    <select id="filtro-tipo-cuidado">
+                        <option value="">Todos los tipos</option>
+                        <option value="nutricion">Nutrición</option>
+                        <option value="salud">Salud</option>
+                        <option value="dental">Dental</option>
+                        <option value="ejercicio">Ejercicio</option>
+                        <option value="vacunacion">Vacunación</option>
+                        <option value="prevencion">Prevención</option>
+                        <option value="higiene">Higiene</option>
+                        <option value="conducta">Conducta</option>
+                        <option value="bienestar">Bienestar</option>
+                        <option value="emergencia">Emergencia</option>
                     </select>
                 </label>
                 <label class="filtro-texto">
@@ -63,11 +86,11 @@
                 Cargando...
             </p>
             <div class="bloque-resultados" hidden>
-                <h3>Guías de cuidado</h3>
+                <h3><span>📋</span> Guías de cuidado</h3>
                 <div class="grid-resultados" id="resultados-guias"></div>
             </div>
             <div class="bloque-resultados" hidden>
-                <h3>Tips de cuidado</h3>
+                <h3><span>💡</span> Tips de cuidado</h3>
                 <div class="grid-resultados" id="resultados-tips"></div>
             </div>
         </section>

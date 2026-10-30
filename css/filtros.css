@@ -1,0 +1,240 @@
+/* ============================================================
+   filtros.css — Estilos exclusivos de paginas/filtros.html
+   Carga después de index.css, pisa solo lo que necesita.
+   ============================================================ */
+
+/* ── Footer siempre al fondo ─────────────────────────────── */
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex: 1;
+}
+
+/* ── Encabezado ─────────────────────────────────────────────── */
+.encabezado-seccion {
+    margin-bottom: 28px;
+}
+
+.encabezado-seccion .subtitulo {
+    display: inline-block;
+    background: white;
+    color: #92400e;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    padding: 5px 14px;
+    border-radius: 20px;
+    border: 1px solid #fce3a3;
+    margin-bottom: 10px;
+}
+
+.encabezado-seccion h2 {
+    font-size: 28px;
+    font-weight: 800;
+    color: #1c0f00;
+    line-height: 1.25;
+}
+
+/* ── Formulario ─────────────────────────────────────────────── */
+.filtros {
+    background: white;
+    border: 1px solid #f0dfa8;
+    border-radius: 14px;
+    padding: 20px 24px;
+    box-shadow: 0 2px 12px rgba(180,120,0,0.08);
+    margin-bottom: 24px;
+    gap: 14px;
+    align-items: flex-end;
+}
+
+.filtros label {
+    font-size: 10px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.09em;
+    color: #92400e;
+    gap: 5px;
+}
+
+.filtros select,
+.filtros input[type="search"] {
+    border: 1.5px solid #e8dcc8;
+    border-radius: 8px;
+    background: #fffef8;
+    color: #333;
+    font-size: 14px;
+    transition: border-color 0.18s, box-shadow 0.18s;
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+.filtros select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='7' viewBox='0 0 10 7'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%23d97706' stroke-width='1.6' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    padding-right: 32px;
+    cursor: pointer;
+}
+
+.filtros select:focus,
+.filtros input[type="search"]:focus {
+    border-color: #f59e0b;
+    box-shadow: 0 0 0 3px rgba(245,158,11,0.15);
+    outline: none;
+}
+
+/* ── Estado ─────────────────────────────────────────────────── */
+.estado-resultados {
+    font-size: 14px;
+    color: #92400e;
+    margin-bottom: 16px;
+    min-height: 20px;
+    font-weight: 500;
+}
+
+/* ── Secciones de resultados ────────────────────────────────── */
+.bloque-resultados {
+    margin-bottom: 36px;
+}
+
+.bloque-resultados h3 {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 17px;
+    font-weight: 700;
+    color: #92400e;
+    margin-bottom: 14px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #fce3a3;
+}
+
+.bloque-resultados h3 span {
+    font-size: 18px;
+    line-height: 1;
+}
+
+/* ── Lista de tarjetas (horizontal) ─────────────────────────── */
+.grid-resultados {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+/* ── Tarjeta ─────────────────────────────────────────────────── */
+.tarjeta-info {
+    background: white;
+    border: 1.5px solid #ede3ce;
+    border-radius: 10px;
+    overflow: hidden;
+    transition: box-shadow 0.18s, border-color 0.18s;
+}
+
+.tarjeta-info:hover {
+    box-shadow: 0 3px 14px rgba(0,0,0,0.08);
+    border-color: #f59e0b;
+}
+
+.tarjeta-info[open] {
+    border-color: #f59e0b;
+    box-shadow: 0 4px 18px rgba(0,0,0,0.09);
+}
+
+/* Summary = fila horizontal */
+.tarjeta-info > summary {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 18px;
+    list-style: none;
+    outline: none;
+    user-select: none;
+    -webkit-user-select: none;
+    cursor: pointer;
+}
+
+.tarjeta-info > summary::-webkit-details-marker { display: none; }
+
+.tarjeta-info[open] > summary {
+    background: #fffcf0;
+    border-bottom: 1px solid #fce3a3;
+}
+
+/* Título — toma todo el espacio del medio */
+.tarjeta-titulo {
+    flex: 1;
+    font-size: 15px;
+    font-weight: 600;
+    color: #92400e;
+    line-height: 1.35;
+}
+
+/* Meta derecha */
+.tarjeta-meta {
+    font-size: 11px;
+    color: #aaa;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+/* Chevron */
+.chevron {
+    color: #d97706;
+    font-size: 12px;
+    flex-shrink: 0;
+    transition: transform 0.22s ease;
+    line-height: 1;
+}
+
+.tarjeta-info[open] .chevron {
+    transform: rotate(180deg);
+}
+
+/* Cuerpo expandido */
+.tarjeta-cuerpo {
+    padding: 14px 18px 16px;
+    font-size: 14px;
+    color: #555;
+    line-height: 1.7;
+    border-top: 0;
+}
+
+/* ── Badge de tipo ──────────────────────────────────────────── */
+.badge-tipo {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 3px 10px;
+    border-radius: 20px;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+/* ── Responsive ─────────────────────────────────────────────── */
+@media (max-width: 700px) {
+    .filtros {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .filtros select,
+    .filtros input[type="search"] {
+        min-width: 0;
+        width: 100%;
+    }
+
+    .filtros-botones {
+        flex-direction: column;
+        padding-top: 0;
+    }
+
+    .filtros-botones button { width: 100%; }
+
+    .tarjeta-meta { display: none; }
+}
