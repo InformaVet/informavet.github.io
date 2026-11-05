@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -6,6 +5,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registro - InformaVet</title>
     <link rel="stylesheet" href="../css/registro.css">
+    <style>
+        .mensaje-registro {
+            margin-top: 12px;
+            padding: 10px 14px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 600;
+            display: none;
+        }
+        .mensaje-registro.error {
+            background-color: #fee2e2;
+            color: #b91c1c;
+            border: 1px solid #fca5a5;
+            display: block;
+        }
+        .mensaje-registro.exito {
+            background-color: #dcfce7;
+            color: #15803d;
+            border: 1px solid #86efac;
+            display: block;
+        }
+        .btn-registrar:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+    </style>
 </head>
 
 <body>
@@ -13,10 +38,7 @@
     <!-- BARRA DE NAVEGACION -->
     <header>
         <nav class="navbar">
-
-            <a href="../" class="logo">
-                InformaVet
-            </a>
+            <a href="../" class="logo">InformaVet</a>
 
             <div class="nav-links">
                 <a href="../">Inicio</a>
@@ -26,17 +48,13 @@
             </div>
 
             <div class="nav-cuenta">
-                <a href="login.html" class="btn-login">
-                    Iniciar Sesión
-                </a>
+                <a href="login.html" class="btn-login">Iniciar Sesión</a>
             </div>
-
         </nav>
     </header>
 
     <!-- FORMULARIO DE REGISTRO -->
     <main class="contenedor-registro">
-
         <div class="tarjeta-registro">
 
             <h1>Crear una cuenta</h1>
@@ -46,7 +64,7 @@
                 más sobre el cuidado de tus mascotas.
             </p>
 
-            <form id="formulario-registro" method="post">
+            <form id="formulario-registro" novalidate>
 
                 <!-- NOMBRE -->
                 <div class="grupo-input">
@@ -114,13 +132,10 @@
                     >
                 </div>
 
-                <p id="mensaje-registro"
-                   class="mensaje-registro"
-                   role="status"
-                   aria-live="polite"></p>
+                <p id="mensaje-registro" class="mensaje-registro" role="alert" aria-live="polite"></p>
 
                 <!-- BOTON REGISTRARSE -->
-                <button type="submit" class="btn-registrar">
+                <button type="submit" class="btn-registrar" id="btn-registrar">
                     Crear mi cuenta
                 </button>
 
@@ -132,27 +147,90 @@
             </p>
 
         </div>
-
     </main>
 
+    <!-- Supabase SDK + cliente compartido + módulo de auth -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../js/configuracion/cliente-supabase.js"></script>
+    <script src="../js/auth/autenticacion.js"></script>
     <script>
-        const formulario = document.getElementById("formulario-registro");
-        const mensaje = document.getElementById("mensaje-registro");
+        // Si ya tiene sesión activa, ir al inicio
+        redirigirSiAutenticado('../index.html')
 
-        formulario.addEventListener("submit", function(event) {
-            event.preventDefault();
+        const formulario = document.getElementById('formulario-registro')
+        const mensaje    = document.getElementById('mensaje-registro')
+        const boton      = document.getElementById('btn-registrar')
 
-            const password = document.getElementById("password").value;
-            const confirmar = document.getElementById("confirmar").value;
+        const ERRORES = {
+            'User already registered':          'Ya existe una cuenta con ese correo electrónico.',
+            'Password should be at least 6 characters': 'La contraseña debe tener al menos 6 caracteres.',
+            'Unable to validate email address: invalid format': 'El formato del correo no es válido.',
+        }
 
+        formulario.addEventListener('submit', async function (e) {
+            e.preventDefault()
+
+            const nombre    = document.getElementById('nombre').value.trim()
+            const rut       = document.getElementById('rut').value.trim()
+            const correo    = document.getElementById('correo').value.trim()
+            const password  = document.getElementById('password').value
+            const confirmar = document.getElementById('confirmar').value
+
+            // Validaciones locales
+            if (!nombre || !rut || !correo || !password || !confirmar) {
+                mostrarMensaje('Completa todos los campos.', 'error')
+                return
+            }
             if (password !== confirmar) {
-                mensaje.textContent = "Las contraseñas no coinciden.";
-                return;
+                mostrarMensaje('Las contraseñas no coinciden.', 'error')
+                return
+            }
+            if (password.length < 8) {
+                mostrarMensaje('La contraseña debe tener al menos 8 caracteres.', 'error')
+                return
             }
 
-            mensaje.textContent =
-                "Formulario validado. Falta conectar el registro con Supabase para crear la cuenta.";
-        });
+            boton.disabled    = true
+            boton.textContent = 'Creando cuenta…'
+            ocultarMensaje()
+
+            const { data, error } = await registrar(nombre, rut, correo, password)
+
+            if (error) {
+                mostrarMensaje(ERRORES[error.message] || error.message, 'error')
+                boton.disabled    = false
+                boton.textContent = 'Crear mi cuenta'
+                return
+            }
+
+            // Supabase puede requerir confirmación de correo según la configuración del proyecto.
+            // Si identities está vacío, el correo ya existía pero sin confirmar.
+            const necesitaConfirmar = data?.user?.identities?.length === 0
+            if (necesitaConfirmar) {
+                mostrarMensaje('Ya existe una cuenta con ese correo. Revisa tu bandeja de entrada para confirmarla.', 'error')
+                boton.disabled    = false
+                boton.textContent = 'Crear mi cuenta'
+                return
+            }
+
+            mostrarMensaje('¡Cuenta creada! Revisa tu correo para confirmar tu cuenta y luego inicia sesión.', 'exito')
+            boton.disabled    = true
+            boton.textContent = 'Cuenta creada'
+
+            // Si la confirmación de email está desactivada en Supabase, redirigir directamente
+            if (data?.session) {
+                setTimeout(() => { window.location.href = '../index.html' }, 2000)
+            }
+        })
+
+        function mostrarMensaje(texto, tipo) {
+            mensaje.textContent = texto
+            mensaje.className   = 'mensaje-registro ' + tipo
+        }
+        function ocultarMensaje() {
+            mensaje.textContent = ''
+            mensaje.className   = 'mensaje-registro'
+        }
     </script>
 
 </body>
