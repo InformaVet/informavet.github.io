@@ -71,6 +71,27 @@ header {
     background-color: #d97706;
 }
 
+/* BOTON MIS MASCOTAS */
+
+.btn-mis-mascotas {
+    display: inline-block;
+    background-color: #f59e0b;
+    color: white;
+    padding: 10px 18px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.btn-mis-mascotas:hover {
+    background-color: #d97706;
+}
+
+.btn-mis-mascotas:hover {
+    background-color: #d97706;
+}
+
 /* PRESENTACION PRINCIPAL */
 
 .hero {

@@ -24,10 +24,13 @@
                 <a href="#categorias">Cuidados</a>
                 <a href="#beneficios">Nuestros Servicios</a>
                 <a href="#contacto">Contacto</a>
+                <a href="paginas/perfil_mascota.html" <a <a href="paginas/login.html" id="enlace-mascotas">Mis mascotas</a>
             </div>
 
             <div class="nav-cuenta">
-                <a href="paginas/login.html" class="btn-login">
+                <a href="paginas/login.html"
+                class="btn-login"
+                id="enlace-cuenta">
                     Iniciar Sesión
                 </a>
             </div>
@@ -257,4 +260,15 @@
     <script src="js/config.js"></script>
     <script src="js/servicios/fotos.js"></script>
 </body>
+    <!-- Librería de Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <!-- Conexión con Supabase -->
+    <script src="js/configuracion/cliente-supabase.js"></script>
+
+    <!-- Funciones de autenticación -->
+    <script src="js/auth/autenticacion.js"></script>
+
+    <!-- Navegación y cierre de sesión -->
+    <script src="js/navegacion-sesion.js"></script>
 </html>
