@@ -94,7 +94,7 @@
     <script src="../js/auth/autenticacion.js"></script>
     <script>
         // Si ya hay sesión activa, no tiene sentido mostrar el login
-        redirigirSiAutenticado('../index.html')
+        redirigirSiAutenticado('../')
 
         const form    = document.getElementById('form-login')
         const mensaje = document.getElementById('mensaje-login')
@@ -132,7 +132,7 @@
             }
 
             mostrarMensaje('¡Bienvenido! Redirigiendo…', 'exito')
-            setTimeout(() => { window.location.href = '../index.html' }, 1000)
+            setTimeout(() => { window.location.href = '../' }, 1000)
         })
 
         function mostrarMensaje(texto, tipo) {

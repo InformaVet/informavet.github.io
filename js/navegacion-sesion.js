@@ -39,7 +39,7 @@ async function configurarNavegacion() {
 
                 console.log("Sesión cerrada correctamente");
 
-                window.location.href = "index.html";
+                window.location.href = "../";
 
             });
 

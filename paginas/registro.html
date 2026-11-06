@@ -155,7 +155,7 @@
     <script src="../js/auth/autenticacion.js"></script>
     <script>
         // Si ya tiene sesión activa, ir al inicio
-        redirigirSiAutenticado('../index.html')
+        redirigirSiAutenticado('../')
 
         const formulario = document.getElementById('formulario-registro')
         const mensaje    = document.getElementById('mensaje-registro')
@@ -219,7 +219,7 @@
 
             // Si la confirmación de email está desactivada en Supabase, redirigir directamente
             if (data?.session) {
-                setTimeout(() => { window.location.href = '../index.html' }, 2000)
+                setTimeout(() => { window.location.href = '../' }, 2000)
             }
         })
 
