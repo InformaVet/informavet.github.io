@@ -36,8 +36,11 @@ self.addEventListener("fetch", function (evento) {
     const url = new URL(peticion.url);
     if (url.origin !== self.location.origin) return;
 
+    // cache: "no-cache" obliga a preguntar al servidor si el archivo cambió (una consulta
+    // rápida, responde 304 si no cambió). Sin esto GitHub Pages dejaba servir versiones viejas
+    // hasta 10 minutos después de cada despliegue.
     evento.respondWith(
-        fetch(peticion)
+        fetch(peticion, { cache: "no-cache" })
             .then(function (respuesta) {
                 if (respuesta.ok) {
                     const copia = respuesta.clone();
