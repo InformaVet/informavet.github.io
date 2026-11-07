@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Iniciar Sesión - InformaVet</title>
+    <link rel="manifest" href="../manifest.webmanifest">
+    <meta name="theme-color" content="#f59e0b">
+    <link rel="icon" type="image/png" href="../recursos/iconos/icon-192.png">
+    <link rel="apple-touch-icon" href="../recursos/iconos/apple-touch-icon.png">
     <link rel="stylesheet" href="../css/login.css">
     <style>
         .mensaje-auth {
@@ -91,6 +95,7 @@
     <!-- Supabase SDK + cliente compartido + módulo de auth -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="../js/configuracion/cliente-supabase.js"></script>
+    <script src="../js/servicios/funciones.js"></script>
     <script src="../js/auth/autenticacion.js"></script>
     <script>
         // Si ya hay sesión activa, no tiene sentido mostrar el login
@@ -105,6 +110,7 @@
             'Invalid login credentials':  'RUT/correo o contraseña incorrectos.',
             'Email not confirmed':         'Debes confirmar tu correo antes de ingresar. Revisa tu bandeja de entrada.',
             'Too many requests':           'Demasiados intentos. Espera unos minutos e inténtalo de nuevo.',
+            'User is banned':              'Tu cuenta fue desactivada. Contacta al equipo de InformaVet.',
         }
 
         form.addEventListener('submit', async function (e) {
@@ -144,5 +150,6 @@
             mensaje.className   = 'mensaje-auth'
         }
     </script>
+    <script src="../js/pwa.js"></script>
 </body>
 </html>

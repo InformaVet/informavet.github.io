@@ -1,187 +1,139 @@
 
-// IDENTIFICAR MASCOTA SELECCIONADA
+// FICHA DE LA MASCOTA
+// Datos e historial desde Supabase. Si la mascota no existe o es de otra persona,
+// la base de datos no la devuelve y se muestra el aviso de "no encontrada".
+// Depende de cliente-supabase.js y autenticacion.js (cargados antes en el HTML).
 
 const parametros = new URLSearchParams(window.location.search);
 const mascotaId = parametros.get("id");
 
-const claveMascotas = "informavet_mascotas_demo";
-
-let mascotas = [];
-
-try {
-    const datos = JSON.parse(
-        localStorage.getItem(claveMascotas) || "[]"
-    );
-
-    mascotas = Array.isArray(datos) ? datos : [];
-} catch (error) {
-    console.error("Error al cargar mascotas:", error);
-}
-
-const mascota = mascotas.find(
-    m => String(m.id) === mascotaId
-);
-
 const contenido = document.getElementById("contenido-ficha");
 const avisoError = document.getElementById("error-mascota");
 
-if (!mascota) {
+const BUCKET_FOTOS = "fotos-mascotas";
+const FORMATO_ID = /^[0-9]{1,9}$/;
+
+const iconos = {
+    Perro: "perro",
+    Gato: "gato",
+    Ave: "gallina",
+    Conejo: "conejo",
+    "Animal exótico": "exotico",
+    Otro: "otro"
+};
+
+let registros = [];
+
+function mostrarError(texto) {
+    avisoError.textContent = texto || "No se encontró la mascota seleccionada.";
     avisoError.hidden = false;
+}
 
-} else {
-    contenido.hidden = false;
+// CARGAR HISTORIAL
 
-    // MOSTRAR INFORMACION DE LA MASCOTA
+async function cargarRegistros() {
+    const { data, error } = await db
+        .from("historial_mascota")
+        .select("*")
+        .eq("mascota_id", Number(mascotaId))
+        .order("fecha", { ascending: false });
 
-    document.getElementById("nombre-ficha").textContent =
-        mascota.nombre;
+    if (error) throw error;
+    registros = data;
+}
 
-    document.getElementById("informacion-ficha").textContent =
-        "Tipo: " + mascota.especie +
-        "\nRaza: " + (mascota.raza || "No especificada") +
-        "\nEdad: " + mascota.edad + " años" +
-        "\nPeso: " + (
-            mascota.peso ? mascota.peso + " kg" : "No indicado"
+// MOSTRAR CONTROLES Y VACUNAS
+
+function mostrarRegistros() {
+
+    ["controles", "vacunas"].forEach(function(tipo) {
+
+        const lista = document.getElementById(
+            "lista-" + tipo
         );
 
-    // MOSTRAR FOTO
+        lista.replaceChildren();
 
-    const fotoFicha = document.getElementById("foto-ficha");
-
-    if (mascota.foto) {
-        const imagen = document.createElement("img");
-        imagen.src = mascota.foto;
-        imagen.alt = "Foto de " + mascota.nombre;
-        fotoFicha.appendChild(imagen);
-
-    } else {
-        const iconos = {
-            Perro: "perro",
-            Gato: "gato",
-            Ave: "gallina",
-            Conejo: "conejo",
-            "Animal exótico": "exotico",
-            Otro: "otro"
-        };
-
-        const icono = document.createElement("div");
-        icono.className = "icono-mascota";
-        icono.textContent = iconos[mascota.especie] || "🐾";
-
-        fotoFicha.appendChild(icono);
-    }
-
-    // ALMACENAMIENTO LOCAL POR MASCOTA
-
-    const claveHistorial =
-        "informavet_historial_demo_" + mascotaId;
-
-    let registros = [];
-
-    try {
-        const datos = JSON.parse(
-            localStorage.getItem(claveHistorial) || "[]"
+        const elementos = registros.filter(
+            registro => registro.tipo === tipo
         );
 
-        registros = Array.isArray(datos) ? datos : [];
-    } catch (error) {
-        console.error("Error al cargar historial:", error);
-    }
+        if (elementos.length === 0) {
+            const vacio = document.createElement("li");
 
-    function guardarRegistros(nuevos) {
-        try {
-            localStorage.setItem(
-                claveHistorial,
-                JSON.stringify(nuevos)
-            );
+            vacio.className = "sin-registros";
+            vacio.textContent = "Sin registros todavía.";
 
-            registros = nuevos;
-            return true;
-        } catch (error) {
-            alert("No se pudo guardar el registro local.");
-            return false;
+            lista.appendChild(vacio);
+            return;
         }
-    }
 
-    // MOSTRAR CONTROLES Y VACUNAS
+        elementos.forEach(function(registro) {
 
-    function mostrarRegistros() {
+            const item = document.createElement("li");
+            item.className = "registro-ficha";
 
-        ["controles", "vacunas"].forEach(function(tipo) {
+            const datos = document.createElement("div");
 
-            const lista = document.getElementById(
-                "lista-" + tipo
-            );
+            const nombre = document.createElement("strong");
+            nombre.textContent = registro.descripcion;
 
-            lista.replaceChildren();
+            const fecha = document.createElement("p");
+            fecha.textContent = "Fecha: " +
+                registro.fecha.split("-").reverse().join("/");
 
-            const elementos = registros.filter(
-                registro => registro.tipo === tipo
-            );
+            const estado = document.createElement("p");
+            estado.textContent = "Estado: " + registro.estado;
 
-            if (elementos.length === 0) {
-                const vacio = document.createElement("li");
+            datos.append(nombre, fecha, estado);
 
-                vacio.className = "sin-registros";
-                vacio.textContent = "Sin registros todavía.";
+            // ELIMINAR REGISTRO
 
-                lista.appendChild(vacio);
-                return;
-            }
+            const eliminar = document.createElement("button");
+            eliminar.type = "button";
+            eliminar.textContent = "Eliminar";
 
-            elementos.forEach(function(registro) {
+            eliminar.addEventListener("click", async function() {
+                const confirmar = confirm(
+                    "¿Deseas eliminar este registro?"
+                );
 
-                const item = document.createElement("li");
-                item.className = "registro-ficha";
+                if (!confirmar) return;
 
-                const datos = document.createElement("div");
+                eliminar.disabled = true;
 
-                const nombre = document.createElement("strong");
-                nombre.textContent = registro.descripcion;
+                const { error } = await db
+                    .from("historial_mascota")
+                    .delete()
+                    .eq("id", registro.id);
 
-                const fecha = document.createElement("p");
-                fecha.textContent = "Fecha: " +
-                    registro.fecha.split("-").reverse().join("/");
+                if (error) {
+                    console.error(error);
+                    alert("No se pudo eliminar el registro.");
+                    eliminar.disabled = false;
+                    return;
+                }
 
-                const estado = document.createElement("p");
-                estado.textContent = "Estado: " + registro.estado;
+                registros = registros.filter(
+                    r => r.id !== registro.id
+                );
 
-                datos.append(nombre, fecha, estado);
-
-                // ELIMINAR REGISTRO
-
-                const eliminar = document.createElement("button");
-                eliminar.type = "button";
-                eliminar.textContent = "Eliminar";
-
-                eliminar.addEventListener("click", function() {
-                    const confirmar = confirm(
-                        "¿Deseas eliminar este registro?"
-                    );
-
-                    if (!confirmar) return;
-
-                    const nuevos = registros.filter(
-                        r => r.id !== registro.id
-                    );
-
-                    if (guardarRegistros(nuevos)) {
-                        mostrarRegistros();
-                    }
-                });
-
-                item.append(datos, eliminar);
-                lista.appendChild(item);
+                mostrarRegistros();
             });
+
+            item.append(datos, eliminar);
+            lista.appendChild(item);
         });
-    }
+    });
+}
 
-    // AGREGAR CONTROLES O VACUNAS
+// AGREGAR CONTROLES O VACUNAS
 
+function activarFormularios() {
     document.querySelectorAll(".form-ficha").forEach(
         function(formulario) {
 
-            formulario.addEventListener("submit", function(event) {
+            formulario.addEventListener("submit", async function(event) {
                 event.preventDefault();
 
                 const tipo = formulario.dataset.tipo;
@@ -197,28 +149,118 @@ if (!mascota) {
 
                 if (!descripcion || !fecha) return;
 
-                const idNuevo =
-                    typeof crypto.randomUUID === "function"
-                    ? crypto.randomUUID()
-                    : String(Date.now()) + "-" + Math.random();
+                const boton = formulario.querySelector("button[type=submit]");
+                boton.disabled = true;
 
-                const registro = {
-                    id: idNuevo,
-                    tipo: tipo,
-                    descripcion: descripcion,
-                    fecha: fecha,
-                    estado: estado
-                };
+                const { data, error } = await db
+                    .from("historial_mascota")
+                    .insert({
+                        mascota_id: Number(mascotaId),
+                        tipo: tipo,
+                        descripcion: descripcion,
+                        fecha: fecha,
+                        estado: estado
+                    })
+                    .select()
+                    .single();
 
-                const nuevos = [...registros, registro];
+                boton.disabled = false;
 
-                if (guardarRegistros(nuevos)) {
-                    formulario.reset();
-                    mostrarRegistros();
+                if (error) {
+                    console.error(error);
+                    alert("No se pudo guardar el registro.");
+                    return;
                 }
+
+                registros = [data, ...registros];
+                formulario.reset();
+                mostrarRegistros();
             });
         }
     );
+}
+
+// INICIO
+
+async function iniciar() {
+    const usuario = await requiereAuth();
+    if (!usuario) return;
+
+    if (!mascotaId || !FORMATO_ID.test(mascotaId)) {
+        mostrarError();
+        return;
+    }
+
+    const { data: mascota, error } = await db
+        .from("mascota")
+        .select("*")
+        .eq("id_mascota", Number(mascotaId))
+        .maybeSingle();
+
+    if (error) {
+        console.error(error);
+        mostrarError("No pudimos cargar la ficha. Intenta de nuevo.");
+        return;
+    }
+
+    if (!mascota) {
+        mostrarError();
+        return;
+    }
+
+    contenido.hidden = false;
+
+    // MOSTRAR INFORMACION DE LA MASCOTA
+
+    document.getElementById("nombre-ficha").textContent =
+        mascota.m_nombre;
+
+    document.getElementById("informacion-ficha").textContent =
+        "Tipo: " + mascota.especie +
+        "\nRaza: " + (mascota.raza || "No especificada") +
+        "\nEdad: " + mascota.m_edad + " años" +
+        "\nPeso: " + (
+            mascota.m_peso ? mascota.m_peso + " kg" : "No indicado"
+        );
+
+    // MOSTRAR FOTO (bucket privado: URL firmada de 1 hora)
+
+    const fotoFicha = document.getElementById("foto-ficha");
+    let urlFoto = null;
+
+    if (mascota.foto_path) {
+        const { data: firmada } = await db.storage
+            .from(BUCKET_FOTOS)
+            .createSignedUrl(mascota.foto_path, 3600);
+
+        urlFoto = firmada ? firmada.signedUrl : null;
+    }
+
+    if (urlFoto) {
+        const imagen = document.createElement("img");
+        imagen.src = urlFoto;
+        imagen.alt = "Foto de " + mascota.m_nombre;
+        fotoFicha.appendChild(imagen);
+
+    } else {
+        const icono = document.createElement("div");
+        icono.className = "icono-mascota";
+        icono.textContent = iconos[mascota.especie] || "🐾";
+
+        fotoFicha.appendChild(icono);
+    }
+
+    // HISTORIAL
+
+    activarFormularios();
+
+    try {
+        await cargarRegistros();
+    } catch (error) {
+        console.error("Error al cargar historial:", error);
+    }
 
     mostrarRegistros();
 }
+
+iniciar();

@@ -5,6 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ficha de Mascota - InformaVet</title>
+    <link rel="manifest" href="../manifest.webmanifest">
+    <meta name="theme-color" content="#f59e0b">
+    <link rel="icon" type="image/png" href="../recursos/iconos/icon-192.png">
+    <link rel="apple-touch-icon" href="../recursos/iconos/apple-touch-icon.png">
 
     <link rel="stylesheet" href="../css/perfil_mascota.css">
     <link rel="stylesheet" href="../css/ficha_mascota.css">
@@ -201,7 +205,14 @@
 
     </main>
 
+    <!-- Supabase SDK + cliente compartido + módulo de auth -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../js/configuracion/cliente-supabase.js"></script>
+    <script src="../js/servicios/funciones.js"></script>
+    <script src="../js/auth/autenticacion.js"></script>
+
     <script src="../js/ficha_mascota.js"></script>
 
+    <script src="../js/pwa.js"></script>
 </body>
 </html>

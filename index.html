@@ -5,6 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portal Veterinario - Inicio</title>
+    <link rel="manifest" href="manifest.webmanifest">
+    <meta name="theme-color" content="#f59e0b">
+    <link rel="icon" type="image/png" href="recursos/iconos/icon-192.png">
+    <link rel="apple-touch-icon" href="recursos/iconos/apple-touch-icon.png">
     <link rel="stylesheet" href="css/index.css">
 </head>
 
@@ -24,7 +28,7 @@
                 <a href="#categorias">Cuidados</a>
                 <a href="#beneficios">Nuestros Servicios</a>
                 <a href="#contacto">Contacto</a>
-                <a href="paginas/perfil_mascota.html" <a <a href="paginas/login.html" id="enlace-mascotas">Mis mascotas</a>
+                <a href="paginas/login.html" id="enlace-mascotas">Mis mascotas</a>
             </div>
 
             <div class="nav-cuenta">
@@ -202,9 +206,12 @@
             <p>Sube una foto de tu perro o gato para estimar su raza, patrón y características principales con visión artificial.</p>
 
             <div style="margin: 25px 0;">
-                <label for="fotoMascotaInput" class="btn-principal" style="cursor: pointer;">
+                <label for="fotoMascotaInput" id="etiquetaSubirFoto" class="btn-principal" style="cursor: pointer;">
                     Subir Fotografía
                 </label>
+                <a href="paginas/login.html" id="loginParaIA" class="btn-principal" hidden>
+                    Inicia sesión para usar esta herramienta
+                </a>
                 <input type="file" id="fotoMascotaInput" accept="image/*" style="display: none;">
             </div>
 
@@ -213,6 +220,10 @@
             
             <!-- Mensaje de estado -->
             <p id="estadoCarga" style="display: none; font-weight: bold; color: #d97706; margin-bottom: 15px;"></p>
+
+            <p style="font-size: 13px; color: #665849; margin-bottom: 15px;">
+                Es una estimación generada por IA a partir de la foto. No reemplaza la opinión de un veterinario.
+            </p>
 
             <!-- Ficha con los resultados -->
             <div id="resultadoIdentificacion" class="categoria" style="display: none; max-width: 500px; margin: 0 auto; text-align: left; padding: 25px; background: white;">
@@ -256,19 +267,23 @@
 
     </footer>
 
-    <!-- Orden importante: config.js antes que fotos.js -->
-    <script src="js/config.js"></script>
-    <script src="js/servicios/fotos.js"></script>
-</body>
     <!-- Librería de Supabase -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
     <!-- Conexión con Supabase -->
     <script src="js/configuracion/cliente-supabase.js"></script>
 
+    <!-- Llamadas a Edge Functions -->
+    <script src="js/servicios/funciones.js"></script>
+
     <!-- Funciones de autenticación -->
     <script src="js/auth/autenticacion.js"></script>
 
     <!-- Navegación y cierre de sesión -->
     <script src="js/navegacion-sesion.js"></script>
+
+    <!-- Identificador de raza por foto (usa la Edge Function identificar-mascota) -->
+    <script src="js/servicios/fotos.js"></script>
+    <script src="js/pwa.js"></script>
+</body>
 </html>

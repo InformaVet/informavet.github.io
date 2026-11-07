@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registro - InformaVet</title>
+    <link rel="manifest" href="../manifest.webmanifest">
+    <meta name="theme-color" content="#f59e0b">
+    <link rel="icon" type="image/png" href="../recursos/iconos/icon-192.png">
+    <link rel="apple-touch-icon" href="../recursos/iconos/apple-touch-icon.png">
     <link rel="stylesheet" href="../css/registro.css">
     <style>
         .mensaje-registro {
@@ -165,6 +169,7 @@
             'User already registered':          'Ya existe una cuenta con ese correo electrónico.',
             'Password should be at least 6 characters': 'La contraseña debe tener al menos 6 caracteres.',
             'Unable to validate email address: invalid format': 'El formato del correo no es válido.',
+            'Database error saving new user': 'No pudimos crear la cuenta. Es posible que el RUT o el correo ya estén registrados.',
         }
 
         formulario.addEventListener('submit', async function (e) {
@@ -233,5 +238,6 @@
         }
     </script>
 
+    <script src="../js/pwa.js"></script>
 </body>
 </html>

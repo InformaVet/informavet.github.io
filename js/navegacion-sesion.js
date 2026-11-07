@@ -17,8 +17,6 @@ async function configurarNavegacion() {
 
         if (usuario) {
 
-            console.log("Sesión activa:", usuario.email);
-
             enlaceMascotas.href =
                 "paginas/perfil_mascota.html";
 
@@ -37,15 +35,20 @@ async function configurarNavegacion() {
                     return;
                 }
 
-                console.log("Sesión cerrada correctamente");
-
                 window.location.href = "../";
 
             });
 
-        } else {
+            // Enlace al panel solo para administradores (la seguridad real
+            // está en la base de datos; esto solo evita mostrar un enlace inútil)
+            if (await esAdmin()) {
+                const enlaceAdmin = document.createElement("a");
+                enlaceAdmin.href = "paginas/admin.html";
+                enlaceAdmin.textContent = "Administración";
+                enlaceMascotas.after(enlaceAdmin);
+            }
 
-            console.log("No hay sesión activa");
+        } else {
 
             enlaceMascotas.href = "paginas/login.html";
 

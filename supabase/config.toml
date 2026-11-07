@@ -1,0 +1,14 @@
+# Configuración mínima del proyecto Supabase de InformaVet.
+project_id = "informavet"
+
+# Las tres funciones validan el token ellas mismas (getUser). Se desactiva la verificación
+# del gateway porque las claves nuevas "sb_publishable_..." no son JWT y las visitas sin
+# sesión (por ejemplo el login con RUT) la harían fallar.
+[functions.identificar-mascota]
+verify_jwt = false
+
+[functions.login-rut]
+verify_jwt = false
+
+[functions.admin-usuarios]
+verify_jwt = false

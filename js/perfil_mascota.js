@@ -1,4 +1,9 @@
 
+// MIS MASCOTAS
+// Los datos viven en Supabase (tabla `mascotas`) y las fotos en Storage (bucket privado
+// `fotos-mascotas`). Cada persona solo ve lo suyo: lo garantiza la base de datos (RLS).
+// Depende de cliente-supabase.js y autenticacion.js (cargados antes en el HTML).
+
 const formulario = document.getElementById("form-mascota");
 const lista = document.getElementById("lista-mascotas");
 const mensajeVacio = document.getElementById("mensaje-vacio");
@@ -11,27 +16,49 @@ const tituloFormulario = document.getElementById("titulo-formulario");
 const btnGuardar = document.getElementById("btn-guardar");
 const btnCancelar = document.getElementById("btn-cancelar");
 
-const clave = "informavet_mascotas_demo";
+const BUCKET_FOTOS = "fotos-mascotas";
+const LADO_MAXIMO_FOTO = 800;
 
+const iconos = {
+    Perro: "perro",
+    Gato: "gato",
+    Ave: "gallina",
+    Conejo: "conejo",
+    "Animal exótico": "exotico",
+    Otro: "otro"
+};
+
+let usuario = null;
 let mascotas = [];
+let urlsFotos = {};      // ruta en Storage -> URL firmada temporal
 let idEditando = null;
-let fotoAnterior = "";
+let fotoAnteriorPath = null;
 let urlTemporal = null;
 
-// RECUPERAR MASCOTAS GUARDADAS
+// CARGAR DESDE SUPABASE
 
-try {
-    const datos = JSON.parse(localStorage.getItem(clave) || "[]");
-    mascotas = Array.isArray(datos) ? datos : [];
-} catch (error) {
-    console.error("No se pudieron cargar las mascotas:", error);
-}
+async function cargarMascotas() {
+    const { data, error } = await db
+        .from("mascota")
+        .select("*")
+        .order("creado_en", { ascending: true });
 
-// GUARDAR DATOS
+    if (error) throw error;
+    mascotas = data;
 
-function guardarDatos(nuevasMascotas) {
-    localStorage.setItem(clave, JSON.stringify(nuevasMascotas));
-    mascotas = nuevasMascotas;
+    // Las fotos son privadas: se muestran con URLs firmadas de 1 hora
+    urlsFotos = {};
+    const rutas = mascotas.map(m => m.foto_path).filter(Boolean);
+
+    if (rutas.length > 0) {
+        const { data: firmadas } = await db.storage
+            .from(BUCKET_FOTOS)
+            .createSignedUrls(rutas, 3600);
+
+        (firmadas || []).forEach(function(f) {
+            if (f.signedUrl) urlsFotos[f.path] = f.signedUrl;
+        });
+    }
 }
 
 // MOSTRAR VISTA PREVIA
@@ -61,7 +88,7 @@ fotoInput.addEventListener("change", function() {
     const archivo = fotoInput.files[0];
 
     if (!archivo) {
-        mostrarFoto(fotoAnterior);
+        mostrarFoto(urlsFotos[fotoAnteriorPath] || "");
         return;
     }
 
@@ -74,14 +101,14 @@ fotoInput.addEventListener("change", function() {
     if (!permitidos.includes(archivo.type)) {
         mensaje.textContent = "Selecciona una imagen válida.";
         fotoInput.value = "";
-        mostrarFoto(fotoAnterior);
+        mostrarFoto(urlsFotos[fotoAnteriorPath] || "");
         return;
     }
 
     if (archivo.size > 5 * 1024 * 1024) {
         mensaje.textContent = "La imagen supera los 5 MB.";
         fotoInput.value = "";
-        mostrarFoto(fotoAnterior);
+        mostrarFoto(urlsFotos[fotoAnteriorPath] || "");
         return;
     }
 
@@ -90,7 +117,7 @@ fotoInput.addEventListener("change", function() {
     mostrarFoto(urlTemporal);
 });
 
-// REDUCIR LA IMAGEN PARA GUARDARLA
+// REDUCIR LA IMAGEN ANTES DE SUBIRLA (devuelve un Blob JPEG)
 
 function procesarImagen(archivo) {
     return new Promise(function(resolve, reject) {
@@ -101,7 +128,7 @@ function procesarImagen(archivo) {
             try {
                 const escala = Math.min(
                     1,
-                    320 / Math.max(imagen.width, imagen.height)
+                    LADO_MAXIMO_FOTO / Math.max(imagen.width, imagen.height)
                 );
 
                 const canvas = document.createElement("canvas");
@@ -126,12 +153,15 @@ function procesarImagen(archivo) {
                     canvas.width, canvas.height
                 );
 
-                const resultado = canvas.toDataURL(
-                    "image/jpeg", 0.75
-                );
+                canvas.toBlob(function(blob) {
+                    URL.revokeObjectURL(url);
 
-                URL.revokeObjectURL(url);
-                resolve(resultado);
+                    if (blob) {
+                        resolve(blob);
+                    } else {
+                        reject(new Error("No se pudo procesar la fotografía."));
+                    }
+                }, "image/jpeg", 0.8);
 
             } catch (error) {
                 URL.revokeObjectURL(url);
@@ -154,7 +184,7 @@ function reiniciarFormulario() {
     formulario.reset();
 
     idEditando = null;
-    fotoAnterior = "";
+    fotoAnteriorPath = null;
 
     limpiarUrlTemporal();
     mostrarFoto("");
@@ -169,27 +199,20 @@ function reiniciarFormulario() {
 function mostrarMascotas() {
     lista.innerHTML = "";
 
+    mensajeVacio.textContent = "Todavía no tienes mascotas registradas.";
     mensajeVacio.hidden = mascotas.length > 0;
 
     mascotas.forEach(function(mascota) {
         const tarjeta = document.createElement("article");
         tarjeta.className = "tarjeta-mascota";
 
-        const iconos = {
-            Perro: "perro",
-            Gato: "gato",
-            Ave: "gallina",
-            Conejo: "conejo",
-            "Animal exótico": "exotico",
-            Otro: "otro"
-        };
-
         let imagen;
+        const urlFoto = urlsFotos[mascota.foto_path];
 
-        if (mascota.foto) {
+        if (urlFoto) {
             imagen = document.createElement("img");
-            imagen.src = mascota.foto;
-            imagen.alt = "Foto de " + mascota.nombre;
+            imagen.src = urlFoto;
+            imagen.alt = "Foto de " + mascota.m_nombre;
             imagen.className = "foto-mascota";
         } else {
             imagen = document.createElement("div");
@@ -198,16 +221,16 @@ function mostrarMascotas() {
         }
 
         const titulo = document.createElement("h3");
-        titulo.textContent = mascota.nombre;
+        titulo.textContent = mascota.m_nombre;
 
         const detalles = document.createElement("p");
 
         detalles.textContent =
             "Tipo: " + mascota.especie +
             "\nRaza: " + (mascota.raza || "No especificada") +
-            "\nEdad: " + mascota.edad + " años" +
+            "\nEdad: " + mascota.m_edad + " años" +
             "\nPeso: " + (
-                mascota.peso ? mascota.peso + " kg" : "No indicado"
+                mascota.m_peso ? mascota.m_peso + " kg" : "No indicado"
             );
 
         // BOTON EDITAR
@@ -218,19 +241,19 @@ function mostrarMascotas() {
         editar.textContent = "Editar perfil";
 
         editar.addEventListener("click", function() {
-            idEditando = mascota.id;
+            idEditando = mascota.id_mascota;
 
-            document.getElementById("nombre").value = mascota.nombre;
+            document.getElementById("nombre").value = mascota.m_nombre;
             document.getElementById("especie").value = mascota.especie;
             document.getElementById("raza").value = mascota.raza || "";
-            document.getElementById("edad").value = mascota.edad;
-            document.getElementById("peso").value = mascota.peso || "";
+            document.getElementById("edad").value = mascota.m_edad;
+            document.getElementById("peso").value = mascota.m_peso || "";
 
-            fotoAnterior = mascota.foto || "";
+            fotoAnteriorPath = mascota.foto_path;
             fotoInput.value = "";
 
             limpiarUrlTemporal();
-            mostrarFoto(fotoAnterior);
+            mostrarFoto(urlsFotos[fotoAnteriorPath] || "");
 
             tituloFormulario.textContent = "Editar mascota";
             btnGuardar.textContent = "Guardar cambios";
@@ -251,25 +274,37 @@ function mostrarMascotas() {
         eliminar.className = "btn-eliminar";
         eliminar.textContent = "Eliminar perfil";
 
-        eliminar.addEventListener("click", function() {
-            if (!confirm("¿Eliminar a " + mascota.nombre + "?")) {
+        eliminar.addEventListener("click", async function() {
+            if (!confirm("¿Eliminar a " + mascota.m_nombre + "?")) {
                 return;
             }
 
+            eliminar.disabled = true;
+
             try {
-                const nuevas = mascotas.filter(
-                    m => m.id !== mascota.id
-                );
+                if (mascota.foto_path) {
+                    await db.storage.from(BUCKET_FOTOS).remove([mascota.foto_path]);
+                }
 
-                guardarDatos(nuevas);
+                // El historial se borra solo (ON DELETE CASCADE)
+                const { error } = await db
+                    .from("mascota")
+                    .delete()
+                    .eq("id_mascota", mascota.id_mascota);
 
-                if (idEditando === mascota.id) {
+                if (error) throw error;
+
+                mascotas = mascotas.filter(m => m.id_mascota !== mascota.id_mascota);
+
+                if (idEditando === mascota.id_mascota) {
                     reiniciarFormulario();
                 }
 
                 mostrarMascotas();
             } catch (error) {
+                console.error(error);
                 mensaje.textContent = "No se pudo eliminar el perfil.";
+                eliminar.disabled = false;
             }
         });
 
@@ -280,7 +315,7 @@ function mostrarMascotas() {
         const ingresar = document.createElement("a");
 
         ingresar.href = "ficha_mascota.html?id=" +
-            encodeURIComponent(mascota.id);
+            encodeURIComponent(mascota.id_mascota);
 
         ingresar.className = "btn-ingresar-mascota";
         ingresar.textContent = "Ingresar";
@@ -300,49 +335,66 @@ btnCancelar.addEventListener("click", function() {
 });
 
 // REGISTRAR O ACTUALIZAR MASCOTA
+// El id de la mascota lo genera la base de datos, así que la foto se guarda con un
+// nombre aleatorio (usuario/uuid.jpg) y la ruta se anota en la fila.
 
 formulario.addEventListener("submit", async function(event) {
     event.preventDefault();
 
+    if (!usuario) return;
+
     btnGuardar.disabled = true;
+    mensaje.textContent = "";
+
+    let rutaSubida = null;
+    const editando = idEditando !== null;
 
     try {
-        let foto = fotoAnterior;
+        let fotoPath = fotoAnteriorPath;
 
         if (fotoInput.files.length > 0) {
-            foto = await procesarImagen(fotoInput.files[0]);
+            const blob = await procesarImagen(fotoInput.files[0]);
+            const ruta = usuario.id + "/" + crypto.randomUUID() + ".jpg";
+
+            const { error: errorSubida } = await db.storage
+                .from(BUCKET_FOTOS)
+                .upload(ruta, blob, { contentType: "image/jpeg" });
+
+            if (errorSubida) throw errorSubida;
+
+            rutaSubida = ruta;
+            fotoPath = ruta;
         }
 
-        const editando = idEditando !== null;
-
-        const idNuevo = (
-            crypto.randomUUID
-                ? crypto.randomUUID()
-                : String(Date.now()) + "-" + Math.random()
-        );
-
-        const mascota = {
-            id: editando ? idEditando : idNuevo,
-            nombre: document.getElementById("nombre").value.trim(),
+        const datos = {
+            m_nombre: document.getElementById("nombre").value.trim(),
             especie: document.getElementById("especie").value,
-            raza: document.getElementById("raza").value.trim(),
-            edad: document.getElementById("edad").value,
-            peso: document.getElementById("peso").value,
-            foto: foto
+            raza: document.getElementById("raza").value.trim() || null,
+            m_edad: Number(document.getElementById("edad").value),
+            m_peso: document.getElementById("peso").value
+                ? Number(document.getElementById("peso").value)
+                : null,
+            foto_path: fotoPath
         };
 
-        let nuevasMascotas;
+        const resultado = editando
+            ? await db.from("mascota").update(datos).eq("id_mascota", idEditando)
+            : await db.from("mascota").insert(datos);
 
-        if (editando) {
-            nuevasMascotas = mascotas.map(function(m) {
-                return m.id === idEditando ? mascota : m;
-            });
-        } else {
-            nuevasMascotas = [...mascotas, mascota];
+        if (resultado.error) {
+            // No dejar una foto huérfana en Storage si no se pudo guardar la fila
+            if (rutaSubida) {
+                await db.storage.from(BUCKET_FOTOS).remove([rutaSubida]);
+            }
+            throw resultado.error;
         }
 
-        guardarDatos(nuevasMascotas);
+        // Si se cambió la foto de una mascota existente, borrar la anterior
+        if (editando && rutaSubida && fotoAnteriorPath) {
+            await db.storage.from(BUCKET_FOTOS).remove([fotoAnteriorPath]);
+        }
 
+        await cargarMascotas();
         reiniciarFormulario();
         mostrarMascotas();
 
@@ -353,10 +405,30 @@ formulario.addEventListener("submit", async function(event) {
     } catch (error) {
         console.error(error);
         mensaje.textContent =
-            "No se pudo guardar. Revisa la imagen o el espacio disponible.";
+            "No se pudo guardar. Revisa los datos o la imagen e inténtalo de nuevo.";
     } finally {
         btnGuardar.disabled = false;
     }
 });
 
-mostrarMascotas();
+// INICIO
+
+async function iniciar() {
+    usuario = await requiereAuth();
+
+    if (!usuario) return;
+
+    mensajeVacio.textContent = "Cargando tus mascotas…";
+    mensajeVacio.hidden = false;
+
+    try {
+        await cargarMascotas();
+        mostrarMascotas();
+    } catch (error) {
+        console.error(error);
+        mensajeVacio.textContent =
+            "No pudimos cargar tus mascotas. Intenta recargar la página.";
+    }
+}
+
+iniciar();

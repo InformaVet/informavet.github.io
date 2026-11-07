@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex">
+    <title>Administración - InformaVet</title>
+    <link rel="manifest" href="../manifest.webmanifest">
+    <meta name="theme-color" content="#f59e0b">
+    <link rel="icon" type="image/png" href="../recursos/iconos/icon-192.png">
+    <link rel="apple-touch-icon" href="../recursos/iconos/apple-touch-icon.png">
+    <link rel="stylesheet" href="../css/admin.css">
+</head>
+
+<body>
+
+    <!-- BARRA DE NAVEGACION -->
+    <header>
+        <nav class="navbar">
+
+            <a href="../" class="logo">
+                InformaVet
+            </a>
+
+            <div class="nav-links">
+                <a href="../">Inicio</a>
+                <a href="perfil_mascota.html">Mis mascotas</a>
+                <a href="admin.html" aria-current="page">Administración</a>
+            </div>
+
+        </nav>
+    </header>
+
+    <main class="contenedor">
+
+        <p id="estado-carga" role="status">Verificando permisos…</p>
+
+        <!-- SIN PERMISOS -->
+        <section id="acceso-denegado" class="tarjeta" hidden>
+            <h1>Sin permisos</h1>
+            <p>Esta sección es solo para administradores de InformaVet.</p>
+            <a href="../" class="btn-principal">Volver al inicio</a>
+        </section>
+
+        <!-- PANEL -->
+        <section id="panel" hidden>
+
+            <h1>Panel de administración</h1>
+
+            <div class="pestanas" role="tablist" aria-label="Secciones de administración">
+                <button type="button" role="tab" id="pestana-guias" aria-controls="vista-guias" aria-selected="true" data-vista="guias">Guías</button>
+                <button type="button" role="tab" id="pestana-tips" aria-controls="vista-tips" aria-selected="false" tabindex="-1" data-vista="tips">Tips</button>
+                <button type="button" role="tab" id="pestana-usuarios" aria-controls="vista-usuarios" aria-selected="false" tabindex="-1" data-vista="usuarios">Usuarios</button>
+                <button type="button" role="tab" id="pestana-actividad" aria-controls="vista-actividad" aria-selected="false" tabindex="-1" data-vista="actividad">Actividad</button>
+            </div>
+
+            <p id="aviso" class="aviso" role="status" aria-live="polite"></p>
+
+            <div id="vista-guias" role="tabpanel" aria-labelledby="pestana-guias"></div>
+            <div id="vista-tips" role="tabpanel" aria-labelledby="pestana-tips" hidden></div>
+            <div id="vista-usuarios" role="tabpanel" aria-labelledby="pestana-usuarios" hidden></div>
+            <div id="vista-actividad" role="tabpanel" aria-labelledby="pestana-actividad" hidden></div>
+
+        </section>
+
+    </main>
+
+    <!-- FORMULARIO PARA CREAR / EDITAR GUIAS Y TIPS -->
+    <dialog id="dialogo-contenido">
+        <form id="form-contenido" method="dialog">
+
+            <h2 id="titulo-dialogo">Nueva guía</h2>
+
+            <div class="grupo-input">
+                <label for="c-titulo">Título</label>
+                <input type="text" id="c-titulo" maxlength="120" required>
+            </div>
+
+            <div class="grupo-input">
+                <label for="c-categoria">Animal y categoría</label>
+                <select id="c-categoria" required></select>
+            </div>
+
+            <div class="grupo-input">
+                <label for="c-tipo">Tipo de contenido</label>
+                <select id="c-tipo" required></select>
+            </div>
+
+            <div class="grupo-input">
+                <label for="c-cuerpo" id="etiqueta-cuerpo">Contenido</label>
+                <textarea id="c-cuerpo" rows="9" maxlength="5000" required></textarea>
+            </div>
+
+            <p id="mensaje-dialogo" class="aviso" role="alert"></p>
+
+            <div class="acciones-dialogo">
+                <button type="button" id="btn-cancelar-dialogo" class="btn-secundario">Cancelar</button>
+                <button type="submit" id="btn-guardar-dialogo" class="btn-principal">Guardar</button>
+            </div>
+
+        </form>
+    </dialog>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../js/configuracion/cliente-supabase.js"></script>
+    <script src="../js/servicios/funciones.js"></script>
+    <script src="../js/auth/autenticacion.js"></script>
+    <script src="../js/admin.js"></script>
+
+    <script src="../js/pwa.js"></script>
+</body>
+</html>

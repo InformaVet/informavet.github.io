@@ -27,3 +27,5 @@ Thumbs.db
 
 # Claves del navegador (versión sin Supabase)
 js/config.js
+# Archivos temporales del CLI de Supabase
+supabase/.temp/

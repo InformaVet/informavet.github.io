@@ -1,7 +1,8 @@
 // ============================================================
 // autenticacion.js — InformaVet
 // Funciones de autenticación usando Supabase Auth.
-// Requiere que cliente-supabase.js ya haya creado la variable `db`.
+// Requiere que cliente-supabase.js ya haya creado la variable `db`
+// y, para el login con RUT, que funciones.js esté cargado.
 // ============================================================
 
 // ── Helpers ──────────────────────────────────────────────────
@@ -20,39 +21,25 @@ function normalizarRut(rut) {
 // ── Registro ─────────────────────────────────────────────────
 
 /**
- * Crea una cuenta nueva en Supabase Auth y guarda nombre/rut
- * en la tabla `perfiles` para permitir login con RUT.
+ * Crea una cuenta nueva en Supabase Auth. El nombre y el RUT viajan como metadatos y
+ * un trigger de la base de datos crea la fila en `perfiles` (funciona aunque el correo
+ * aún no esté confirmado).
  *
  * @returns {{ data, error }}
  */
 async function registrar(nombre, rut, correo, password) {
-    const rutNormalizado = normalizarRut(rut)
-
-    // 1. Crear usuario en Supabase Auth
     const { data, error } = await db.auth.signUp({
         email: correo.trim(),
         password,
         options: {
             data: {
                 nombre: nombre.trim(),
-                rut: rutNormalizado
+                rut: normalizarRut(rut)
             }
         }
     })
 
     if (error) return { data: null, error }
-
-    // 2. Guardar en tabla `perfiles` para búsqueda por RUT
-    //    Si la tabla no existe, el error se ignora (no bloquea el flujo).
-    if (data?.user) {
-        await db.from('perfiles').upsert({
-            id:     data.user.id,
-            nombre: nombre.trim(),
-            rut:    rutNormalizado,
-            email:  correo.trim()
-        }, { onConflict: 'id' })
-    }
-
     return { data, error: null }
 }
 
@@ -60,35 +47,35 @@ async function registrar(nombre, rut, correo, password) {
 
 /**
  * Inicia sesión con correo o RUT + contraseña.
- * - Si el input tiene "@"  → se usa como email directamente.
- * - Si parece un RUT       → busca el email en la tabla `perfiles`.
+ * - Si el input tiene "@" o no parece RUT → se usa como correo directamente.
+ * - Si parece un RUT → la Edge Function `login-rut` resuelve el correo en el servidor
+ *   (el navegador nunca ve correos ajenos) y devuelve la sesión.
  *
  * @returns {{ data, error }}
  */
 async function iniciarSesion(rutOCorreo, password) {
-    let email = rutOCorreo.trim()
+    const valor = rutOCorreo.trim()
 
-    if (esRut(email)) {
-        const rut = normalizarRut(email)
-
-        const { data: perfil, error: errPerfil } = await db
-            .from('perfiles')
-            .select('email')
-            .eq('rut', rut)
-            .single()
-
-        if (errPerfil || !perfil) {
-            return {
-                data: null,
-                error: { message: 'No se encontró ninguna cuenta con ese RUT. Intenta con tu correo electrónico.' }
-            }
-        }
-
-        email = perfil.email
+    if (!esRut(valor)) {
+        return await db.auth.signInWithPassword({ email: valor, password })
     }
 
-    const { data, error } = await db.auth.signInWithPassword({ email, password })
-    return { data, error }
+    const { data, error } = await invocarFuncion('login-rut', {
+        rut: normalizarRut(valor),
+        password
+    })
+
+    if (error) {
+        const mensaje = error.codigo === 'red'
+            ? 'No pudimos conectar con el servidor. Revisa tu conexión e inténtalo de nuevo.'
+            : error.mensaje
+        return { data: null, error: { message: mensaje } }
+    }
+
+    return await db.auth.setSession({
+        access_token: data.session.access_token,
+        refresh_token: data.session.refresh_token
+    })
 }
 
 // ── Cierre de sesión ──────────────────────────────────────────
@@ -104,6 +91,24 @@ async function cerrarSesion() {
 async function obtenerUsuario() {
     const { data: { user } } = await db.auth.getUser()
     return user
+}
+
+/** Perfil del usuario actual ({ nombre, rol, activo }) o null. */
+async function obtenerPerfil() {
+    const usuario = await obtenerUsuario()
+    if (!usuario) return null
+    const { data } = await db
+        .from('perfiles')
+        .select('nombre, rol, activo')
+        .eq('id', usuario.id)
+        .maybeSingle()
+    return data
+}
+
+/** true si el usuario actual es administrador activo. */
+async function esAdmin() {
+    const perfil = await obtenerPerfil()
+    return !!perfil && perfil.rol === 'admin' && perfil.activo !== false
 }
 
 /**
