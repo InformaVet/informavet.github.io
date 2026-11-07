@@ -9,7 +9,7 @@ import {
   tokenDeSolicitud,
 } from "../_shared/comun.ts";
 
-const MODELOS_POR_DEFECTO = ["gemini-3.5-flash", "gemini-3.6-flash", "gemini-3.1-flash-lite"];
+const MODELOS_POR_DEFECTO = ["gemini-3.6-flash", "gemini-3.5-flash", "gemini-3.1-flash-lite"];
 const LIMITE_POR_HORA = 10;
 const MAX_BASE64 = 7_000_000; // ~5 MB de imagen
 const MIME_PERMITIDOS = ["image/jpeg", "image/png", "image/webp"];
