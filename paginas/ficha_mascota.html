@@ -42,7 +42,20 @@
         <p id="error-mascota" hidden>
             No se encontró la mascota seleccionada.
         </p>
-
+        <!-- CUIDADOS RECOMENDADOS (se llena desde JS con datos de Supabase) -->
+        <section class="cuidados-recomendados" id="cuidados-recomendados" hidden>
+            <h2>Cuidados recomendados para tu mascota</h2>
+            <p class="descripcion-cuidados" id="descripcion-cuidados"></p>
+            <p class="estado-cuidados" id="estado-cuidados" role="status" aria-live="polite"></p>
+            <div class="bloque-cuidados" id="bloque-guias" hidden>
+                <h3><span>📋</span> Guías de cuidado</h3>
+                <div class="grid-cuidados" id="lista-guias"></div>
+            </div>
+            <div class="bloque-cuidados" id="bloque-tips" hidden>
+                <h3><span>💡</span> Tips de cuidado</h3>
+                <div class="grid-cuidados" id="lista-tips"></div>
+            </div>
+        </section>
         <div id="contenido-ficha" hidden>
 
             <!-- INFORMACION DE LA MASCOTA -->

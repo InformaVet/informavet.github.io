@@ -100,6 +100,95 @@ function pintarResultadoIA(resultado) {
 
 let identificando = false
 
+function crearTarjetaIA(item, campoCuerpo) {
+    const detalle = document.createElement("details");
+    detalle.style.cssText = "background:white;border:1px solid #fce3a3;border-radius:12px;overflow:hidden;margin-bottom:10px;";
+
+    const resumen = document.createElement("summary");
+    resumen.style.cssText = "display:flex;align-items:center;gap:10px;padding:13px 16px;cursor:pointer;list-style:none;font-weight:600;color:#333;";
+
+    const titulo = document.createElement("span");
+    titulo.style.cssText = "flex:1;font-size:14px;";
+    titulo.textContent = item.titulo;
+    resumen.appendChild(titulo);
+
+    if (item.tipo) {
+        const badge = document.createElement("span");
+        badge.style.cssText = "font-size:11px;font-weight:700;padding:3px 8px;border-radius:20px;background:#fef3c7;color:#92400e;border:1px solid #fcd34d;white-space:nowrap;";
+        badge.textContent = item.tipo.charAt(0).toUpperCase() + item.tipo.slice(1);
+        resumen.appendChild(badge);
+    }
+
+    detalle.appendChild(resumen);
+
+    const cuerpo = document.createElement("div");
+    cuerpo.style.cssText = "padding:14px 16px;color:#555;line-height:1.65;font-size:14px;border-top:1px solid #fce3a3;white-space:pre-line;";
+    cuerpo.textContent = item[campoCuerpo] || "";
+    detalle.appendChild(cuerpo);
+
+    return detalle;
+}
+
+async function cargarCuidadosPorDeteccion(animal, razaEstimada) {
+    const seccion      = document.getElementById("cuidados-detectados");
+    const estadoEl     = document.getElementById("estado-cuidados-ia");
+    const bloqueGuias  = document.getElementById("bloque-guias-ia");
+    const bloqueTips   = document.getElementById("bloque-tips-ia");
+    const listaGuias   = document.getElementById("lista-guias-ia");
+    const listaTips    = document.getElementById("lista-tips-ia");
+
+    if (!seccion || typeof cargarTiposAnimal !== "function") return;
+
+    seccion.style.display = "block";
+    estadoEl.textContent  = "Buscando cuidados para tu mascota…";
+
+    try {
+        const mapEspecie = { perro: "Perro", gato: "Gato", ave: "Ave", conejo: "Conejo" };
+        const nombreEspecie = mapEspecie[animal.toLowerCase()];
+
+        if (!nombreEspecie) {
+            estadoEl.textContent = "Sin cuidados específicos para esta especie en nuestra base de datos.";
+            return;
+        }
+
+        const tipos = await cargarTiposAnimal();
+        const tipo  = tipos.find(function (t) {
+            return t.ta_nombre.toLowerCase() === nombreEspecie.toLowerCase();
+        });
+
+        if (!tipo) {
+            estadoEl.textContent = "No encontramos esta especie en nuestra base de datos todavía.";
+            return;
+        }
+
+        const filtros = { idTipo: tipo.id_tipo };
+        const [guias, tips] = await Promise.all([buscarGuias(filtros), buscarTips(filtros)]);
+
+        listaGuias.replaceChildren();
+        guias.forEach(function (g) { listaGuias.appendChild(crearTarjetaIA(g, "contenido")); });
+        bloqueGuias.style.display = guias.length > 0 ? "block" : "none";
+
+        listaTips.replaceChildren();
+        tips.forEach(function (t) { listaTips.appendChild(crearTarjetaIA(t, "descripcion")); });
+        bloqueTips.style.display = tips.length > 0 ? "block" : "none";
+
+        const totalG = guias.length;
+        const totalT = tips.length;
+        if (totalG === 0 && totalT === 0) {
+            estadoEl.textContent = "Aún no tenemos contenido para esta especie. ¡Pronto lo agregaremos!";
+        } else {
+            estadoEl.textContent =
+                "Para " + nombreEspecie + (razaEstimada ? " · " + razaEstimada : "") + " — " +
+                totalG + (totalG === 1 ? " guía" : " guías") + " y " +
+                totalT + (totalT === 1 ? " tip" : " tips") + " disponibles.";
+        }
+
+    } catch (err) {
+        console.error("Error cargando cuidados IA:", err);
+        estadoEl.textContent = "No se pudieron cargar los cuidados recomendados.";
+    }
+}
+
 async function procesarFotoMascota(file) {
     if (identificando) return
     identificando = true
@@ -126,6 +215,7 @@ async function procesarFotoMascota(file) {
             return
         }
         pintarResultadoIA(data)
+        cargarCuidadosPorDeteccion(data.animal, data.raza_estimada)
     } catch (error) {
         console.error("Error al identificar la mascota:", error)
         mostrarEstadoIA(mensajeDeErrorIA(error), true)

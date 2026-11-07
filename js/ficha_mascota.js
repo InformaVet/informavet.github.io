@@ -182,39 +182,114 @@ function activarFormularios() {
 
 // INICIO
 
+// CUIDADOS RECOMENDADOS DESDE SUPABASE
+
+async function cargarCuidados(mascota) {
+    const seccion     = document.getElementById('cuidados-recomendados')
+    const estadoEl    = document.getElementById('estado-cuidados')
+    const descripcion = document.getElementById('descripcion-cuidados')
+
+    seccion.hidden = false
+    estadoEl.textContent = 'Buscando cuidados recomendados…'
+
+    try {
+        const tipos = await cargarTiposAnimal()
+        const tipoEncontrado = tipos.find(function (t) {
+            return t.ta_nombre.toLowerCase() === (mascota.especie || '').toLowerCase()
+        })
+
+        if (!tipoEncontrado) {
+            estadoEl.textContent = 'No hay cuidados registrados para esta especie.'
+            return
+        }
+
+        const filtros = { idTipo: tipoEncontrado.id_tipo }
+        const [guias, tips] = await Promise.all([
+            buscarGuias(filtros),
+            buscarTips(filtros)
+        ])
+
+        const razaTexto = mascota.raza ? ' · ' + mascota.raza : ''
+        descripcion.textContent = 'Basado en: ' + tipoEncontrado.ta_nombre + razaTexto
+
+        function crearTarjeta(item, campoCuerpo) {
+            const detalle = document.createElement('details')
+            detalle.className = 'tarjeta-info'
+            const resumen = document.createElement('summary')
+            const titulo = document.createElement('span')
+            titulo.className = 'tarjeta-titulo'
+            titulo.textContent = item.titulo
+            resumen.appendChild(titulo)
+            if (item.tipo) {
+                const badge = document.createElement('span')
+                badge.className = 'badge-tipo-ficha'
+                badge.textContent = item.tipo
+                resumen.appendChild(badge)
+            }
+            detalle.appendChild(resumen)
+            const cuerpo = document.createElement('div')
+            cuerpo.className = 'tarjeta-cuerpo'
+            cuerpo.textContent = item[campoCuerpo] || ''
+            detalle.appendChild(cuerpo)
+            return detalle
+        }
+
+        function pintar(contenedorId, bloqueId, items, campoCuerpo) {
+            const contenedor = document.getElementById(contenedorId)
+            const bloque     = document.getElementById(bloqueId)
+            contenedor.replaceChildren()
+            if (items.length === 0) { bloque.hidden = true; return }
+            items.forEach(function (item) {
+                contenedor.appendChild(crearTarjeta(item, campoCuerpo))
+            })
+            bloque.hidden = false
+        }
+
+        pintar('lista-guias', 'bloque-guias', guias, 'contenido')
+        pintar('lista-tips',  'bloque-tips',  tips,  'descripcion')
+
+        const totalG = guias.length
+        const totalT = tips.length
+        if (totalG === 0 && totalT === 0) {
+            estadoEl.textContent = 'No se encontraron cuidados para esta especie todavía.'
+        } else {
+            estadoEl.textContent =
+                totalG + (totalG === 1 ? ' guía' : ' guías') +
+                ' y ' + totalT + (totalT === 1 ? ' tip' : ' tips') + ' disponibles.'
+        }
+
+    } catch (err) {
+        console.error('Error cargando cuidados:', err)
+        estadoEl.textContent = 'No se pudieron cargar los cuidados recomendados.'
+    }
+}
+
+
 async function iniciar() {
     const usuario = await requiereAuth();
     if (!usuario) return;
-
     if (!mascotaId || !FORMATO_ID.test(mascotaId)) {
         mostrarError();
         return;
     }
-
     const { data: mascota, error } = await db
         .from("mascota")
         .select("*")
         .eq("id_mascota", Number(mascotaId))
         .maybeSingle();
-
     if (error) {
         console.error(error);
         mostrarError("No pudimos cargar la ficha. Intenta de nuevo.");
         return;
     }
-
     if (!mascota) {
         mostrarError();
         return;
     }
-
     contenido.hidden = false;
-
     // MOSTRAR INFORMACION DE LA MASCOTA
-
     document.getElementById("nombre-ficha").textContent =
         mascota.m_nombre;
-
     document.getElementById("informacion-ficha").textContent =
         "Tipo: " + mascota.especie +
         "\nRaza: " + (mascota.raza || "No especificada") +
@@ -222,44 +297,35 @@ async function iniciar() {
         "\nPeso: " + (
             mascota.m_peso ? mascota.m_peso + " kg" : "No indicado"
         );
-
     // MOSTRAR FOTO (bucket privado: URL firmada de 1 hora)
-
     const fotoFicha = document.getElementById("foto-ficha");
     let urlFoto = null;
-
     if (mascota.foto_path) {
         const { data: firmada } = await db.storage
             .from(BUCKET_FOTOS)
             .createSignedUrl(mascota.foto_path, 3600);
-
         urlFoto = firmada ? firmada.signedUrl : null;
     }
-
     if (urlFoto) {
         const imagen = document.createElement("img");
         imagen.src = urlFoto;
         imagen.alt = "Foto de " + mascota.m_nombre;
         fotoFicha.appendChild(imagen);
-
+        // CUIDADOS RECOMENDADOS
+        cargarCuidados(mascota)
     } else {
         const icono = document.createElement("div");
         icono.className = "icono-mascota";
         icono.textContent = iconos[mascota.especie] || "🐾";
-
         fotoFicha.appendChild(icono);
     }
-
     // HISTORIAL
-
     activarFormularios();
-
     try {
         await cargarRegistros();
     } catch (error) {
         console.error("Error al cargar historial:", error);
     }
-
     mostrarRegistros();
 }
 

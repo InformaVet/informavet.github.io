@@ -234,6 +234,23 @@
                 <p style="margin-bottom: 8px;"><strong>Esperanza de vida:</strong> <span id="resEsperanza"></span></p>
                 <p><strong>Origen:</strong> <span id="resOrigen"></span></p>
             </div>
+            <!-- Guías y tips desde la BD (se llena tras la detección) -->
+            <div id="cuidados-detectados" style="display: none; max-width: 720px; margin: 30px auto 0;">
+                <h3 style="font-size: 20px; color: #92400e; margin-bottom: 6px;">
+                    Cuidados recomendados
+                </h3>
+                <p id="estado-cuidados-ia" style="font-size: 13px; color: #888; margin-bottom: 18px;"></p>
+
+                <div id="bloque-guias-ia" style="display: none; margin-bottom: 24px;">
+                    <h4 style="color: #92400e; margin-bottom: 12px;">📋 Guías de cuidado</h4>
+                    <div id="lista-guias-ia"></div>
+                </div>
+
+                <div id="bloque-tips-ia" style="display: none;">
+                    <h4 style="color: #92400e; margin-bottom: 12px;">💡 Tips de cuidado</h4>
+                    <div id="lista-tips-ia"></div>
+                </div>
+            </div>
         </section>
 
         <!-- INFORMACION DEL PROYECTO -->
@@ -267,22 +284,12 @@
 
     </footer>
 
-    <!-- Librería de Supabase -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-    <!-- Conexión con Supabase -->
     <script src="js/configuracion/cliente-supabase.js"></script>
-
-    <!-- Llamadas a Edge Functions -->
     <script src="js/servicios/funciones.js"></script>
-
-    <!-- Funciones de autenticación -->
     <script src="js/auth/autenticacion.js"></script>
-
-    <!-- Navegación y cierre de sesión -->
     <script src="js/navegacion-sesion.js"></script>
-
-    <!-- Identificador de raza por foto (usa la Edge Function identificar-mascota) -->
+    <script src="js/config.js"></script>
     <script src="js/servicios/fotos.js"></script>
     <script src="js/pwa.js"></script>
 </body>
