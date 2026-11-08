@@ -15,6 +15,8 @@ const mensaje = document.getElementById("mensaje-mascota");
 const tituloFormulario = document.getElementById("titulo-formulario");
 const btnGuardar = document.getElementById("btn-guardar");
 const btnCancelar = document.getElementById("btn-cancelar");
+const selectEspecie = document.getElementById("especie");
+const selectCategoria = document.getElementById("categoria");
 
 const BUCKET_FOTOS = "fotos-mascotas";
 const LADO_MAXIMO_FOTO = 800;
@@ -34,6 +36,96 @@ let urlsFotos = {};      // ruta en Storage -> URL firmada temporal
 let idEditando = null;
 let fotoAnteriorPath = null;
 let urlTemporal = null;
+
+
+
+/* CARGAR CATEGORIAS DESDE SUPABASE */
+
+async function cargarCategoriasMascota(idSeleccionado = null) {
+
+    selectCategoria.replaceChildren(
+        new Option("Selecciona una categoría", "")
+    );
+
+    selectCategoria.disabled = true;
+
+    if (!selectEspecie.value) return;
+
+    try {
+        // Obtener los tipos de animales registrados
+        const tipos = await cargarTiposAnimal();
+        console.table(tipos);
+        // Buscar el tipo seleccionado
+
+            const equivalencias = {
+                "Perro": "Canino",
+                "Gato": "Felino",
+                "Ave": "Ave",
+                "Conejo": "Conejo",
+                "Animal exótico": "Exótico",
+                "Otro": "Otro"
+            };
+
+            const nombreTipo = equivalencias[selectEspecie.value];
+
+            const tipo = tipos.find(function(t) {
+                return t.ta_nombre.trim().toLowerCase() ===
+                    (nombreTipo || "").toLowerCase();
+            });
+
+
+        if (!tipo) {
+            const disponibles = tipos.map(function(t) {
+                return t.id_tipo + ": " + t.ta_nombre;
+            }).join(" | ");
+
+            throw new Error(
+                "No se encontró '" + selectEspecie.value +
+                "'. Tipos disponibles en Supabase: " +
+                (disponibles || "Ninguno")
+            );
+        }
+
+        // Obtener sus categorías
+        const categorias = await cargarCategorias(tipo.id_tipo);
+
+        categorias.forEach(function(categoria) {
+            const opcion = new Option(
+                categoria.ca_nombre,
+                categoria.id_categoria
+            );
+
+            selectCategoria.add(opcion);
+        });
+
+        if (categorias.length === 0) {
+            mensaje.textContent =
+                "No hay categorías disponibles para este animal.";
+            return;
+        }
+
+        selectCategoria.disabled = false;
+
+        // Recuperar categoría cuando se edita una mascota
+        if (idSeleccionado !== null) {
+            selectCategoria.value = String(idSeleccionado);
+        }
+
+    } catch (error) {
+        console.error("Error al cargar categorías:", error);
+
+        mensaje.textContent =
+            "No se pudieron cargar las categorías: " +
+            error.message;
+    }
+}
+
+// ACTUALIZAR CATEGORIAS CUANDO CAMBIA EL ANIMAL
+
+selectEspecie.addEventListener("change", function() {
+    cargarCategoriasMascota();
+});
+
 
 // CARGAR DESDE SUPABASE
 
@@ -182,7 +274,10 @@ function procesarImagen(archivo) {
 
 function reiniciarFormulario() {
     formulario.reset();
-
+    selectCategoria.replaceChildren(
+    new Option("Primero selecciona un tipo de animal", "")
+    );
+    selectCategoria.disabled = true;
     idEditando = null;
     fotoAnteriorPath = null;
 
@@ -240,11 +335,12 @@ function mostrarMascotas() {
         editar.className = "btn-editar";
         editar.textContent = "Editar perfil";
 
-        editar.addEventListener("click", function() {
+        editar.addEventListener("click", async function() {
             idEditando = mascota.id_mascota;
 
             document.getElementById("nombre").value = mascota.m_nombre;
             document.getElementById("especie").value = mascota.especie;
+            await cargarCategoriasMascota(mascota.id_categoria);
             document.getElementById("raza").value = mascota.raza || "";
             document.getElementById("edad").value = mascota.m_edad;
             document.getElementById("peso").value = mascota.m_peso || "";
@@ -341,7 +437,13 @@ btnCancelar.addEventListener("click", function() {
 formulario.addEventListener("submit", async function(event) {
     event.preventDefault();
 
-    if (!usuario) return;
+if (!usuario) return;
+
+if (!selectCategoria.value || selectCategoria.disabled) {
+    mensaje.textContent = "Selecciona una categoría válida.";
+    return;
+}
+
 
     btnGuardar.disabled = true;
     mensaje.textContent = "";
@@ -366,16 +468,18 @@ formulario.addEventListener("submit", async function(event) {
             fotoPath = ruta;
         }
 
-        const datos = {
-            m_nombre: document.getElementById("nombre").value.trim(),
-            especie: document.getElementById("especie").value,
-            raza: document.getElementById("raza").value.trim() || null,
-            m_edad: Number(document.getElementById("edad").value),
-            m_peso: document.getElementById("peso").value
-                ? Number(document.getElementById("peso").value)
-                : null,
-            foto_path: fotoPath
-        };
+            const datos = {
+                m_nombre: document.getElementById("nombre").value.trim(),
+                especie: document.getElementById("especie").value,
+                id_categoria: Number(selectCategoria.value),
+
+                raza: document.getElementById("raza").value.trim() || null,
+                m_edad: Number(document.getElementById("edad").value),
+                m_peso: document.getElementById("peso").value
+                    ? Number(document.getElementById("peso").value)
+                    : null,
+                foto_path: fotoPath
+            };
 
         const resultado = editando
             ? await db.from("mascota").update(datos).eq("id_mascota", idEditando)
@@ -402,13 +506,19 @@ formulario.addEventListener("submit", async function(event) {
             ? "¡Perfil actualizado correctamente!"
             : "¡Mascota registrada correctamente!";
 
-    } catch (error) {
-        console.error(error);
-        mensaje.textContent =
-            "No se pudo guardar. Revisa los datos o la imagen e inténtalo de nuevo.";
-    } finally {
-        btnGuardar.disabled = false;
-    }
+
+} catch (error) {
+
+    console.error("ERROR AL GUARDAR MASCOTA:", error);
+
+    mensaje.textContent =
+        "Error: " + (error.message || "Desconocido") +
+        " | Código: " + (error.code || "Sin código");
+
+} finally {
+    btnGuardar.disabled = false;
+}
+
 });
 
 // INICIO
