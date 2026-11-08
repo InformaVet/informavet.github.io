@@ -60,7 +60,10 @@ async function cargarCategoriasMascota(idSeleccionado = null) {
             const equivalencias = {
                 "Perro": "Canino",
                 "Gato": "Felino",
-                "Ave": "Ave"
+                "Ave": "Ave",
+                "Conejo": "Conejo",
+                "Animal exótico": "Exótico",
+                "Otro": "Otro"
             };
 
             const nombreTipo = equivalencias[selectEspecie.value];
