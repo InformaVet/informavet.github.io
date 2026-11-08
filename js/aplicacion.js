@@ -240,7 +240,40 @@ async function iniciar() {
         buscar()
     })
 
-    estado.textContent = 'Selecciona un animal o escribe algo para buscar.'
+   
+// REVISAR SI SE LLEGO DESDE UNA TARJETA DE ANIMAL
+
+const parametros = new URLSearchParams(window.location.search);
+const animalSeleccionado = parametros.get("animal");
+
+if (animalSeleccionado) {
+
+    // Buscar el animal en los tipos cargados desde Supabase
+    const tipo = resultados[0].find(function(animal) {
+        return animal.ta_nombre.toLowerCase() ===
+            animalSeleccionado.toLowerCase();
+    });
+
+    if (tipo) {
+
+        // Seleccionar automáticamente el animal
+        selTipo.value = String(tipo.id_tipo);
+
+        // Actualizar razas, categorías y resultados
+        alCambiarTipo();
+
+    } else {
+        estado.textContent =
+            "No se encontró el animal seleccionado.";
+    }
+
+} else {
+
+    // Si entra desde Cuidados, mostrar todos los resultados
+    buscar();
+
+}
+
 }
 
 document.addEventListener('DOMContentLoaded', iniciar)
