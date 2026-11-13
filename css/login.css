@@ -194,3 +194,14 @@ button {
     background-color: #ffedd5;
     color: #d97706;
 }
+
+/*cambio de fuente InformaVet*/
+/* FUENTE DEL LOGO INFORMATVET */
+
+.navbar .logo span {
+    font-family: 'Nunito', sans-serif;
+    font-size: 32px;
+    font-weight: 900;
+    color: #d97706;
+    letter-spacing: -0.5px;
+}

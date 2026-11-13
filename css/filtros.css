@@ -266,3 +266,8 @@ main {
 
     .tarjeta-meta { display: none; }
 }
+
+/* Ocultar Animal cuando se entra desde una especie */
+html.especie-fija #campo-animal {
+    display: none !important;
+}

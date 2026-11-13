@@ -17,6 +17,7 @@ const contTips        = document.getElementById('resultados-tips')
 let razasCache      = []
 let categoriasCache = []
 let numeroBusqueda  = 0
+let tipoFijoId = null;
 
 // ---------------------------------------------------------------
 // Badge de color por tipo de contenido
@@ -151,12 +152,27 @@ function textoConteo(guias, tips) {
 
 // Obtiene el idTipo activo: si hay raza usa su tipo, si no usa el selector de animal
 function obtenerIdTipo() {
-    const idRaza = selRaza.value ? Number(selRaza.value) : null
-    if (idRaza) {
-        const raza = razasCache.find(function (r) { return r.id_raza === idRaza })
-        return raza ? raza.id_tipo : null
+
+    // Mantener el animal elegido desde la página principal
+    if (tipoFijoId !== null) {
+        return tipoFijoId;
     }
-    return selTipo.value ? Number(selTipo.value) : null
+
+    const idRaza = selRaza.value
+        ? Number(selRaza.value)
+        : null;
+
+    if (idRaza) {
+        const raza = razasCache.find(function(r) {
+            return r.id_raza === idRaza;
+        });
+
+        return raza ? raza.id_tipo : null;
+    }
+
+    return selTipo.value
+        ? Number(selTipo.value)
+        : null;
 }
 
 // ---------------------------------------------------------------
@@ -225,15 +241,20 @@ function alCambiarRaza() {
 }
 
 async function limpiar() {
-    selTipo.value         = ''
-    selRaza.value         = ''
-    selCategoria.value    = ''
-    selTipoCuidado.value  = ''
-    selVerificacion.value = ''
-    inpTexto.value        = ''
-    llenarSelect(selRaza,      razasCache,      'id_raza',      'r_nombre',  'Todas las razas')
-    llenarSelect(selCategoria, categoriasCache, 'id_categoria', 'ca_nombre', 'Todas las categorías')
-    buscar()
+
+    // Mantener el animal si viene desde una tarjeta
+    selTipo.value = tipoFijoId !== null
+        ? String(tipoFijoId)
+        : "";
+
+    selRaza.value = "";
+    selCategoria.value = "";
+    selTipoCuidado.value = "";
+    selVerificacion.value = "";
+    inpTexto.value = "";
+
+    // Actualizar las razas y categorías del animal
+    alCambiarTipo();
 }
 
 // ---------------------------------------------------------------
@@ -241,8 +262,11 @@ async function limpiar() {
 // ---------------------------------------------------------------
 async function iniciar() {
     estado.textContent = 'Cargando…'
+
+    let resultados;
+
     try {
-        const resultados = await Promise.all([
+        resultados = await Promise.all([
             cargarTiposAnimal(),
             cargarRazas(null),
             cargarCategorias(null)
@@ -269,38 +293,60 @@ async function iniciar() {
     })
 
    
-// REVISAR SI SE LLEGO DESDE UNA TARJETA DE ANIMAL
 
-const parametros = new URLSearchParams(window.location.search);
-const animalSeleccionado = parametros.get("animal");
+    // REVISAR SI SE LLEGO DESDE UNA TARJETA DE ANIMAL
 
-if (animalSeleccionado) {
+    const parametros = new URLSearchParams(window.location.search);
+    const animalSeleccionado = parametros.get("animal");
 
-    // Buscar el animal en los tipos cargados desde Supabase
-    const tipo = resultados[0].find(function(animal) {
-        return animal.ta_nombre.toLowerCase() ===
-            animalSeleccionado.toLowerCase();
-    });
+    if (animalSeleccionado) {
 
-    if (tipo) {
+        const tipo = resultados[0].find(function(animal) {
+            return animal.ta_nombre.trim().toLowerCase() ===
+                animalSeleccionado.trim().toLowerCase();
+        });
 
-        // Seleccionar automáticamente el animal
-        selTipo.value = String(tipo.id_tipo);
+        if (!tipo) {
+            estado.textContent =
+                "No se encontró el animal seleccionado.";
+            return;
+        }
 
-        // Actualizar razas, categorías y resultados
+        // Mantener únicamente esta especie
+        tipoFijoId = Number(tipo.id_tipo);
+        selTipo.value = String(tipoFijoId);
+
+        // Ocultar el selector Animal
+        selTipo.closest("label").style.display = "none";
+
+        // Cambiar el título
+        const titulo = document.querySelector(
+            ".guias .encabezado-seccion h2"
+        );
+
+        const nombres = {
+            Canino: "perros",
+            Felino: "gatos",
+            Ave: "aves",
+            Reptil: "reptiles"
+        };
+
+        if (titulo) {
+            titulo.textContent = "Cuidados para " +
+                (nombres[tipo.ta_nombre] || tipo.ta_nombre);
+        }
+
+        // Filtrar razas y categorías, y buscar resultados
         alCambiarTipo();
 
     } else {
-        estado.textContent =
-            "No se encontró el animal seleccionado.";
+
+        // Acceso desde el menú general de Cuidados
+        tipoFijoId = null;
+        buscar();
+
     }
 
-} else {
-
-    // Si entra desde Cuidados, mostrar todos los resultados
-    buscar();
-
-}
 
 }
 

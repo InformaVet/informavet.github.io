@@ -1,26 +1,62 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Guías y consejos - InformaVet</title>
+
     <link rel="manifest" href="../manifest.webmanifest">
     <meta name="theme-color" content="#f59e0b">
-    <link rel="icon" type="image/png" href="../recursos/iconos/icon-192.png">
-    <link rel="apple-touch-icon" href="../recursos/iconos/apple-touch-icon.png">
+
+    <link rel="icon"
+          type="image/x-icon"
+          href="../recursos/iconos/favicon_informavet.ico?v=6">
+
+    <link rel="apple-touch-icon"
+          href="../recursos/iconos/apple-touch-icon.png">
+
+    <!-- Detectar la especie antes de mostrar la página -->
+    <script>
+        const especieInicial = new URLSearchParams(
+            window.location.search
+        ).get("animal");
+
+        const nombresEspecies = {
+            Canino: "perros",
+            Felino: "gatos",
+            Ave: "aves",
+            Reptil: "reptiles"
+        };
+
+        if (Object.hasOwn(nombresEspecies, especieInicial)) {
+            document.documentElement.classList.add("especie-fija");
+
+            document.documentElement.dataset.especie =
+                nombresEspecies[especieInicial];
+        }
+    </script>
+
     <link rel="stylesheet" href="../css/index.css">
     <link rel="stylesheet" href="../css/filtros.css">
 </head>
 
 <body>
 
+
     <!-- BARRA DE NAVEGACION -->
     <header>
         <nav class="navbar">
             <a href="../" class="logo">
-                InformaVet
+                <img
+                    src="../recursos/iconos/logo_informavet_optimizado.png"
+                    alt=""
+                    class="logo-icono"
+                >
+                <span>InformaVet</span>
             </a>
-            <div class="nav-links">
+                        <div class="nav-links">
                 <a href="../#inicio">Inicio</a>
                 <a href="filtros.html">Cuidados</a>
                 <a href="../#beneficios">Nuestros Servicios</a>
@@ -40,15 +76,26 @@
                 <span class="subtitulo">
                     GUÍAS Y CONSEJOS
                 </span>
-                <h2>Encuentra información para tu mascota</h2>
+                <h2 id="titulo-cuidados">
+            Encuentra información para tu mascota
+            </h2>
+
+            <script>
+                const especieTitulo = document.documentElement.dataset.especie;
+
+                if (especieTitulo) {
+                    document.getElementById("titulo-cuidados").textContent =
+                        "Cuidados para " + especieTitulo;
+                }
+            </script>
             </div>
             <form class="filtros" id="form-filtros">
-                <label>
-                    Animal
-                    <select id="filtro-tipo">
-                        <option value="">Todos los animales</option>
-                    </select>
-                </label>
+            <label id="campo-animal">
+                Animal
+                <select id="filtro-tipo">
+                    <option value="">Todos los animales</option>
+                </select>
+            </label>
                 <label>
                     Raza
                     <select id="filtro-raza">
@@ -97,11 +144,11 @@
                 Cargando...
             </p>
             <div class="bloque-resultados" hidden>
-                <h3><span>📋</span> Guías de cuidado</h3>
+                <h3><span></span> Guías de cuidado</h3>
                 <div class="grid-resultados" id="resultados-guias"></div>
             </div>
             <div class="bloque-resultados" hidden>
-                <h3><span>💡</span> Tips de cuidado</h3>
+                <h3><span></span> Tips de cuidado</h3>
                 <div class="grid-resultados" id="resultados-tips"></div>
             </div>
         </section>
@@ -116,10 +163,11 @@
         </p>
     </footer>
     <!-- El orden importa: primero la libreria, luego la conexion, luego la logica -->
+         <!-- Librería de Supabase -->
+
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="../js/configuracion/cliente-supabase.js"></script>
     <script src="../js/aplicacion.js"></script>
-
     <script src="../js/pwa.js"></script>
 </body>
 </html>
