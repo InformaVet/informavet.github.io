@@ -40,6 +40,9 @@ const CONTENIDOS = {
 const VISTAS = ["guias", "tips", "usuarios", "actividad"]
 
 let usuarioActual = null
+let esVerificador = false
+let revision = null
+const nombresPersonas = {}
 let categorias = []
 let nombresTipoAnimal = {}
 let usuarios = []
@@ -49,6 +52,7 @@ const vistasCargadas = {}
 const dialogo = document.getElementById("dialogo-contenido")
 const formContenido = document.getElementById("form-contenido")
 const avisoGlobal = document.getElementById("aviso")
+const dialogoRevision = document.getElementById("dialogo-revision")
 
 // ── Utilidades ───────────────────────────────────────────────
 
@@ -89,6 +93,33 @@ function formatearFecha(iso) {
     return new Date(iso).toLocaleString("es-CL", { dateStyle: "short", timeStyle: "short" })
 }
 
+function etiquetaEstado(fila) {
+    const verificado = fila.verificado === true
+    return el("span", {
+        clase: "etiqueta-estado " + (verificado ? "verificado" : "no-verificado"),
+        texto: verificado ? "Verificado" : "No verificado"
+    })
+}
+
+function textoVerificacion(fila) {
+    if (fila.verificado !== true) return ""
+    const quien = nombresPersonas[fila.verificado_por] || "la profesional"
+    const cuando = fila.verificado_en
+        ? new Date(fila.verificado_en).toLocaleDateString("es-CL", { dateStyle: "medium" })
+        : ""
+    return "por " + quien + (cuando ? " · " + cuando : "")
+}
+
+/** Trae los nombres de quienes verificaron, para mostrar "por Fulana · fecha". */
+async function cargarNombresVerificadores(filas) {
+    const faltan = [...new Set(filas.map(function (f) { return f.verificado_por }).filter(function (id) {
+        return id && !nombresPersonas[id]
+    }))]
+    if (faltan.length === 0) return
+    const { data } = await db.from("perfiles").select("id, nombre, email").in("id", faltan)
+    ;(data || []).forEach(function (p) { nombresPersonas[p.id] = p.nombre || p.email })
+}
+
 function celdaVacia(columnas, texto) {
     return el("tr", {}, el("td", { colspan: String(columnas), clase: "sin-resultados", texto: texto }))
 }
@@ -116,15 +147,21 @@ function montarVistaContenido(clave) {
     categorias.forEach(function (c) {
         filtro.append(el("option", { value: String(c.id_categoria), texto: etiquetaCategoria(c.id_categoria) }))
     })
+    const filtroEstado = el("select", { "aria-label": "Filtrar por estado de verificación" },
+        el("option", { value: "", texto: "Todos los estados" }),
+        el("option", { value: "no", texto: "No verificados" }),
+        el("option", { value: "si", texto: "Verificados" })
+    )
     const nuevo = el("button", { type: "button", clase: "btn-principal", texto: cfg.nueva, onclick: function () { abrirDialogo(clave, null) } })
     const conteo = el("p", { clase: "conteo", "aria-live": "polite" })
     const tabla = el("div", { clase: "tabla-contenedor" })
 
     busqueda.addEventListener("input", function () { pintarContenido(clave) })
     filtro.addEventListener("change", function () { pintarContenido(clave) })
+    filtroEstado.addEventListener("change", function () { pintarContenido(clave) })
 
-    contenedor.replaceChildren(el("div", { clase: "herramientas" }, busqueda, filtro, nuevo), conteo, tabla)
-    cfg.ui = { busqueda, filtro, conteo, tabla }
+    contenedor.replaceChildren(el("div", { clase: "herramientas" }, busqueda, filtro, filtroEstado, nuevo), conteo, tabla)
+    cfg.ui = { busqueda, filtro, filtroEstado, conteo, tabla }
     cfg.filas = []
 }
 
@@ -139,6 +176,10 @@ async function cargarContenido(clave) {
         mostrarAviso("No se pudieron cargar las " + cfg.singular + "s.", "error")
         return
     }
+    if (data.length > 0 && data[0].verificado === undefined) {
+        mostrarAviso("Falta aplicar la migración de verificación en Supabase (20261112120000_verificacion_contenido.sql).", "error")
+    }
+    await cargarNombresVerificadores(data)
     cfg.filas = data
     vistasCargadas[clave] = true
     pintarContenido(clave)
@@ -148,24 +189,34 @@ function pintarContenido(clave) {
     const cfg = CONTENIDOS[clave]
     const texto = normalizar(cfg.ui.busqueda.value)
     const idCategoria = cfg.ui.filtro.value ? Number(cfg.ui.filtro.value) : null
+    const estado = cfg.ui.filtroEstado.value
 
     const filas = cfg.filas.filter(function (fila) {
         if (idCategoria && fila.id_categoria !== idCategoria) return false
+        if (estado === "si" && fila.verificado !== true) return false
+        if (estado === "no" && fila.verificado === true) return false
         return !texto || normalizar(fila.titulo).includes(texto)
     })
 
-    cfg.ui.conteo.textContent = filas.length + " de " + cfg.filas.length + " " + cfg.singular + "s"
+    const verificadas = cfg.filas.filter(function (f) { return f.verificado === true }).length
+    cfg.ui.conteo.textContent = filas.length + " de " + cfg.filas.length + " " + cfg.singular + "s · " +
+        verificadas + " verificadas, " + (cfg.filas.length - verificadas) + " sin verificar"
 
     const cuerpo = el("tbody")
     if (filas.length === 0) {
-        cuerpo.append(celdaVacia(4, "No hay resultados."))
+        cuerpo.append(celdaVacia(5, "No hay resultados."))
     }
     filas.forEach(function (fila) {
         cuerpo.append(el("tr", {},
             el("td", { texto: fila.titulo }),
             el("td", { texto: etiquetaCategoria(fila.id_categoria) }),
             el("td", { texto: TIPOS_CONTENIDO[fila.tipo] || fila.tipo || "—" }),
+            el("td", {},
+                etiquetaEstado(fila),
+                el("span", { clase: "detalle-verificacion", texto: textoVerificacion(fila) })
+            ),
             el("td", { clase: "acciones" },
+                el("button", { type: "button", clase: "btn-tabla", texto: "Revisar", onclick: function () { abrirRevision(clave, fila) } }),
                 el("button", { type: "button", clase: "btn-tabla", texto: "Editar", onclick: function () { abrirDialogo(clave, fila) } }),
                 el("button", { type: "button", clase: "btn-peligro", texto: "Eliminar", onclick: function () { eliminarContenido(clave, fila) } })
             )
@@ -177,11 +228,85 @@ function pintarContenido(clave) {
             el("th", { texto: "Título" }),
             el("th", { texto: "Animal · categoría" }),
             el("th", { texto: "Tipo" }),
+            el("th", { texto: "Verificación" }),
             el("th", { texto: "Acciones" })
         )),
         cuerpo
     ))
 }
+
+// ── Revisión y verificación ──────────────────────────────────
+
+function abrirRevision(clave, fila) {
+    const cfg = CONTENIDOS[clave]
+    revision = { clave: clave, fila: fila }
+
+    document.getElementById("revision-objeto").textContent = "Revisar " + cfg.singular
+    document.getElementById("revision-titulo").textContent = fila.titulo
+    document.getElementById("revision-meta").textContent =
+        etiquetaCategoria(fila.id_categoria) + " · " + (TIPOS_CONTENIDO[fila.tipo] || fila.tipo || "—")
+    document.getElementById("revision-cuerpo").textContent = fila[cfg.campoCuerpo] || ""
+
+    const verificado = fila.verificado === true
+    const estado = document.getElementById("revision-estado")
+    estado.replaceChildren(etiquetaEstado(fila), " " + textoVerificacion(fila))
+
+    document.getElementById("btn-verificar").hidden = !(esVerificador && !verificado)
+    document.getElementById("btn-quitar-verificacion").hidden = !(esVerificador && verificado)
+    document.getElementById("revision-nota").hidden = esVerificador
+    document.getElementById("mensaje-revision").textContent = ""
+    document.getElementById("mensaje-revision").className = "aviso"
+
+    dialogoRevision.showModal()
+    document.getElementById("revision-cuerpo").scrollTop = 0
+}
+
+async function cambiarVerificacion(verificar) {
+    if (!revision) return
+    const { clave, fila } = revision
+    const cfg = CONTENIDOS[clave]
+    const mensaje = document.getElementById("mensaje-revision")
+    const botones = [document.getElementById("btn-verificar"), document.getElementById("btn-quitar-verificacion")]
+
+    botones.forEach(function (b) { b.disabled = true })
+    mensaje.className = "aviso"
+    mensaje.textContent = "Guardando…"
+
+    // Se verifica "esta versión exacta": si el texto cambió mientras se leía, la huella ya no
+    // coincide y la base de datos no actualiza nada.
+    const { data, error } = await db
+        .from(cfg.tabla)
+        .update({ verificado: verificar })
+        .eq("id", fila.id)
+        .eq("huella", fila.huella)
+        .select("id")
+
+    botones.forEach(function (b) { b.disabled = false })
+
+    if (error) {
+        console.error(error)
+        mensaje.className = "aviso error"
+        mensaje.textContent = error.code === "42501"
+            ? "Tu cuenta no está habilitada para verificar contenido."
+            : "No se pudo guardar. Intenta de nuevo."
+        return
+    }
+
+    if (!data || data.length === 0) {
+        dialogoRevision.close()
+        await cargarContenido(clave)
+        mostrarAviso("El contenido cambió mientras lo revisabas (o ya no existe), así que no se guardó nada. Ábrelo de nuevo para revisar la versión actual.", "error")
+        return
+    }
+
+    dialogoRevision.close()
+    mostrarAviso(verificar ? "Marcado como verificado." : "Se quitó la verificación.", "exito")
+    await cargarContenido(clave)
+}
+
+document.getElementById("btn-verificar").addEventListener("click", function () { cambiarVerificacion(true) })
+document.getElementById("btn-quitar-verificacion").addEventListener("click", function () { cambiarVerificacion(false) })
+document.getElementById("btn-cerrar-revision").addEventListener("click", function () { dialogoRevision.close() })
 
 function abrirDialogo(clave, fila) {
     const cfg = CONTENIDOS[clave]
@@ -190,6 +315,7 @@ function abrirDialogo(clave, fila) {
     document.getElementById("titulo-dialogo").textContent = fila ? "Editar " + cfg.singular : cfg.nueva
     document.getElementById("etiqueta-cuerpo").textContent = cfg.etiquetaCuerpo
     document.getElementById("mensaje-dialogo").textContent = ""
+    document.getElementById("aviso-edicion").hidden = !(fila && fila.verificado === true)
 
     const selCategoria = document.getElementById("c-categoria")
     selCategoria.replaceChildren(el("option", { value: "", texto: "Selecciona…" }))
@@ -262,8 +388,16 @@ formContenido.addEventListener("submit", async function (evento) {
 
     const claveGuardada = edicion.clave
     const eraNueva = !edicion.fila
+    const estabaVerificada = !!edicion.fila && edicion.fila.verificado === true
     dialogo.close()
-    mostrarAviso(eraNueva ? "Se creó la " + cfg.singular + "." : "Cambios guardados.", "exito")
+    mostrarAviso(
+        eraNueva
+            ? "Se creó la " + cfg.singular + " (queda como No verificado)."
+            : estabaVerificada
+                ? "Cambios guardados. Volvió a No verificado: la profesional debe revisarlo de nuevo."
+                : "Cambios guardados.",
+        "exito"
+    )
     await cargarContenido(claveGuardada)
 })
 
@@ -426,7 +560,15 @@ async function cargarActividad() {
         return
     }
 
-    const verbos = { desactivar: "Desactivó", reactivar: "Reactivó", eliminar: "Eliminó" }
+    const verbos = {
+        desactivar: "Desactivó",
+        reactivar: "Reactivó",
+        eliminar: "Eliminó",
+        verificar: "Verificó",
+        quitar_verificacion: "Quitó la verificación de",
+        invalidar: "Editó (volvió a No verificado)"
+    }
+    const objetos = { guia_cuidado: "Guía", tip_cuidado: "Tip" }
     conteo.textContent = "Últimas " + data.length + " acciones de administración"
 
     const cuerpo = el("tbody")
@@ -436,7 +578,9 @@ async function cargarActividad() {
             el("td", { texto: formatearFecha(registro.creado_en) }),
             el("td", { texto: registro.admin_email || "—" }),
             el("td", { texto: verbos[registro.accion] || registro.accion }),
-            el("td", { texto: registro.objetivo_email || "—" })
+            el("td", { texto: registro.objeto_tipo
+                ? (objetos[registro.objeto_tipo] || registro.objeto_tipo) + ": " + (registro.detalle || "#" + registro.objeto_id)
+                : (registro.objetivo_email || "—") })
         ))
     })
 
@@ -445,7 +589,7 @@ async function cargarActividad() {
             el("th", { texto: "Fecha" }),
             el("th", { texto: "Administrador" }),
             el("th", { texto: "Acción" }),
-            el("th", { texto: "Cuenta afectada" })
+            el("th", { texto: "Elemento afectado" })
         )),
         cuerpo
     ))
@@ -498,6 +642,11 @@ async function iniciar() {
     }
 
     document.getElementById("panel").hidden = false
+
+    esVerificador = perfil.verificador === true
+    document.getElementById("rol-verificador").textContent = esVerificador
+        ? "Tu cuenta puede verificar contenido."
+        : "Tu cuenta no puede verificar: puedes revisar y editar, pero solo la profesional verifica."
 
     try {
         const [tipos, cats] = await Promise.all([cargarTiposAnimal(), cargarCategorias(null)])

@@ -51,7 +51,7 @@ async function cargarCategorias(idTipo) {
 // ---------------------------------------------------------------
 // BUSQUEDA DE CONTENIDO
 // ---------------------------------------------------------------
-// filtros = { idTipo, idCategoria, tipoCuidado, texto }  (todos opcionales)
+// filtros = { idTipo, idCategoria, tipoCuidado, texto, soloVerificados }  (todos opcionales)
 async function buscarContenido(tabla, campoTexto, filtros) {
     const idTipo      = filtros.idTipo
     const idCategoria = filtros.idCategoria
@@ -73,6 +73,7 @@ async function buscarContenido(tabla, campoTexto, filtros) {
         consulta = consulta.eq('categoria.id_tipo', idTipo)
     }
     if (tipoCuidado) consulta = consulta.eq('tipo', tipoCuidado)
+    if (filtros.soloVerificados) consulta = consulta.eq('verificado', true)
     if (texto)       consulta = consulta.or(`titulo.ilike.%${texto}%,${campoTexto}.ilike.%${texto}%`)
 
     const { data, error } = await consulta

@@ -93,13 +93,13 @@ async function obtenerUsuario() {
     return user
 }
 
-/** Perfil del usuario actual ({ nombre, rol, activo }) o null. */
+/** Perfil del usuario actual ({ nombre, rol, activo, verificador }) o null. */
 async function obtenerPerfil() {
     const usuario = await obtenerUsuario()
     if (!usuario) return null
     const { data } = await db
         .from('perfiles')
-        .select('nombre, rol, activo')
+        .select('nombre, rol, activo, verificador')
         .eq('id', usuario.id)
         .maybeSingle()
     return data

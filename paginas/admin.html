@@ -48,6 +48,13 @@
 
             <h1>Panel de administración</h1>
 
+            <p class="nota-verificacion">
+                Cada guía y tip debe ser revisado por la profesional. Hasta entonces figura como
+                <strong>No verificado</strong>. Si alguien edita un elemento ya verificado, vuelve a
+                <strong>No verificado</strong>.
+                <span id="rol-verificador"></span>
+            </p>
+
             <div class="pestanas" role="tablist" aria-label="Secciones de administración">
                 <button type="button" role="tab" id="pestana-guias" aria-controls="vista-guias" aria-selected="true" data-vista="guias">Guías</button>
                 <button type="button" role="tab" id="pestana-tips" aria-controls="vista-tips" aria-selected="false" tabindex="-1" data-vista="tips">Tips</button>
@@ -71,6 +78,11 @@
         <form id="form-contenido" method="dialog">
 
             <h2 id="titulo-dialogo">Nueva guía</h2>
+
+            <p id="aviso-edicion" class="aviso-verificacion" hidden>
+                Este elemento está verificado. Si guardas cambios, volverá a <strong>No verificado</strong>
+                y la profesional deberá revisarlo de nuevo.
+            </p>
 
             <div class="grupo-input">
                 <label for="c-titulo">Título</label>
@@ -100,6 +112,29 @@
             </div>
 
         </form>
+    </dialog>
+
+    <!-- REVISION Y VERIFICACION DE UNA GUIA O TIP -->
+    <dialog id="dialogo-revision" aria-labelledby="revision-titulo">
+        <p id="revision-objeto" class="eyebrow-dialogo"></p>
+        <h2 id="revision-titulo"></h2>
+
+        <p id="revision-meta" class="revision-meta"></p>
+
+        <div id="revision-cuerpo" class="revision-cuerpo" tabindex="0"></div>
+
+        <p id="revision-estado" class="revision-estado"></p>
+        <p id="revision-nota" class="nota-verificacion" hidden>
+            Solo las cuentas verificadoras (la profesional) pueden cambiar este estado.
+        </p>
+
+        <p id="mensaje-revision" class="aviso" role="alert"></p>
+
+        <div class="acciones-dialogo">
+            <button type="button" id="btn-cerrar-revision" class="btn-secundario">Cerrar</button>
+            <button type="button" id="btn-quitar-verificacion" class="btn-secundario" hidden>Quitar verificación</button>
+            <button type="button" id="btn-verificar" class="btn-principal" hidden>Verificar</button>
+        </div>
     </dialog>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>

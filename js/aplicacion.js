@@ -7,6 +7,7 @@ const selTipo         = document.getElementById('filtro-tipo')
 const selRaza         = document.getElementById('filtro-raza')
 const selCategoria    = document.getElementById('filtro-categoria')
 const selTipoCuidado  = document.getElementById('filtro-tipo-cuidado')
+const selVerificacion = document.getElementById('filtro-verificacion')
 const inpTexto        = document.getElementById('filtro-texto')
 const btnLimpiar      = document.getElementById('btn-limpiar')
 const estado          = document.getElementById('estado-resultados')
@@ -86,6 +87,15 @@ function crearTarjeta(item, campoCuerpo) {
     meta.textContent = [animal, categoria].filter(Boolean).join(' · ')
     resumen.appendChild(meta)
 
+    // Sello de verificación profesional (solo si la veterinaria ya revisó este contenido)
+    if (item.verificado === true) {
+        const sello = document.createElement('span')
+        sello.className = 'sello-verificado'
+        sello.textContent = '✓ Verificado'
+        sello.title = 'Revisado y aprobado por la veterinaria de InformaVet'
+        resumen.appendChild(sello)
+    }
+
     // Chevron
     const chevron = document.createElement('span')
     chevron.className = 'chevron'
@@ -100,6 +110,21 @@ function crearTarjeta(item, campoCuerpo) {
     cuerpo.className = 'tarjeta-cuerpo'
     cuerpo.textContent = item[campoCuerpo] || ''
     detalle.appendChild(cuerpo)
+
+    // Estado de la revisión (si la base de datos aún no tiene la columna, no se muestra nada)
+    if (item.verificado !== undefined) {
+        const pie = document.createElement('p')
+        pie.className = 'tarjeta-verificacion' + (item.verificado ? ' es-verificado' : '')
+        if (item.verificado) {
+            const fecha = item.verificado_en
+                ? ' el ' + new Date(item.verificado_en).toLocaleDateString('es-CL', { dateStyle: 'long' })
+                : ''
+            pie.textContent = '✓ Verificado por la veterinaria de InformaVet' + fecha + '.'
+        } else {
+            pie.textContent = 'Pendiente de revisión por la veterinaria. Úsalo como orientación general y consulta a tu veterinario.'
+        }
+        detalle.appendChild(pie)
+    }
 
     return detalle
 }
@@ -143,6 +168,7 @@ async function buscar() {
         idTipo:      obtenerIdTipo(),
         idCategoria: selCategoria.value ? Number(selCategoria.value) : null,
         tipoCuidado: selTipoCuidado.value,
+        soloVerificados: selVerificacion.value === 'si',
         texto:       inpTexto.value
     }
     estado.textContent = 'Buscando…'
@@ -203,6 +229,7 @@ async function limpiar() {
     selRaza.value         = ''
     selCategoria.value    = ''
     selTipoCuidado.value  = ''
+    selVerificacion.value = ''
     inpTexto.value        = ''
     llenarSelect(selRaza,      razasCache,      'id_raza',      'r_nombre',  'Todas las razas')
     llenarSelect(selCategoria, categoriasCache, 'id_categoria', 'ca_nombre', 'Todas las categorías')
@@ -234,6 +261,7 @@ async function iniciar() {
     selRaza.addEventListener('change', alCambiarRaza)
     selCategoria.addEventListener('change', buscar)
     selTipoCuidado.addEventListener('change', buscar)
+    selVerificacion.addEventListener('change', buscar)
     btnLimpiar.addEventListener('click', limpiar)
     formFiltros.addEventListener('submit', function (evento) {
         evento.preventDefault()

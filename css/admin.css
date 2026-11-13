@@ -285,6 +285,69 @@ td.acciones {
 .etiqueta-estado.activo { background-color: #dcfce7; color: #15803d; }
 .etiqueta-estado.inactivo { background-color: #fee2e2; color: #b91c1c; }
 .etiqueta-estado.admin { background-color: #fef3c7; color: #92400e; }
+.etiqueta-estado.verificado { background-color: #dcfce7; color: #15803d; }
+.etiqueta-estado.no-verificado { background-color: #fef3c7; color: #92400e; }
+
+.detalle-verificacion {
+    display: block;
+    margin-top: 4px;
+    font-size: 12px;
+    color: #665849;
+}
+
+/* Verificación: notas y diálogo de revisión */
+
+.nota-verificacion {
+    margin-bottom: 18px;
+    padding: 12px 16px;
+    background-color: #fff9e6;
+    border: 1px solid #f5c168;
+    border-radius: 10px;
+    font-size: 14px;
+    color: #665849;
+}
+
+.aviso-verificacion {
+    margin-bottom: 16px;
+    padding: 10px 14px;
+    background-color: #fef3c7;
+    border-radius: 8px;
+    font-size: 14px;
+    color: #92400e;
+}
+
+.eyebrow-dialogo {
+    margin-bottom: 4px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #92400e;
+}
+
+.revision-meta {
+    margin-bottom: 14px;
+    font-size: 14px;
+    color: #665849;
+}
+
+.revision-cuerpo {
+    margin-bottom: 16px;
+    padding: 16px;
+    max-height: 45vh;
+    overflow-y: auto;
+    background-color: #fff9e6;
+    border: 1px solid #f3e3b8;
+    border-radius: 10px;
+    line-height: 1.55;
+    white-space: pre-wrap;
+}
+
+.revision-estado {
+    margin-bottom: 14px;
+    font-size: 14px;
+    color: #665849;
+}
 
 .sin-resultados {
     padding: 28px;
