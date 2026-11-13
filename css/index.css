@@ -829,3 +829,21 @@ footer p {
 [hidden] {
     display: none !important;
 }
+
+/* logo principal */
+/* LOGO INFORMATVET EN LA BARRA */
+
+.navbar .logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    white-space: nowrap;
+    text-decoration: none;
+}
+
+.navbar .logo-icono {
+    width: 48px;
+    height: 48px;
+    object-fit: contain;
+    flex-shrink: 0;
+}
