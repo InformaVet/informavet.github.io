@@ -257,15 +257,26 @@ header {
     margin: 15px auto;
 }
 
-/* FOTOGRAFIA DE LA TARJETA */
+
+
+/* FOTOGRAFÍA DE LA TARJETA */
 
 .foto-mascota {
-    width: 120px;
-    height: 120px;
+    display: block;
+    width: 150px;
+    height: 150px;
     object-fit: cover;
+    object-position: center;
     border-radius: 50%;
     border: 3px solid #fce3a3;
-    margin-bottom: 15px;
+    margin: 0 auto 15px;
+}
+
+/* AGRANDAR SOLO LAS IMÁGENES PREDETERMINADAS */
+
+.foto-mascota.predeterminada {
+    object-fit: cover;
+    object-position: center;
 }
 
 /* BOTONES DEL FORMULARIO */
