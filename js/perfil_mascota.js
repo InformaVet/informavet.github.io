@@ -21,14 +21,14 @@ const selectCategoria = document.getElementById("categoria");
 const BUCKET_FOTOS = "fotos-mascotas";
 const LADO_MAXIMO_FOTO = 800;
 
-const iconos = {
-    Perro: "perro",
-    Gato: "gato",
-    Ave: "gallina",
-    Conejo: "conejo",
-    "Animal exótico": "exotico",
-    Otro: "otro"
+const imagenesDefault = {
+    "Perro": "../recursos/imagenes/3.png",
+    "Gato": "../recursos/imagenes/4.png",
+    "Ave": "../recursos/imagenes/5.png",
+    "Animal exótico": "../recursos/imagenes/6.png",
+    "Reptil": "../recursos/imagenes/7.png"
 };
+
 
 let usuario = null;
 let mascotas = [];
@@ -37,6 +37,14 @@ let idEditando = null;
 let fotoAnteriorPath = null;
 let urlTemporal = null;
 
+const iconos = {
+    "Perro": "🐶",
+    "Gato": "🐱",
+    "Ave": "🐦",
+    "Conejo": "🐰",
+    "Animal exótico": "🐾",
+    "Otro": "🐾"
+};
 
 
 /* CARGAR CATEGORIAS DESDE SUPABASE */
@@ -61,6 +69,7 @@ async function cargarCategoriasMascota(idSeleccionado = null) {
                 "Perro": "Canino",
                 "Gato": "Felino",
                 "Ave": "Ave",
+                "Reptil": "Reptil",
                 "Animal exótico": "Exótico"
             };
             const nombreTipo = equivalencias[selectEspecie.value];
@@ -286,6 +295,25 @@ function reiniciarFormulario() {
     btnCancelar.hidden = true;
 }
 
+//cambia texto del formulario de raza según especie seleccionada
+
+function actualizarLabelRaza() {
+    const especie = document.getElementById("especie").value;
+    const label = document.getElementById("label-raza");
+    const input = document.getElementById("raza");
+
+    if (especie === "Animal exótico" || especie === "Ave") {
+        label.textContent = "Especie específica";
+        input.placeholder = "Ej: Hurón, Conejo, Erizo";
+    } else {
+        label.textContent = "Raza o variedad";
+        input.placeholder = "Ej: Siamés, Mestizo";
+    }
+}
+
+document.getElementById("especie")
+    .addEventListener("change", actualizarLabelRaza);
+
 // MOSTRAR PERFILES
 
 function mostrarMascotas() {
@@ -298,19 +326,25 @@ function mostrarMascotas() {
         const tarjeta = document.createElement("article");
         tarjeta.className = "tarjeta-mascota";
 
-        let imagen;
         const urlFoto = urlsFotos[mascota.foto_path];
 
-        if (urlFoto) {
-            imagen = document.createElement("img");
-            imagen.src = urlFoto;
-            imagen.alt = "Foto de " + mascota.m_nombre;
-            imagen.className = "foto-mascota";
-        } else {
-            imagen = document.createElement("div");
-            imagen.className = "icono-mascota";
-            imagen.textContent = iconos[mascota.especie] || "🐾";
-        }
+        const imagenDefault =
+            imagenesDefault[mascota.especie] ||
+            "../recursos/imagenes/default-exotico.png";
+
+        const imagen = document.createElement("img");
+
+        imagen.className = "foto-mascota";
+        imagen.alt = "Foto de " + mascota.m_nombre;
+
+        // Mostrar foto del usuario o imagen predeterminada
+        imagen.src = urlFoto || imagenDefault;
+
+        // Si la fotografía falla, mostrar imagen predeterminada
+        imagen.onerror = function() {
+            this.onerror = null;
+            this.src = imagenDefault;
+        };
 
         const titulo = document.createElement("h3");
         titulo.textContent = mascota.m_nombre;
@@ -319,7 +353,7 @@ function mostrarMascotas() {
 
         detalles.textContent =
             "Tipo: " + mascota.especie +
-            "\nRaza: " + (mascota.raza || "No especificada") +
+            "\n" + (mascota.especie === "Animal exótico" || mascota.especie === "Ave"? "Especie: ": "Raza: ") +(mascota.raza || "No especificada") +
             "\nEdad: " + mascota.m_edad + " años" +
             "\nPeso: " + (
                 mascota.m_peso ? mascota.m_peso + " kg" : "No indicado"
