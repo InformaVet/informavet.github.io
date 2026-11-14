@@ -61,11 +61,8 @@ async function cargarCategoriasMascota(idSeleccionado = null) {
                 "Perro": "Canino",
                 "Gato": "Felino",
                 "Ave": "Ave",
-                "Conejo": "Conejo",
-                "Animal exótico": "Exótico",
-                "Otro": "Otro"
+                "Animal exótico": "Exótico"
             };
-
             const nombreTipo = equivalencias[selectEspecie.value];
 
             const tipo = tipos.find(function(t) {
