@@ -1615,3 +1615,529 @@ footer p {
 .animal-inicio:hover .animal-accion {
     background-color: #d97706;
 }
+
+/* ============================================================
+   SERVICIOS DENTRO DEL BANNER PRINCIPAL
+   ============================================================ */
+
+.hero-inicio > .servicios-inicio {
+    width: 100%;
+    margin: 0;
+    padding: 30px 35px 30px 0;
+}
+
+.hero-inicio .encabezado-servicios {
+    margin-bottom: 18px;
+}
+
+.hero-inicio .encabezado-servicios h2 {
+    font-size: 23px;
+}
+
+.hero-inicio .encabezado-servicios p {
+    font-size: 13px;
+    margin-bottom: 0;
+}
+
+/* Distribución vertical */
+
+.hero-inicio .grid-servicios {
+    grid-template-columns: 1fr;
+    gap: 12px;
+}
+
+/* Tarjetas compactas */
+
+.hero-inicio .servicio-inicio {
+    display: grid;
+    grid-template-columns: 48px minmax(0, 1fr);
+    align-items: center;
+    gap: 6px 16px;
+
+    padding: 18px;
+    border-radius: 14px;
+}
+
+.hero-inicio .servicio-icono {
+    grid-column: 1;
+    grid-row: 1 / 4;
+
+    width: 48px;
+    height: 48px;
+}
+
+.hero-inicio .servicio-inicio h3 {
+    grid-column: 2;
+    font-size: 16px;
+}
+
+.hero-inicio .servicio-inicio p {
+    grid-column: 2;
+    font-size: 13px;
+    margin-bottom: 0;
+    line-height: 1.5;
+}
+
+.hero-inicio .servicio-enlace {
+    grid-column: 2;
+
+    border-top: none;
+    padding-top: 4px;
+
+    font-size: 12px;
+}
+
+/* ============================================================
+   SECCIÓN DE ANIMALES
+   ============================================================ */
+
+.seccion-animales {
+    max-width: 1200px;
+    margin: 55px auto;
+    padding: 0 20px;
+}
+
+.seccion-animales > h2 {
+    font-size: 28px;
+    color: #92400e;
+    margin: 8px 0;
+}
+
+.seccion-animales > p {
+    font-size: 14px;
+    color: #665849;
+    margin-bottom: 25px;
+}
+
+/* Cinco columnas */
+
+.seccion-animales .selector-animales {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 18px;
+}
+
+/* Tarjetas de animales */
+
+.seccion-animales .animal-inicio {
+    padding: 20px 12px;
+    gap: 14px;
+}
+
+/* Fotografías más grandes */
+
+.seccion-animales .animal-inicio img {
+    width: 150px;
+    max-width: 100%;
+    height: auto;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    border-radius: 12px;
+}
+
+/* Todos los animales tendrán el mismo tamaño */
+
+.seccion-animales .animal-exotico {
+    grid-column: auto;
+    flex-direction: column;
+}
+
+.seccion-animales .animal-info {
+    text-align: center;
+    gap: 12px;
+}
+
+.seccion-animales .animal-info > span:first-child {
+    font-size: 16px;
+}
+
+/* TABLETS */
+
+@media (max-width: 1000px) {
+
+    .seccion-animales .selector-animales {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+}
+
+@media (max-width: 950px) {
+
+    .hero-inicio > .servicios-inicio {
+        padding: 0 35px 30px;
+    }
+
+}
+
+/* CELULARES */
+
+@media (max-width: 650px) {
+
+    .hero-inicio > .servicios-inicio {
+        padding: 0 20px 24px;
+    }
+
+    .seccion-animales .selector-animales {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+    }
+
+    .seccion-animales .animal-inicio img {
+        width: 110px;
+    }
+
+    .seccion-animales > h2 {
+        font-size: 24px;
+    }
+
+}
+
+@media (max-width: 380px) {
+
+    .seccion-animales .selector-animales {
+        grid-template-columns: 1fr;
+    }
+
+}
+
+/* ============================================================
+   SOBRE NOSOTROS
+   ============================================================ */
+
+.sobre-nosotros {
+    max-width: 1200px;
+    margin: 60px auto;
+    padding: 0 20px;
+}
+
+/* PRESENTACIÓN DEL PROYECTO */
+
+.nosotros-presentacion {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    align-items: center;
+    gap: 35px;
+
+    background-color: white;
+    border: 1px solid #fce3a3;
+    border-radius: 24px;
+    padding: 40px;
+}
+
+.nosotros-texto h2 {
+    color: #92400e;
+    font-size: clamp(26px, 3vw, 36px);
+    line-height: 1.3;
+    margin: 12px 0 20px;
+}
+
+.nosotros-texto p {
+    color: #665849;
+    font-size: 15px;
+    line-height: 1.8;
+    margin-bottom: 18px;
+}
+
+/* Fotografías de presentación */
+
+.nosotros-imagenes {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+}
+
+.nosotros-imagenes img {
+    width: 100%;
+    height: 230px;
+    object-fit: cover;
+    border-radius: 18px;
+}
+
+.nosotros-imagenes img:last-child {
+    margin-top: 35px;
+}
+
+
+/* ============================================================
+   EQUIPO DE DESARROLLO
+   ============================================================ */
+
+.equipo-desarrollo {
+    margin-top: 45px;
+}
+
+.equipo-encabezado {
+    margin-bottom: 25px;
+}
+
+.equipo-encabezado h2 {
+    color: #92400e;
+    font-size: 28px;
+    margin: 10px 0;
+}
+
+.equipo-encabezado p {
+    color: #665849;
+    font-size: 14px;
+}
+
+/* Distribución de los integrantes */
+
+.grid-equipo {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 16px;
+}
+
+/* Tarjetas individuales */
+
+.integrante {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+
+    background-color: white;
+    border: 1px solid #fce3a3;
+    border-radius: 18px;
+
+    padding: 25px 15px;
+    text-align: center;
+
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+.equipo-foto {
+    width: 110px;
+    height: 110px;
+    flex-shrink: 0;
+
+    background-color: #ffebad;
+    border: 3px solid white;
+    border-radius: 50%;
+
+    object-fit: cover;
+}
+
+/* Icono provisional mientras agregamos fotografías */
+
+div.equipo-foto {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23d97706' stroke-width='1.5' stroke-linecap='round'%3E%3Ccircle cx='12' cy='7' r='4'/%3E%3Cpath d='M4 21v-2a8 8 0 0 1 16 0v2'/%3E%3C/svg%3E");
+    background-size: 55%;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.integrante h3 {
+    color: #92400e;
+    font-size: 16px;
+    line-height: 1.4;
+}
+
+.integrante-carrera {
+    color: #665849;
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+.integrante-rol {
+    display: inline-block;
+
+    background-color: #ffebad;
+    color: #92400e;
+    border-radius: 20px;
+
+    margin-top: auto;
+    padding: 7px 12px;
+
+    font-size: 11px;
+    font-weight: 600;
+}
+
+@media (hover: hover) {
+
+    .integrante:hover {
+        transform: translateY(-4px);
+
+        box-shadow:
+            0 8px 20px rgba(146, 64, 14, 0.08);
+    }
+
+}
+
+
+/* ============================================================
+   PROFESIONAL VETERINARIA
+   ============================================================ */
+
+.profesional-veterinaria {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+
+    margin-top: 35px;
+    padding: 30px;
+
+    background-color: white;
+    border: 1px solid #bbdfc5;
+    border-radius: 20px;
+}
+
+.veterinaria-foto {
+    width: 150px;
+    height: 150px;
+    background-color: #dcfce7;
+}
+
+.veterinaria-sello {
+    display: inline-block;
+
+    padding: 7px 12px;
+    border-radius: 20px;
+
+    background-color: #dcfce7;
+    color: #15803d;
+
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.veterinaria-informacion h2 {
+    color: #92400e;
+    font-size: 25px;
+    margin: 12px 0 5px;
+}
+
+.veterinaria-profesion {
+    font-weight: 700;
+    margin-bottom: 12px;
+}
+
+.veterinaria-informacion p {
+    color: #665849;
+    font-size: 14px;
+    line-height: 1.7;
+}
+
+
+/* ============================================================
+   COMUNIDAD
+   ============================================================ */
+
+.nosotros-comunidad {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 30px;
+
+    margin-top: 35px;
+    padding: 35px;
+
+    background-color: #ffebad;
+    border: 1px solid #fce3a3;
+    border-radius: 20px;
+}
+
+.comunidad-texto {
+    max-width: 750px;
+}
+
+.comunidad-texto h2 {
+    color: #92400e;
+    font-size: 28px;
+    margin: 10px 0 15px;
+}
+
+.comunidad-texto p {
+    color: #665849;
+    font-size: 15px;
+    line-height: 1.7;
+    margin-bottom: 20px;
+}
+
+.comunidad-icono {
+    width: 100px;
+    height: 100px;
+    color: #d97706;
+    flex-shrink: 0;
+}
+
+/* TABLETS */
+
+@media (max-width: 1000px) {
+
+    .grid-equipo {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .nosotros-presentacion {
+        grid-template-columns: 1fr;
+    }
+
+    .nosotros-imagenes img {
+        height: 230px;
+    }
+
+    .nosotros-imagenes img:last-child {
+        margin-top: 0;
+    }
+
+}
+
+/* CELULARES */
+
+@media (max-width: 650px) {
+
+    .sobre-nosotros {
+        margin: 35px auto;
+    }
+
+    .nosotros-presentacion {
+        padding: 24px;
+        gap: 20px;
+    }
+
+    .nosotros-imagenes img {
+        height: 170px;
+    }
+
+    .grid-equipo {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+    }
+
+    .integrante {
+        padding: 20px 10px;
+    }
+
+    .equipo-foto {
+        width: 90px;
+        height: 90px;
+    }
+
+    .profesional-veterinaria,
+    .nosotros-comunidad {
+        flex-direction: column;
+        text-align: center;
+        padding: 24px;
+    }
+
+    .veterinaria-foto {
+        width: 120px;
+        height: 120px;
+    }
+
+    .comunidad-icono {
+        display: none;
+    }
+
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+    .integrante {
+        transition: none;
+    }
+
+}
