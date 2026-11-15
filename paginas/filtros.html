@@ -72,24 +72,67 @@
     <main>
         <!-- GUIAS Y TIPS CON FILTROS -->
         <section class="guias" id="guias">
-            <div class="encabezado-seccion">
-                <span class="subtitulo">
-                    GUÍAS Y CONSEJOS
-                </span>
-                <h2 id="titulo-cuidados">
+            <div class="encabezado-seccion encabezado-cuidados">
+
+    <div class="cuidados-texto">
+
+        <span class="subtitulo">
+            GUÍAS Y CONSEJOS
+        </span>
+
+        <h2 id="titulo-cuidados">
             Encuentra información para tu mascota
-            </h2>
+        </h2>
+
+        <p>
+            Descubre recomendaciones de alimentación,
+            salud y bienestar para cuidar a quienes
+            más quieres.
+        </p>
+
+    </div>
+
+            <div class="cuidados-imagenes" aria-hidden="true">
+
+                <img src="../recursos/imagenes/3.png"
+                    class="imagen-perro" alt="">
+
+                <img src="../recursos/imagenes/4.png"
+                    class="imagen-gato" alt="">
+
+                <img src="../recursos/imagenes/5.png"
+                    class="imagen-ave" alt="">
+
+                <img src="../recursos/imagenes/6.png"
+                    class="imagen-exotico" alt="">
+
+                <img src="../recursos/imagenes/7.png"
+                    class="imagen-reptil" alt="">
+
+            </div>
 
             <script>
-                const especieTitulo = document.documentElement.dataset.especie;
+                const especieTitulo =
+                    document.documentElement.dataset.especie;
 
                 if (especieTitulo) {
                     document.getElementById("titulo-cuidados").textContent =
                         "Cuidados para " + especieTitulo;
                 }
             </script>
+
             </div>
             <form class="filtros" id="form-filtros">
+            <div class="filtros-encabezado">
+
+                <h3>Personaliza tu búsqueda</h3>
+
+                <p>
+                    Encuentra información según las
+                    necesidades de tu mascota.
+                </p>
+
+            </div>
             <label id="campo-animal">
                 Animal
                 <select id="filtro-tipo">
@@ -133,23 +176,165 @@
                 </label>
                 <label class="filtro-texto">
                     Buscar
-                    <input type="search" id="filtro-texto" placeholder="Ej: vacunas, alimentación">
-                </label>
+
+                    <div class="campo-busqueda">
+
+                        <svg class="icono-busqueda"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            aria-hidden="true">
+
+                            <circle cx="11" cy="11" r="7"/>
+                            <path d="m20 20-4-4"/>
+
+                        </svg>
+
+                        <input type="search"
+                            id="filtro-texto"
+                            placeholder="Ej: vacunas, alimentación">
+
+                    </div>
+            </label>
                 <div class="filtros-botones">
-                    <button type="submit" class="btn-principal">Buscar</button>
-                    <button type="button" class="btn-secundario" id="btn-limpiar">Limpiar</button>
+
+                    <button type="button"
+                            class="btn-secundario"
+                            id="btn-limpiar">
+
+                        <svg viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            aria-hidden="true">
+
+                            <path d="M3 12a9 9 0 1 1 9 9"/>
+                            <path d="M3 4v8h8"/>
+
+                        </svg>
+
+                        Limpiar
+                    </button>
+
+                    <button type="submit"
+                            class="btn-principal">
+
+                        <svg viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            aria-hidden="true">
+
+                            <circle cx="11" cy="11" r="7"/>
+                            <path d="m20 20-4-4"/>
+
+                        </svg>
+
+                        Buscar cuidados
+                    </button>
+
                 </div>
             </form>
-            <p class="estado-resultados" id="estado-resultados" role="status" aria-live="polite">
-                Cargando...
-            </p>
-            <div class="bloque-resultados" hidden>
-                <h3><span></span> Guías de cuidado</h3>
-                <div class="grid-resultados" id="resultados-guias"></div>
+            <div class="filtros-activos"
+                id="filtros-activos"
+                hidden>
             </div>
-            <div class="bloque-resultados" hidden>
-                <h3><span></span> Tips de cuidado</h3>
-                <div class="grid-resultados" id="resultados-tips"></div>
+            <!-- ENCABEZADO DE RESULTADOS -->
+
+            <div class="encabezado-resultados">
+
+                <div class="resultados-texto">
+
+                    <h2 class="titulo-resultados">
+                        Explora los cuidados de tu mascota
+                    </h2>
+
+                    <p class="estado-resultados"
+                    id="estado-resultados"
+                    role="status"
+                    aria-live="polite">
+                        Cargando...
+                    </p>
+
+                </div>
+
+                <div class="navegacion-resultados"
+                    id="navegacion-resultados"
+                    role="group"
+                    aria-label="Tipo de resultado"
+                    hidden>
+
+                    <button type="button"
+                            data-vista="todos"
+                            aria-pressed="true">
+                        Todos
+                    </button>
+
+                    <button type="button"
+                            data-vista="guias"
+                            aria-pressed="false">
+                        Guías
+                    </button>
+
+                    <button type="button"
+                            data-vista="tips"
+                            aria-pressed="false">
+                        Consejos
+                    </button>
+
+                </div>
+
+            </div>
+
+            <!-- ANIMACIÓN DE CARGA -->
+
+            <div id="carga-resultados"
+                class="carga-resultados"
+                aria-hidden="true">
+
+                <div class="tarjeta-carga"></div>
+                <div class="tarjeta-carga"></div>
+                <div class="tarjeta-carga"></div>
+
+            </div>
+
+            <!-- SIN RESULTADOS -->
+
+            <div id="sin-resultados"
+                class="sin-resultados"
+                hidden>
+
+                <svg viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.5"
+                    stroke-linecap="round"
+                    aria-hidden="true">
+
+                    <circle cx="10" cy="10" r="7"/>
+                    <path d="m15 15 6 6"/>
+                    <path d="m8 8 4 4 M12 8l-4 4"/>
+
+                </svg>
+
+                <h3>No encontramos coincidencias</h3>
+
+                <p>
+                    Intenta cambiar algunos filtros
+                    o seleccionar otro tipo de contenido.
+                </p>
+
+            </div>
+            <!-- CATEGORÍAS DE CUIDADO -->
+
+            <div class="grupos-cuidados"
+                id="grupos-cuidados"
+                hidden>
             </div>
         </section>
     </main>
