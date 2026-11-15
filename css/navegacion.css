@@ -1,0 +1,25 @@
+/* INDICADOR DE PÁGINA ACTIVA */
+
+.nav-links a {
+    position: relative;
+}
+
+.nav-links a[aria-current] {
+    color: #92400e;
+}
+
+/* Línea inferior */
+
+.nav-links a[aria-current]::after {
+    content: "";
+
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -6px;
+
+    height: 2px;
+
+    background-color: #d97706;
+    border-radius: 4px;
+}

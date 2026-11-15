@@ -99,10 +99,11 @@ html.especie-fija .cuidados-imagenes img {
     display: none;
 }
 
-html[data-especie="perros"] .imagen-perro,
-html[data-especie="gatos"] .imagen-gato,
-html[data-especie="aves"] .imagen-ave,
-html[data-especie="reptiles"] .imagen-reptil {
+html[data-especie="perros"] .cuidados-imagenes .imagen-perro,
+html[data-especie="gatos"] .cuidados-imagenes .imagen-gato,
+html[data-especie="aves"] .cuidados-imagenes .imagen-ave,
+html[data-especie="reptiles"] .cuidados-imagenes .imagen-reptil,
+html[data-especie="exoticos"] .cuidados-imagenes .imagen-exotico {
     display: block;
     width: 170px;
     height: 170px;

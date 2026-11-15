@@ -1,3 +1,10 @@
+// Determinar la raíz del proyecto
+
+const raizNavegacion = new URL(
+    "../",
+    document.currentScript.src
+);
+
 
 async function configurarNavegacion() {
 
@@ -7,59 +14,98 @@ async function configurarNavegacion() {
     const enlaceCuenta =
         document.getElementById("enlace-cuenta");
 
-    if (!enlaceMascotas || !enlaceCuenta) {
-        console.error("No se encontraron los enlaces de navegación");
-        return;
+    const enlaceServicioMascotas =
+        document.getElementById("enlace-servicio-mascotas");
+
+    if (!enlaceMascotas || !enlaceCuenta) return;
+
+
+    const urlLogin = new URL(
+        "paginas/login.html",
+        raizNavegacion
+    );
+
+    if (window.location.pathname.endsWith("/identificador.html")) {
+        urlLogin.searchParams.set("destino", "identificador");
     }
 
+    const urlMascotas = new URL(
+        "paginas/perfil_mascota.html",
+        raizNavegacion
+    );
+
+
     try {
+
         const usuario = await obtenerUsuario();
 
         if (usuario) {
 
-            enlaceMascotas.href =
-                "paginas/perfil_mascota.html";
+            enlaceMascotas.href = urlMascotas.href;
+
+            if (enlaceServicioMascotas) {
+                enlaceServicioMascotas.href = urlMascotas.href;
+            }
 
             enlaceCuenta.textContent = "Cerrar sesión";
             enlaceCuenta.href = "#";
 
-            enlaceCuenta.addEventListener("click", async function(event) {
+            enlaceCuenta.addEventListener("click", async evento => {
 
-                event.preventDefault();
+                evento.preventDefault();
 
                 const { error } = await cerrarSesion();
 
                 if (error) {
-                    console.error("Error al cerrar sesión:", error);
+
+                    console.error(error);
+
                     alert("No se pudo cerrar la sesión");
+
                     return;
+
                 }
 
-                window.location.href = "../";
+                window.location.href = raizNavegacion.href;
 
             });
 
-            // Enlace al panel solo para administradores (la seguridad real
-            // está en la base de datos; esto solo evita mostrar un enlace inútil)
+            // PANEL DE ADMINISTRACIÓN
+
             if (await esAdmin()) {
-                const enlaceAdmin = document.createElement("a");
-                enlaceAdmin.href = "paginas/admin.html";
+
+                const enlaceAdmin =
+                    document.createElement("a");
+
+                enlaceAdmin.href = new URL(
+                    "paginas/admin.html",
+                    raizNavegacion
+                ).href;
+
                 enlaceAdmin.textContent = "Administración";
+
                 enlaceMascotas.after(enlaceAdmin);
+
             }
 
         } else {
 
-            enlaceMascotas.href = "paginas/login.html";
+            enlaceMascotas.href = new URL(
+                "paginas/login.html",
+                raizNavegacion
+            ).href;
 
             enlaceCuenta.textContent = "Iniciar Sesión";
-            enlaceCuenta.href = "paginas/login.html";
+            enlaceCuenta.href = urlLogin.href;
 
         }
 
     } catch (error) {
+
         console.error("Error de autenticación:", error);
+
     }
+
 }
 
 configurarNavegacion();

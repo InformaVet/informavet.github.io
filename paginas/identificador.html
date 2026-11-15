@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Identificador IA - InformaVet</title>
+
+    <link rel="manifest" href="../manifest.webmanifest">
+
+    <meta name="theme-color" content="#f59e0b">
+
+    <link rel="icon"
+          href="../recursos/iconos/favicon_informavet.ico">
+
+    <link rel="apple-touch-icon"
+          href="../recursos/iconos/apple-touch-icon.png">
+
+    <link rel="stylesheet" href="../css/index.css">
+    <link rel="stylesheet" href="../css/identificador.css">
+    <link rel="stylesheet" href="../css/navegacion.css">
+
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;800;900&display=swap"
+          rel="stylesheet">
+
+</head>
+
+<body>
+
+    <!-- BARRA DE NAVEGACIÓN -->
+
+    <header>
+
+        <nav class="navbar">
+
+            <a href="../" class="logo">
+
+                <img src="../recursos/iconos/logo_informavet_optimizado.png"
+                     class="logo-icono"
+                     alt="">
+
+                <span>InformaVet</span>
+
+            </a>
+
+            <div class="nav-links">
+
+                <a href="../">Inicio</a>
+
+                <a href="filtros.html">Cuidados</a>
+
+                <a href="identificador.html"
+                   aria-current="page">
+                    Identificador IA
+                </a>
+
+                <a href="../#beneficios">
+                    Nuestros Servicios
+                </a>
+
+                <a href="../#contacto">Contacto</a>
+
+                <a href="login.html"
+                   id="enlace-mascotas">
+                    Mis mascotas
+                </a>
+
+            </div>
+
+            <div class="nav-cuenta">
+
+                <a href="login.html"
+                   class="btn-login"
+                   id="enlace-cuenta">
+                    Iniciar Sesión
+                </a>
+
+            </div>
+
+        </nav>
+
+    </header>
+
+    <main class="identificador">
+
+        <!-- ENCABEZADO PRINCIPAL -->
+
+        <section class="ia-encabezado">
+
+            <span class="etiqueta">
+                INTELIGENCIA ARTIFICIAL
+            </span>
+
+            <h1>Descubre la raza de tu mascota</h1>
+
+            <p>
+                Conoce su posible raza, características y cuidados
+                recomendados a partir de una fotografía.
+            </p>
+
+        </section>
+
+        <!-- HERRAMIENTA IA -->
+
+        <div class="ia-grid">
+
+            <!-- CARGA DE IMAGEN -->
+
+            <section class="ia-panel">
+
+                <h2>Identifica a tu mascota</h2>
+
+                <div class="ia-zona-carga"
+                     id="zona-carga">
+
+                    <svg viewBox="0 0 24 24"
+                         fill="none"
+                         stroke="currentColor"
+                         stroke-width="1.5"
+                         stroke-linecap="round"
+                         stroke-linejoin="round"
+                         aria-hidden="true">
+
+                        <path d="M12 16V4"/>
+                        <path d="m7 9 5-5 5 5"/>
+                        <path d="M4 16v5h16v-5"/>
+
+                    </svg>
+
+                    <h3>Sube una fotografía</h3>
+
+                    <p>
+                        Arrastra una imagen aquí o
+                        selecciónala desde tu dispositivo.
+                    </p>
+
+                    <button type="button"
+                            class="btn-principal"
+                            id="etiquetaSubirFoto"
+                            hidden>
+
+                        Seleccionar imagen
+
+                    </button>
+
+                    <a href="login.html?destino=identificador"
+                       class="btn-principal"
+                       id="loginParaIA"
+                       hidden>
+
+                        Inicia sesión para continuar
+
+                    </a>
+
+                    <input type="file"
+                           id="fotoMascotaInput"
+                           accept="image/jpeg,image/png,image/webp"
+                           hidden>
+
+                    <small>JPG, PNG o WebP · Máximo 10 MB</small>
+
+                </div>
+
+                <img id="previewFoto"
+                     class="ia-vista-previa"
+                     alt="Fotografía seleccionada">
+
+                <div class="ia-cargando"
+                     id="cargandoIA"
+                     aria-hidden="true"
+                     hidden>
+                </div>
+
+                <p id="estadoCarga"
+                   class="ia-estado"
+                   role="status"
+                   aria-live="polite">
+                    Comprobando sesión...
+                </p>
+
+            </section>
+
+            <!-- INSTRUCCIONES -->
+
+            <section class="ia-panel">
+
+                <h2>¿Cómo funciona?</h2>
+
+                <div class="ia-pasos">
+
+                    <div class="ia-paso">
+
+                        <span>1</span>
+
+                        <div>
+                            <h3>Sube una fotografía</h3>
+                            <p>Selecciona una imagen clara de tu perro o gato.</p>
+                        </div>
+
+                    </div>
+
+                    <div class="ia-paso">
+
+                        <span>2</span>
+
+                        <div>
+                            <h3>Analizamos sus características</h3>
+                            <p>La inteligencia artificial procesa la imagen.</p>
+                        </div>
+
+                    </div>
+
+                    <div class="ia-paso">
+
+                        <span>3</span>
+
+                        <div>
+                            <h3>Descubre su posible raza</h3>
+                            <p>Obtén información sobre su raza y características.</p>
+                        </div>
+
+                    </div>
+
+                    <div class="ia-paso">
+
+                        <span>4</span>
+
+                        <div>
+                            <h3>Explora sus cuidados</h3>
+                            <p>Encuentra recomendaciones para su especie.</p>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+        </div>
+
+        <!-- RESULTADOS DE LA IDENTIFICACIÓN -->
+
+        <section id="resultadoIdentificacion"
+                 class="ia-resultado">
+
+            <span class="ia-sello">
+                ✓ Análisis completado
+            </span>
+
+            <p class="ia-etiqueta">Raza estimada</p>
+
+            <h2 id="resRaza"></h2>
+
+            <div class="ia-caracteristicas">
+
+                <div class="ia-dato">
+                    <span>Especie</span>
+                    <strong id="resAnimal"></strong>
+                </div>
+
+                <div class="ia-dato">
+                    <span>Patrón / Pelaje</span>
+                    <strong id="resPatron"></strong>
+                </div>
+
+                <div class="ia-dato">
+                    <span>Temperamento</span>
+                    <strong id="resTemperamento"></strong>
+                </div>
+
+                <div class="ia-dato">
+                    <span>Esperanza de vida</span>
+                    <strong id="resEsperanza"></strong>
+                </div>
+
+                <div class="ia-dato">
+                    <span>Origen</span>
+                    <strong id="resOrigen"></strong>
+                </div>
+
+            </div>
+
+            <div class="ia-acciones">
+
+                <button type="button"
+                        class="btn-secundario"
+                        id="btnOtraFoto">
+
+                    Analizar otra fotografía
+
+                </button>
+
+                <a href="filtros.html"
+                   class="btn-principal"
+                   id="enlaceCuidadosIA"
+                   hidden>
+
+                    Explorar cuidados recomendados
+
+                </a>
+
+            </div>
+
+        </section>
+
+        <!-- AVISO INFORMATIVO -->
+
+        <aside class="ia-aviso">
+
+            <strong>Información importante</strong>
+
+            <p>
+                La identificación de raza mediante inteligencia
+                artificial es una estimación y no reemplaza
+                la evaluación de un profesional veterinario.
+            </p>
+
+        </aside>
+
+    </main>
+
+    <!-- PIE DE PÁGINA -->
+
+    <footer>
+
+        <p>InformaVet - Proyecto de cuidado veterinario</p>
+
+        <p>informavetchile@gmail.com</p>
+
+    </footer>
+
+    <!-- SCRIPTS -->
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <script src="../js/configuracion/cliente-supabase.js"></script>
+
+    <script src="../js/servicios/funciones.js"></script>
+
+    <script src="../js/auth/autenticacion.js"></script>
+
+    <script src="../js/navegacion-sesion.js"></script>
+
+    <script src="../js/servicios/fotos.js"></script>
+
+    <script src="../js/identificador.js"></script>
+
+    <script src="../js/pwa.js"></script>
+
+</body>
+
+</html>

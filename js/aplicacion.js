@@ -843,7 +843,8 @@ async function iniciar() {
             Canino: "perros",
             Felino: "gatos",
             Ave: "aves",
-            Reptil: "reptiles"
+            Reptil: "reptiles",
+            "Exótico": "animales exóticos"
         };
 
         if (titulo) {

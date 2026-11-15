@@ -27,7 +27,8 @@
             Canino: "perros",
             Felino: "gatos",
             Ave: "aves",
-            Reptil: "reptiles"
+            Reptil: "reptiles",
+            "Exótico": "exoticos"
         };
 
         if (Object.hasOwn(nombresEspecies, especieInicial)) {
@@ -40,6 +41,7 @@
 
     <link rel="stylesheet" href="../css/index.css">
     <link rel="stylesheet" href="../css/filtros.css">
+    <link rel="stylesheet" href="../css/navegacion.css">
 </head>
 
 <body>
@@ -58,7 +60,12 @@
             </a>
                         <div class="nav-links">
                 <a href="../#inicio">Inicio</a>
-                <a href="filtros.html">Cuidados</a>
+                <a href="filtros.html" aria-current="page">
+                    Cuidados
+                </a>
+                <a href="identificador.html">
+                    Identificador IA
+                </a>
                 <a href="../#beneficios">Nuestros Servicios</a>
                 <a href="../#contacto">Contacto</a>
             </div>
@@ -117,7 +124,10 @@
 
                 if (especieTitulo) {
                     document.getElementById("titulo-cuidados").textContent =
-                        "Cuidados para " + especieTitulo;
+                        "Cuidados para " +
+                        (especieTitulo === "exoticos"
+                            ? "animales exóticos"
+                            : especieTitulo);
                 }
             </script>
 

@@ -12,6 +12,7 @@
       href="recursos/iconos/favicon_informavet.ico?v=6">
     <link rel="apple-touch-icon" href="recursos/iconos/apple-touch-icon.png">
     <link rel="stylesheet" href="css/index.css?v=10">
+    <link rel="stylesheet" href="css/navegacion.css">
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;800;900&display=swap" rel="stylesheet">
 </head>
 
@@ -33,6 +34,9 @@
             <div class="nav-links">
                 <a href="#inicio">Inicio</a>
                 <a href="paginas/filtros.html">Cuidados</a>
+                <a href="paginas/identificador.html">
+                    Identificador IA
+                </a>
                 <a href="#beneficios">Nuestros Servicios</a>
                 <a href="#contacto">Contacto</a>
                 <a href="paginas/login.html" id="enlace-mascotas">Mis mascotas</a>
@@ -52,7 +56,8 @@
     <main>
 
         <!-- PRESENTACION PRINCIPAL -->
-        <section class="hero" id="inicio">
+
+        <section class="hero hero-inicio" id="inicio">
 
             <div class="hero-texto">
 
@@ -66,206 +71,280 @@
                 </h1>
 
                 <p>
-                    Descubre consejos, guías e información
-                    veterinaria para cuidar la salud y
-                    el bienestar de tus animales.
+                    Descubre información veterinaria,
+                    recomendaciones y herramientas para
+                    acompañar a tu mascota durante toda su vida.
                 </p>
 
                 <div class="hero-botones">
 
-                    <a href="#categorias" class="btn-principal">
+                    <a href="paginas/filtros.html"
+                    class="btn-principal">
                         Explorar cuidados
                     </a>
 
-                    <a href="#nosotros" class="btn-secundario">
+                    <a href="#nosotros"
+                    class="btn-secundario">
                         Conocer más
                     </a>
 
                 </div>
+
             </div>
 
-            <!-- Modificar imagen qlia fea
-            <div class="hero-imagen">
-                <img src="recursos/imagenes/grupoMascotas1.png" alt="grupoMascotas" class="imagen-hero">
+            <!-- SELECTOR DE ANIMALES -->
+
+            <div class="hero-selector" id="categorias">
+
+                <h2>¿A quién vamos a cuidar hoy?</h2>
+
+                <p>Selecciona tu tipo de mascota</p>
+
+                <div class="selector-animales">
+
+                    <!-- PERROS -->
+
+                    <a href="paginas/filtros.html?animal=Canino"
+                    class="animal-inicio perro">
+
+                        <img src="recursos/imagenes/perro.jpg" alt="">
+
+                        <div class="animal-info">
+
+                            <span>Perros</span>
+
+                            <span class="animal-accion">
+                                Ver cuidados →
+                            </span>
+
+                        </div>
+
+                    </a>
+
+                    <!-- GATOS -->
+
+                    <a href="paginas/filtros.html?animal=Felino"
+                    class="animal-inicio gato">
+
+                        <img src="recursos/imagenes/gato.jpeg" alt="">
+
+                        <div class="animal-info">
+
+                            <span>Gatos</span>
+
+                            <span class="animal-accion">
+                                Ver cuidados →
+                            </span>
+
+                        </div>
+
+                    </a>
+
+                    <!-- AVES -->
+
+                    <a href="paginas/filtros.html?animal=Ave"
+                    class="animal-inicio ave">
+
+                        <img src="recursos/imagenes/loro.jpg" alt="">
+
+                        <div class="animal-info">
+
+                            <span>Aves</span>
+
+                            <span class="animal-accion">
+                                Ver cuidados →
+                            </span>
+
+                        </div>
+
+                    </a>
+
+                    <!-- REPTILES -->
+
+                    <a href="paginas/filtros.html?animal=Reptil"
+                    class="animal-inicio reptil">
+
+                        <img src="recursos/imagenes/reptil.jpg" alt="">
+
+                        <div class="animal-info">
+
+                            <span>Reptiles</span>
+
+                            <span class="animal-accion">
+                                Ver cuidados →
+                            </span>
+
+                        </div>
+
+                    </a>
+
+                    <!-- ANIMALES EXÓTICOS -->
+
+                    <a href="paginas/filtros.html?animal=Ex%C3%B3tico"
+                    class="animal-inicio animal-exotico exotico">
+
+                        <img src="recursos/imagenes/exotico.jpeg" alt="">
+
+                        <div class="animal-info">
+
+                            <span>Animales exóticos</span>
+
+                            <span class="animal-accion">
+                                Ver cuidados →
+                            </span>
+
+                        </div>
+
+                    </a>
+
+                </div>
+
             </div>
-            -->
 
         </section>
 
 
-        <!-- BENEFICIOS -->
-        <section class="beneficios" id="beneficios">
+        <!-- NUESTROS SERVICIOS -->
 
-            <div class="beneficio">
-                <img src="recursos/imagenes/medicina.png" alt="Medicina" class="icono-beneficio">
-                <div>
-                    <h3>Información veterinaria</h3>
-                    <p>Contenido revisado por profesionales</p>
-                </div>
+        <section class="servicios-inicio" id="beneficios">
+
+            <div class="encabezado-servicios">
+
+                <span class="subtitulo">
+                    NUESTROS SERVICIOS
+                </span>
+
+                <h2>¿Cómo podemos ayudarte?</h2>
+
+                <p>
+                    Descubre las herramientas que InformaVet
+                    tiene para ti y tu mascota.
+                </p>
+
             </div>
 
-            <div class="beneficio">
-                <img src="recursos/imagenes/patitas.png" alt="Patitas" class="icono-beneficio">
-                <div>
-                    <h3>Cuidado responsable</h3>
-                    <p>Aprende a cuidar a tus mascotas</p>
-                </div>
-            </div>
+            <div class="grid-servicios">
 
-            <div class="beneficio">
-                <img src="recursos/imagenes/guia.png" alt="GuíaS" class="icono-beneficio">
-                <div>
+                <!-- GUIAS Y CONSEJOS -->
+
+                <a href="paginas/filtros.html"
+                class="servicio-inicio">
+
+                    <div class="servicio-icono">
+
+                        <svg viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="1.8"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            aria-hidden="true">
+
+                            <path d="M12 7v14"/>
+                            <path d="M3 4h4a5 5 0 0 1 5 5
+                                    5 5 0 0 1 5-5h4v15h-4
+                                    a5 5 0 0 0-5 2
+                                    5 5 0 0 0-5-2H3Z"/>
+
+                        </svg>
+
+                    </div>
+
                     <h3>Guías y consejos</h3>
-                    <p>Recomendaciones prácticas</p>
-                </div>
-            </div>
 
-            <div class="beneficio">
-                <img src="recursos/imagenes/bienestar.png" alt="Bienestar animal" class="icono-beneficio">
-                <div>
-                    <h3>Bienestar animal</h3>
-                    <p>Mejorando su calidad de vida</p>
-                </div>
-            </div>
+                    <p>
+                        Encuentra recomendaciones para cuidar
+                        la salud y el bienestar de tu mascota.
+                    </p>
 
-        </section>
-
-
-        <!-- CATEGORIAS DE ANIMALES -->
-        <section class="categorias" id="categorias">
-
-            <div class="encabezado-seccion">
-                <div>
-                    <span class="subtitulo">
-                        CUIDADO ANIMAL
+                    <span class="servicio-enlace">
+                        Explorar cuidados
+                        <span aria-hidden="true">→</span>
                     </span>
-                    <h2>Explora por tipo de animal</h2>
-                </div>
-            </div>
 
-            <div class="grid-categorias">
-
-                <!-- PERROS -->
-                <article class="categoria perro">
-                    <img
-                        src="recursos/imagenes/perro.jpg"
-                        alt="Perro"
-                        loading="lazy"
-                    >
-                    <h3>Perros</h3>
-                    <p>Alimentación y cuidados</p>
-
-                    <a href="paginas/filtros.html?animal=Canino" class="btn-categoria">
-                        Ver cuidados
-                    </a>
-                </article>
-
-                <!-- GATOS -->
-                <article class="categoria gato">
-                    <img
-                        src="recursos/imagenes/gato.jpeg"
-                        alt="Gato"
-                        loading="lazy"
-                    >
-                    <h3>Gatos</h3>
-                    <p>Salud y bienestar</p>
-                    <a href="paginas/filtros.html?animal=Felino" class="btn-categoria">
-                        Ver cuidados
-                    </a>
-                </article>
-
-                <!-- ANIMALES PEQUEÑOS -->
-                <article class="categoria exotico">
-                    <img
-                        src="recursos/imagenes/exotico.jpeg"
-                        alt="erizo"
-                        loading="lazy"
-                    >
-                    <h3>Animales exoticos</h3>
-                    <p>Cuidados esenciales</p>
-                    <a href="paginas/filtros.html" class="btn-categoria">
-                        Ver cuidados
-                    </a>
-                </article>
-
-
-                <!-- AVES -->
-                <article class="categoria ave">
-                    <img src="recursos/imagenes/loro.jpg" alt="Ave" loading="lazy">
-                    <h3>Aves</h3>
-                    <p>Consejos y alimentación</p>
-
-                    <a href="paginas/filtros.html?animal=Ave" class="btn-categoria">
-                        Ver cuidados
-                    </a>
-                </article>
-
-                <!-- REPTILES -->
-                <article class="categoria reptil">
-                <img src="recursos/imagenes/reptil.jpg" alt="Reptil" loading="lazy">
-                    <h3>Reptiles</h3>
-                    <p>Cuidados y hábitat</p>
-
-                    <a href="paginas/filtros.html?animal=Reptil" class="btn-categoria">
-                        Ver cuidados
-                    </a>
-                </article>
-
-            </div>
-        </section>
-
-        <!-- HERRAMIENTA: ESTIMADOR DE RAZA POR FOTO -->
-        <section class="nosotros" id="identificador-raza" style="margin-bottom: 30px;">
-            <span class="etiqueta" style="margin-bottom: 10px;">Inteligencia Artificial</span>
-            <h2>¿No sabes la raza de tu mascota?</h2>
-            <p>Sube una foto de tu perro o gato para estimar su raza, patrón y características principales con visión artificial.</p>
-
-            <div style="margin: 25px 0;">
-                <label for="fotoMascotaInput" id="etiquetaSubirFoto" class="btn-principal" style="cursor: pointer;">
-                    Subir Fotografía
-                </label>
-                <a href="paginas/login.html" id="loginParaIA" class="btn-principal" hidden>
-                    Inicia sesión para usar esta herramienta
                 </a>
-                <input type="file" id="fotoMascotaInput" accept="image/*" style="display: none;">
+
+                <!-- IDENTIFICADOR IA -->
+
+                <a href="paginas/identificador.html"
+                    class="servicio-inicio">
+
+                    <div class="servicio-icono">
+
+                        <svg viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="1.8"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            aria-hidden="true">
+
+                            <path d="m3 6 4 0 2-3h6l2 3h4
+                                    v15H3Z"/>
+
+                            <circle cx="12" cy="13" r="4"/>
+
+                        </svg>
+
+                    </div>
+
+                    <h3>Identificador IA</h3>
+
+                    <p>
+                        Descubre la posible raza de tu mascota
+                        mediante el análisis de una fotografía.
+                    </p>
+
+                    <span class="servicio-enlace">
+                        Identificar mascota
+                        <span aria-hidden="true">→</span>
+                    </span>
+
+                </a>
+
+                <!-- MIS MASCOTAS -->
+
+                <a href="paginas/login.html"
+                class="servicio-inicio"
+                id="enlace-servicio-mascotas">
+
+                    <div class="servicio-icono">
+
+                        <svg viewBox="0 0 24 24"
+                            fill="currentColor"
+                            aria-hidden="true">
+
+                            <ellipse cx="5" cy="9" rx="2" ry="3"/>
+                            <ellipse cx="10" cy="5" rx="2" ry="3"/>
+                            <ellipse cx="15" cy="5" rx="2" ry="3"/>
+                            <ellipse cx="20" cy="9" rx="2" ry="3"/>
+
+                            <path d="M12 11c-3 0-4 4-7 6
+                                    -3 3 0 6 4 5
+                                    2-1 4-1 6 0
+                                    4 1 7-2 4-5
+                                    -3-2-4-6-7-6Z"/>
+
+                        </svg>
+
+                    </div>
+
+                    <h3>Mis mascotas</h3>
+
+                    <p>
+                        Administra los perfiles y registros
+                        de salud de tus compañeros.
+                    </p>
+
+                    <span class="servicio-enlace">
+                        Ir a mis mascotas
+                        <span aria-hidden="true">→</span>
+                    </span>
+
+                </a>
+
             </div>
 
-            <!-- Vista previa de la foto subida -->
-            <img id="previewFoto" src="" alt="Vista previa" style="max-width: 260px; max-height: 260px; border-radius: 14px; margin: 0 auto 15px; display: none; border: 3px solid #f59e0b; object-fit: cover;">
-            
-            <!-- Mensaje de estado -->
-            <p id="estadoCarga" style="display: none; font-weight: bold; color: #d97706; margin-bottom: 15px;"></p>
-
-            <p style="font-size: 13px; color: #665849; margin-bottom: 15px;">
-                Es una estimación generada por IA a partir de la foto. No reemplaza la opinión de un veterinario.
-            </p>
-
-            <!-- Ficha con los resultados -->
-            <div id="resultadoIdentificacion" class="categoria" style="display: none; max-width: 500px; margin: 0 auto; text-align: left; padding: 25px; background: white;">
-                <h3 style="font-size: 22px; color: #d97706; margin-bottom: 12px;" id="resRaza">Raza</h3>
-                <p style="margin-bottom: 8px;"><strong>Especie:</strong> <span id="resAnimal"></span></p>
-                <p style="margin-bottom: 8px;"><strong>Patrón / Pelaje:</strong> <span id="resPatron"></span></p>
-                <p style="margin-bottom: 8px;"><strong>Temperamento:</strong> <span id="resTemperamento"></span></p>
-                <p style="margin-bottom: 8px;"><strong>Esperanza de vida:</strong> <span id="resEsperanza"></span></p>
-                <p><strong>Origen:</strong> <span id="resOrigen"></span></p>
-            </div>
-            <!-- Guías y tips desde la BD (se llena tras la detección) -->
-            <div id="cuidados-detectados" style="display: none; max-width: 720px; margin: 30px auto 0;">
-                <h3 style="font-size: 20px; color: #92400e; margin-bottom: 6px;">
-                    Cuidados recomendados
-                </h3>
-                <p id="estado-cuidados-ia" style="font-size: 13px; color: #888; margin-bottom: 18px;"></p>
-
-                <div id="bloque-guias-ia" style="display: none; margin-bottom: 24px;">
-                    <h4 style="color: #92400e; margin-bottom: 12px;">📋 Guías de cuidado</h4>
-                    <div id="lista-guias-ia"></div>
-                </div>
-
-                <div id="bloque-tips-ia" style="display: none;">
-                    <h4 style="color: #92400e; margin-bottom: 12px;">💡 Tips de cuidado</h4>
-                    <div id="lista-tips-ia"></div>
-                </div>
-            </div>
         </section>
 
         <!-- INFORMACION DEL PROYECTO -->
@@ -305,7 +384,50 @@
     <script src="js/auth/autenticacion.js"></script>
     <script src="js/navegacion-sesion.js"></script>
     <script src="js/config.js"></script>
-    <script src="js/servicios/fotos.js"></script>
     <script src="js/pwa.js"></script>
+    <script>
+
+        function actualizarNavegacionInicio() {
+
+            const enlaces =
+                document.querySelectorAll(".nav-links a");
+
+            const secciones = [
+                "#inicio",
+                "#beneficios",
+                "#contacto"
+            ];
+
+            const seccionActual =
+                secciones.includes(window.location.hash)
+                    ? window.location.hash
+                    : "#inicio";
+
+            enlaces.forEach(enlace => {
+
+                enlace.removeAttribute("aria-current");
+
+                if (enlace.getAttribute("href") === seccionActual) {
+
+                    enlace.setAttribute(
+                        "aria-current",
+                        seccionActual === "#inicio"
+                            ? "page"
+                            : "location"
+                    );
+
+                }
+
+            });
+        }
+
+        window.addEventListener(
+            "hashchange",
+            actualizarNavegacionInicio
+        );
+
+        actualizarNavegacionInicio();
+
+    </script>
 </body>
 </html>
