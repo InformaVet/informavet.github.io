@@ -81,3 +81,138 @@
     }
 
 }
+
+/* ============================================================
+   MENÚ HAMBURGUESA
+   ============================================================ */
+
+.btn-menu-movil {
+    display: none;
+}
+
+@media (max-width: 650px) {
+
+    .navbar.nav-movil {
+        display: grid;
+
+        grid-template-columns: minmax(0, 1fr) auto auto;
+
+        grid-template-areas:
+            "logo menu cuenta"
+            "links links links";
+
+        align-items: center;
+        gap: 8px;
+        padding: 12px;
+    }
+
+    /* Logo */
+
+    .navbar.nav-movil .logo {
+        grid-area: logo;
+        justify-self: start;
+        gap: 5px;
+        font-size: 17px;
+    }
+
+    .navbar.nav-movil .logo-icono {
+        width: 32px;
+        height: 32px;
+    }
+
+    .navbar.nav-movil .logo span {
+        font-size: 17px;
+        font-weight: 900;
+    }
+
+    /* Inicio de sesión */
+
+    .navbar.nav-movil .nav-cuenta {
+        grid-area: cuenta;
+        justify-self: end;
+    }
+
+    .navbar.nav-movil .nav-cuenta .btn-login {
+        font-size: 11px;
+        padding: 10px 9px;
+        white-space: nowrap;
+    }
+
+    /* Botón hamburguesa */
+
+    .btn-menu-movil {
+        display: flex;
+
+        grid-area: menu;
+
+        align-items: center;
+        justify-content: center;
+
+        width: 38px;
+        height: 38px;
+
+        background-color: #ffebad;
+        color: #92400e;
+
+        border: none;
+        border-radius: 10px;
+
+        font-size: 25px;
+        cursor: pointer;
+    }
+
+    /* Menú cerrado */
+
+    .navbar.nav-movil .nav-links {
+        display: none;
+        grid-area: links;
+
+        width: 100%;
+        justify-self: stretch;
+
+        flex-direction: column;
+        align-items: stretch;
+
+        gap: 8px;
+        padding-top: 12px;
+        border-top: 1px solid #fce3a3;
+    }
+
+    /* Menú abierto */
+
+    .navbar.nav-movil.menu-abierto .nav-links {
+        display: flex;
+    }
+
+    .navbar.nav-movil .nav-links a {
+        display: block;
+        width: 100%;
+        box-sizing: border-box;
+
+        padding: 16px;
+        border-radius: 10px;
+
+        text-align: left;
+        font-size: 17px;
+        font-weight: 600;
+    }
+
+    .navbar.nav-movil .nav-links a[aria-current] {
+        background-color: #ffebad;
+    }
+
+    .navbar.nav-movil .nav-links a[aria-current]::after {
+        display: none;
+    }
+
+    /* Páginas sin botón de inicio de sesión */
+
+    .navbar.nav-movil.sin-cuenta {
+        grid-template-columns: minmax(0, 1fr) auto;
+
+        grid-template-areas:
+            "logo menu"
+            "links links";
+    }
+
+}

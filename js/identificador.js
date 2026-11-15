@@ -104,7 +104,10 @@ document.addEventListener("DOMContentLoaded", async () => {
         urlPrevia = URL.createObjectURL(archivo);
 
         vistaPrevia.src = urlPrevia;
-        vistaPrevia.style.display = "block";
+
+        zonaCarga.classList.add("con-imagen");
+
+        botonSubir.textContent = "Cambiar fotografía";
 
         try {
 

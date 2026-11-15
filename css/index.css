@@ -2141,3 +2141,111 @@ div.equipo-foto {
     }
 
 }
+
+/* ============================================================
+   CARRUSELES PARA DISPOSITIVOS MÓVILES
+   ============================================================ */
+
+.carrusel-movil {
+    display: contents;
+}
+
+.carrusel-flecha {
+    display: none;
+}
+
+@media (max-width: 650px) {
+
+    .carrusel-movil {
+        display: grid;
+
+        grid-template-columns: 34px minmax(0, 1fr) 34px;
+
+        align-items: center;
+        gap: 8px;
+    }
+
+    /* Pista de desplazamiento */
+
+    .carrusel-movil .selector-animales,
+    .carrusel-movil .grid-equipo {
+        display: flex;
+
+        position: relative;
+        min-width: 0;
+
+        gap: 12px;
+        overflow-x: auto;
+
+        scroll-snap-type: x mandatory;
+        scrollbar-width: none;
+
+        overscroll-behavior-x: contain;
+    }
+
+    .carrusel-movil .selector-animales::-webkit-scrollbar,
+    .carrusel-movil .grid-equipo::-webkit-scrollbar {
+        display: none;
+    }
+
+    /* Una tarjeta por vista */
+
+    .carrusel-movil .animal-inicio,
+    .carrusel-movil .integrante {
+        flex: 0 0 100%;
+        min-width: 0;
+
+        box-sizing: border-box;
+        scroll-snap-align: start;
+
+        padding: 25px 15px;
+    }
+
+    /* Fotografías de animales */
+
+    .seccion-animales .carrusel-movil .animal-inicio img {
+        width: 150px;
+        height: auto;
+        aspect-ratio: 1 / 1;
+        object-fit: cover;
+    }
+
+    /* Fotografías de integrantes */
+
+    .carrusel-movil .equipo-foto {
+        width: 125px;
+        height: 125px;
+    }
+
+    .carrusel-movil .integrante h3 {
+        font-size: 18px;
+    }
+
+    /* Flechas */
+
+    .carrusel-flecha {
+        display: flex;
+
+        align-items: center;
+        justify-content: center;
+
+        width: 34px;
+        height: 34px;
+
+        background-color: white;
+        color: #92400e;
+
+        border: 1px solid #fce3a3;
+        border-radius: 50%;
+
+        box-shadow: 0 3px 8px rgba(146, 64, 14, 0.12);
+
+        font-size: 26px;
+        cursor: pointer;
+    }
+
+    .carrusel-flecha:active {
+        background-color: #ffebad;
+    }
+
+}

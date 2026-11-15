@@ -136,11 +136,30 @@ body {
 .ia-vista-previa {
     display: none;
     width: 100%;
-    max-height: 300px;
+    max-height: 350px;
     object-fit: contain;
-
-    margin-top: 20px;
+    margin: 0;
     border-radius: 14px;
+}
+
+/* OCULTAR INSTRUCCIONES AL CARGAR UNA FOTO */
+
+.ia-zona-carga.con-imagen > svg,
+.ia-zona-carga.con-imagen > h3,
+.ia-zona-carga.con-imagen > p,
+.ia-zona-carga.con-imagen > small {
+    display: none;
+}
+
+/* APARIENCIA CON IMAGEN CARGADA */
+
+.ia-zona-carga.con-imagen {
+    padding: 15px;
+    border-style: solid;
+}
+
+.ia-zona-carga.con-imagen .ia-vista-previa {
+    display: block;
 }
 
 .ia-estado {
