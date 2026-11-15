@@ -78,7 +78,7 @@ function pintarResultadoIA(resultado) {
 
     if (resultado.animal === "otro") {
         contenedor.style.display = "none"
-        mostrarEstadoIA("No parece haber un perro o un gato en la foto. Prueba con otra donde se vea claramente.", true)
+        mostrarEstadoIA("El animal no fue detectado correctamente. Prueba con otra imagen donde se vea claramente.", true)
         return
     }
 

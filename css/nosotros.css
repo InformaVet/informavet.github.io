@@ -1,0 +1,229 @@
+/* PÁGINA SOBRE NOSOTROS */
+
+.pagina-nosotros {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+/* PRESENTACIÓN */
+
+.proyecto-hero {
+    display: grid;
+    grid-template-columns: 1.6fr 1fr;
+    align-items: center;
+    gap: 35px;
+
+    padding: 40px;
+    background: linear-gradient(120deg, #ffebad, #fce3a3);
+    border: 1px solid #fce3a3;
+    border-radius: 24px;
+}
+
+.proyecto-hero h1 {
+    color: #92400e;
+    font-size: clamp(28px, 4vw, 42px);
+    margin: 20px 0;
+}
+
+.proyecto-hero p {
+    color: #665849;
+    font-size: 16px;
+    line-height: 1.7;
+    margin-bottom: 24px;
+}
+
+.proyecto-hero img {
+    width: 220px;
+    max-width: 100%;
+    justify-self: center;
+}
+
+/* MISIÓN, VISIÓN Y VALORES */
+
+.proyecto-identidad {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 20px;
+    margin: 30px 0;
+}
+
+.identidad-tarjeta {
+    background-color: white;
+    border: 1px solid #fce3a3;
+    border-radius: 18px;
+    padding: 25px;
+}
+
+.identidad-tarjeta h2 {
+    font-size: 21px;
+    color: #92400e;
+    margin-bottom: 14px;
+}
+
+.identidad-tarjeta p {
+    font-size: 14px;
+    color: #665849;
+    line-height: 1.7;
+}
+
+/* PROGRESO */
+
+.proyecto-progreso {
+    margin-top: 45px;
+}
+
+.proyecto-progreso > h2 {
+    font-size: 30px;
+    color: #92400e;
+    margin: 10px 0;
+}
+
+.proyecto-progreso > p {
+    color: #665849;
+    margin-bottom: 30px;
+}
+
+/* LÍNEA DE TIEMPO */
+
+.linea-tiempo {
+    border-left: 3px solid #f59e0b;
+    margin-left: 12px;
+    padding-left: 30px;
+}
+
+.hito {
+    position: relative;
+
+    padding: 24px;
+    margin-bottom: 20px;
+
+    background-color: white;
+    border: 1px solid #fce3a3;
+    border-radius: 16px;
+}
+
+/* Punto de cada avance */
+
+.hito::before {
+    content: "";
+
+    position: absolute;
+    left: -41.5px;
+    top: 30px;
+
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+
+    background-color: #f59e0b;
+    border: 3px solid #fff4cc;
+}
+
+/* Estado del avance */
+
+.hito-estado {
+    display: inline-block;
+    padding: 5px 12px;
+    border-radius: 20px;
+
+    background-color: #dcfce7;
+    color: #15803d;
+
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.hito h3 {
+    color: #92400e;
+    font-size: 20px;
+    margin: 12px 0 8px;
+}
+
+.hito p {
+    color: #665849;
+    font-size: 14px;
+    line-height: 1.7;
+}
+
+/* HITOS FUTUROS */
+
+.hito-pendiente {
+    border-style: dashed;
+}
+
+.hito-pendiente::before {
+    background-color: #e6cca9;
+}
+
+.hito-pendiente .hito-estado {
+    background-color: #ffebad;
+    color: #92400e;
+}
+
+/* EQUIPO */
+
+.proyecto-equipo {
+    text-align: center;
+    background-color: #ffebad;
+    border-radius: 20px;
+    padding: 35px;
+    margin-top: 40px;
+}
+
+.proyecto-equipo h2 {
+    color: #92400e;
+    font-size: 26px;
+    margin-bottom: 15px;
+}
+
+.proyecto-equipo p {
+    font-size: 14px;
+    color: #665849;
+    line-height: 1.7;
+    max-width: 650px;
+    margin: 0 auto 20px;
+}
+
+/* DISEÑO RESPONSIVE */
+
+@media (max-width: 800px) {
+
+    .proyecto-hero {
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+
+    .proyecto-hero img {
+        width: 160px;
+    }
+
+    .proyecto-identidad {
+        grid-template-columns: 1fr;
+    }
+
+}
+
+@media (max-width: 650px) {
+
+    .proyecto-hero {
+        padding: 24px;
+    }
+
+    .linea-tiempo {
+        padding-left: 20px;
+    }
+
+    .hito::before {
+        left: -31.5px;
+    }
+
+    .hito {
+        padding: 20px;
+    }
+
+    .proyecto-equipo {
+        padding: 24px;
+    }
+
+}

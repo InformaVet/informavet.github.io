@@ -23,3 +23,61 @@
     background-color: #d97706;
     border-radius: 4px;
 }
+
+/* PIE DE PÁGINA */
+
+.pie-informavet {
+    background-color: #92400e;
+    color: white;
+    padding: 35px 20px 20px;
+    text-align: left;
+}
+
+.pie-contenido {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr 1fr;
+    gap: 30px;
+
+    max-width: 1160px;
+    margin: 0 auto;
+}
+
+.pie-contenido h3 {
+    font-size: 17px;
+    margin-bottom: 12px;
+}
+
+.pie-contenido p,
+.pie-contenido a {
+    color: #ffebad;
+    font-size: 14px;
+    line-height: 1.7;
+    overflow-wrap: anywhere;
+}
+
+.pie-contenido a:hover {
+    color: white;
+    text-decoration: underline;
+}
+
+.pie-inferior {
+    max-width: 1160px;
+    margin: 25px auto 0;
+    padding-top: 20px;
+
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+
+    text-align: center;
+    font-size: 12px;
+    color: #ffebad;
+}
+
+@media (max-width: 700px) {
+
+    .pie-contenido {
+        grid-template-columns: 1fr;
+        text-align: center;
+        gap: 25px;
+    }
+
+}

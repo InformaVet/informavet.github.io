@@ -58,19 +58,23 @@
                 >
                 <span>InformaVet</span>
             </a>
-                        <div class="nav-links">
-                <a href="../#inicio">Inicio</a>
-                <a href="filtros.html" aria-current="page">
-                    Cuidados
+            <div class="nav-links">
+
+                <a href="../#arriba">Inicio</a>
+
+                <a href="filtros.html" aria-current="page">Cuidados</a>
+
+                <a href="identificador.html">Identificador IA</a>
+
+                <a href="nosotros.html">Sobre nosotros</a>
+
+                <a href="login.html" id="enlace-mascotas">
+                    Mis mascotas
                 </a>
-                <a href="identificador.html">
-                    Identificador IA
-                </a>
-                <a href="../#beneficios">Nuestros Servicios</a>
-                <a href="../#contacto">Contacto</a>
+
             </div>
             <div class="nav-cuenta">
-                <a href="login.html" class="btn-login">
+                <a href="login.html" class="btn-login" id="enlace-cuenta">
                     Iniciar Sesión
                 </a>
             </div>
@@ -349,19 +353,55 @@
         </section>
     </main>
     <!-- PIE DE PAGINA -->
-    <footer id="contacto">
-        <p>
-            InformaVet - Proyecto de cuidado veterinario
-        </p>
-        <p>
-            Sección de contacto en desarrollo
-        </p>
+    <footer class="pie-informavet" id="contacto">
+
+        <div class="pie-contenido">
+
+            <div>
+
+                <h3>InformaVet</h3>
+
+                <p>
+                    Tecnología al servicio del bienestar animal.
+                </p>
+
+            </div>
+
+            <div>
+
+                <h3>Contacto</h3>
+
+                <a href="mailto:informavetchile@gmail.com">
+                    informavetchile@gmail.com
+                </a>
+
+            </div>
+
+            <div>
+
+                <h3>Conoce InformaVet</h3>
+
+                <a href="nosotros.html">
+                    Sobre nosotros
+                </a>
+
+            </div>
+
+        </div>
+
+        <div class="pie-inferior">
+            © InformaVet · Proyecto de cuidado veterinario
+        </div>
+
     </footer>
     <!-- El orden importa: primero la libreria, luego la conexion, luego la logica -->
          <!-- Librería de Supabase -->
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="../js/configuracion/cliente-supabase.js"></script>
+    <script src="../js/servicios/funciones.js"></script>
+    <script src="../js/auth/autenticacion.js"></script>
+    <script src="../js/navegacion-sesion.js"></script>
     <script src="../js/aplicacion.js"></script>
     <script src="../js/pwa.js"></script>
 </body>

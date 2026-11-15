@@ -16,7 +16,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;800;900&display=swap" rel="stylesheet">
 </head>
 
-<body>
+<body id="arriba">
 
     <!-- BARRA DE NAVEGACION -->
     <header>
@@ -32,14 +32,28 @@
 </a>
 
             <div class="nav-links">
-                <a href="#inicio">Inicio</a>
-                <a href="paginas/filtros.html">Cuidados</a>
+
+                <a href="#arriba" aria-current="page">
+                    Inicio
+                </a>
+
+                <a href="paginas/filtros.html">
+                    Cuidados
+                </a>
+
                 <a href="paginas/identificador.html">
                     Identificador IA
                 </a>
-                <a href="#beneficios">Nuestros Servicios</a>
-                <a href="#contacto">Contacto</a>
-                <a href="paginas/login.html" id="enlace-mascotas">Mis mascotas</a>
+
+                <a href="paginas/nosotros.html">
+                    Sobre nosotros
+                </a>
+
+                <a href="paginas/login.html"
+                id="enlace-mascotas">
+                    Mis mascotas
+                </a>
+
             </div>
 
             <div class="nav-cuenta">
@@ -83,9 +97,11 @@
                         Explorar cuidados
                     </a>
 
-                    <a href="#nosotros"
-                    class="btn-secundario">
+                    <a href="paginas/nosotros.html"
+                        class="btn-secundario">
+
                         Conocer más
+
                     </a>
 
                 </div>
@@ -597,15 +613,45 @@
 
 
     <!-- PIE DE PAGINA -->
-    <footer id="contacto">
+    <footer class="pie-informavet" id="contacto">
 
-        <p>
-            InformaVet - Proyecto de cuidado veterinario
-        </p>
+        <div class="pie-contenido">
 
-        <p>
-            informavetchile@gmail.com
-        </p>
+            <div>
+
+                <h3>InformaVet</h3>
+
+                <p>
+                    Tecnología al servicio del bienestar animal.
+                </p>
+
+            </div>
+
+            <div>
+
+                <h3>Contacto</h3>
+
+                <a href="mailto:informavetchile@gmail.com">
+                    informavetchile@gmail.com
+                </a>
+
+            </div>
+
+            <div>
+
+                <h3>Conoce InformaVet</h3>
+
+                <a href="paginas/nosotros.html">
+                    Sobre nosotros
+                </a>
+
+            </div>
+
+        </div>
+
+        <div class="pie-inferior">
+            © InformaVet · Proyecto de cuidado veterinario
+        </div>
 
     </footer>
 
@@ -616,49 +662,5 @@
     <script src="js/navegacion-sesion.js"></script>
     <script src="js/config.js"></script>
     <script src="js/pwa.js"></script>
-    <script>
-
-        function actualizarNavegacionInicio() {
-
-            const enlaces =
-                document.querySelectorAll(".nav-links a");
-
-            const secciones = [
-                "#inicio",
-                "#beneficios",
-                "#contacto"
-            ];
-
-            const seccionActual =
-                secciones.includes(window.location.hash)
-                    ? window.location.hash
-                    : "#inicio";
-
-            enlaces.forEach(enlace => {
-
-                enlace.removeAttribute("aria-current");
-
-                if (enlace.getAttribute("href") === seccionActual) {
-
-                    enlace.setAttribute(
-                        "aria-current",
-                        seccionActual === "#inicio"
-                            ? "page"
-                            : "location"
-                    );
-
-                }
-
-            });
-        }
-
-        window.addEventListener(
-            "hashchange",
-            actualizarNavegacionInicio
-        );
-
-        actualizarNavegacionInicio();
-
-    </script>
 </body>
 </html>
