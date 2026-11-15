@@ -214,8 +214,9 @@ async function procesarFotoMascota(file) {
             mostrarEstadoIA(mensajeDeErrorIA(error), true)
             return
         }
-        pintarResultadoIA(data)
-        cargarCuidadosPorDeteccion(data.animal, data.raza_estimada)
+        pintarResultadoIA(data);
+
+        return data;
     } catch (error) {
         console.error("Error al identificar la mascota:", error)
         mostrarEstadoIA(mensajeDeErrorIA(error), true)
@@ -223,30 +224,3 @@ async function procesarFotoMascota(file) {
         identificando = false
     }
 }
-
-document.addEventListener("DOMContentLoaded", async () => {
-    const inputFoto = document.getElementById("fotoMascotaInput")
-    const vistaPrevia = document.getElementById("previewFoto")
-    const etiquetaSubir = document.getElementById("etiquetaSubirFoto")
-    const enlaceLogin = document.getElementById("loginParaIA")
-
-    if (!inputFoto) return
-
-    // La herramienta usa cuota de IA: solo para personas con sesión iniciada.
-    const usuario = await obtenerUsuario()
-    if (!usuario) {
-        if (etiquetaSubir) etiquetaSubir.hidden = true
-        if (enlaceLogin) enlaceLogin.hidden = false
-        return
-    }
-
-    inputFoto.addEventListener("change", (e) => {
-        const file = e.target.files[0]
-        if (!file) return
-        if (vistaPrevia) {
-            vistaPrevia.src = URL.createObjectURL(file)
-            vistaPrevia.style.display = "block"
-        }
-        procesarFotoMascota(file).finally(() => { inputFoto.value = "" })
-    })
-})
