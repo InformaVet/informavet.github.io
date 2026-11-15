@@ -1040,3 +1040,55 @@ button.filtro-activo:hover {
     color: #d97706;
     flex-shrink: 0;
 }
+
+/* FONDO GENERAL DE LA PÁGINA DE CUIDADOS */
+
+body {
+    background-color: #f8f7f3;
+}
+
+/* FONDO PARA CADA ESPECIE */
+
+html[data-especie="perros"] body {
+    background-color: #fce4c7
+}
+
+html[data-especie="gatos"] body {
+    background-color: #f9ded9;
+}
+
+html[data-especie="aves"] body {
+    background-color: #c8f5f9;
+}
+
+html[data-especie="reptiles"] body {
+    background-color: #c3edab;
+}
+
+html[data-especie="exoticos"] body,
+html[data-especie="animales exóticos"] body {
+    background-color: #E5C9A4;
+}
+
+/* COLORES DEL ENCABEZADO SEGÚN EL ANIMAL */
+
+html[data-especie="perros"] .encabezado-cuidados {
+    background: #f0cda5;
+}
+
+html[data-especie="gatos"] .encabezado-cuidados {
+    background: #eec3c7;
+}
+
+html[data-especie="aves"] .encabezado-cuidados {
+    background: #93d1e4;
+}
+
+html[data-especie="reptiles"] .encabezado-cuidados {
+    background: #c0e07e;
+}
+
+html[data-especie="exoticos"] .encabezado-cuidados,
+html[data-especie="animales exóticos"] .encabezado-cuidados {
+    background: #d1af86;
+}
