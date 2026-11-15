@@ -11,26 +11,7 @@ body {
     color: #333;
 }
 
-nav {
-    background-color: #ffffff;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    padding: 15px 30px;
-}
-
-.botones-nav {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    max-width: 1200px;
-    margin: 0 auto;
-}
-
-.nav-Inf, .nav-Registro {
-    display: flex;
-    gap: 15px;
-}
-
-button {
+.formulario-visual button {
     background-color: transparent;
     border: 2px solid transparent;
     color: #92400e;
@@ -42,51 +23,7 @@ button {
     transition: all 0.3s ease;
 }
 
-.nav-Inf button:hover {
-    background-color: #ffedd5;
-    color: #c2410c;
-}
-
-
 /* BOTONES DE NAVEGACION LOGIN Y REGISTRO */
-
-.nav-Registro a {
-    display: inline-block;
-    padding: 8px 16px;
-    border: 2px solid transparent;
-    border-radius: 6px;
-    font-size: 15px;
-    font-weight: 600;
-    text-decoration: none;
-    transition: all 0.3s ease;
-}
-
-/* BOTON INICIAR SESION */
-
-.nav-Registro .btn-sesion {
-    background-color: white;
-    color: #d97706;
-    border-color: #d97706;
-}
-
-.nav-Registro .btn-sesion:hover {
-    background-color: #d97706;
-    color: white;
-}
-
-/* BOTON REGISTRARSE */
-
-.nav-Registro .btn-registro {
-    background-color: #f59e0b;
-    color: white;
-    border-color: #f59e0b;
-}
-
-.nav-Registro .btn-registro:hover {
-    background-color: #d97706;
-    border-color: #d97706;
-}
-
 
 .contenedor-principal {
     display: flex;
@@ -148,19 +85,24 @@ button {
     outline: none;
 }
 
-.btn-ingresar {
+.formulario-visual .btn-ingresar {
     width: 100%;
     background-color: #f59e0b;
     color: #ffffff;
+
     border: none;
     padding: 12px;
+    border-radius: 6px;
+
     font-size: 16px;
     font-weight: bold;
-    border-radius: 6px;
     margin-top: 10px;
+
+    cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
-.btn-ingresar:hover {
+.formulario-visual .btn-ingresar:hover {
     background-color: #d97706;
 }
 
@@ -177,31 +119,4 @@ button {
 
 .texto-registro a:hover {
     text-decoration: underline;
-}
-
-.enlace-inicio {
-    display: inline-block;
-    text-decoration: none;
-    color: #92400e;
-    font-size: 15px;
-    font-weight: 600;
-    padding: 8px 16px;
-    border-radius: 6px;
-    transition: all 0.3s ease;
-}
-
-.enlace-inicio:hover {
-    background-color: #ffedd5;
-    color: #d97706;
-}
-
-/*cambio de fuente InformaVet*/
-/* FUENTE DEL LOGO INFORMATVET */
-
-.navbar .logo span {
-    font-family: 'Nunito', sans-serif;
-    font-size: 32px;
-    font-weight: 900;
-    color: #d97706;
-    letter-spacing: -0.5px;
 }

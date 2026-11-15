@@ -17,61 +17,6 @@ a {
     text-decoration: none;
 }
 
-/* BARRA DE NAVEGACION */
-
-header {
-    background-color: white;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-}
-
-.navbar {
-    max-width: 1200px;
-    margin: auto;
-    padding: 15px 30px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 20px;
-}
-
-.logo {
-    color: #d97706;
-    font-size: 24px;
-    font-weight: bold;
-}
-
-.nav-links {
-    display: flex;
-    gap: 25px;
-}
-
-.nav-links a {
-    color: #92400e;
-    font-size: 15px;
-    font-weight: 600;
-}
-
-.nav-links a:hover {
-    color: #d97706;
-}
-
-.btn-login {
-    display: inline-block;
-    background-color: white;
-    color: #d97706;
-    border: 2px solid #f59e0b;
-    border-radius: 8px;
-    padding: 10px 20px;
-    font-size: 15px;
-    font-weight: 600;
-    transition: 0.3s;
-}
-
-.btn-login:hover {
-    background-color: #f59e0b;
-    color: white;
-}
-
 /* CONTENEDOR PRINCIPAL */
 
 .contenedor-registro {
@@ -188,17 +133,6 @@ header {
 /* RESPONSIVE */
 
 @media (max-width: 768px) {
-
-    .navbar {
-        flex-wrap: wrap;
-        justify-content: center;
-    }
-
-    .nav-links {
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 15px;
-    }
 
     .tarjeta-registro {
         padding: 25px;

@@ -10,7 +10,9 @@
       type="image/x-icon"
       href="../recursos/iconos/favicon_informavet.ico?v=6">
     <link rel="apple-touch-icon" href="../recursos/iconos/apple-touch-icon.png">
+    <link rel="stylesheet" href="../css/index.css">
     <link rel="stylesheet" href="../css/login.css">
+    <link rel="stylesheet" href="../css/navegacion.css">
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;800;900&display=swap" rel="stylesheet">
     <style>
         .mensaje-auth {
@@ -40,25 +42,49 @@
     </style>
 </head>
 <body>
-    <nav>
-        <div class="botones-nav">
-           <div class="nav-Inf">
+    <!-- BARRA DE NAVEGACIÓN -->
 
-                <a href="../" class="enlace-inicio">Inicio</a>
+    <header>
 
-                <a href="filtros.html" class="enlace-inicio">Cuidados</a>
+        <nav class="navbar">
 
-                <a href="identificador.html" class="enlace-inicio">
+            <a href="../" class="logo">
+
+                <img src="../recursos/iconos/logo_informavet_optimizado.png"
+                    class="logo-icono"
+                    alt="">
+
+                <span>InformaVet</span>
+
+            </a>
+
+            <div class="nav-links">
+
+                <a href="../">Inicio</a>
+
+                <a href="filtros.html">Cuidados</a>
+
+                <a href="identificador.html">
                     Identificador IA
                 </a>
 
-                <a href="nosotros.html" class="enlace-inicio">
-                    Sobre nosotros
+                <a href="nosotros.html">Sobre nosotros</a>
+
+                <a href="login.html">Mis mascotas</a>
+
+            </div>
+
+            <div class="nav-cuenta">
+
+                <a href="login.html" class="btn-login">
+                    Iniciar Sesión
                 </a>
 
             </div>
-        </div>
-    </nav>
+
+        </nav>
+
+    </header>
 
     <main class="contenedor-principal">
         <div class="tarjeta-login">
@@ -170,5 +196,6 @@
         }
     </script>
     <script src="../js/pwa.js"></script>
+    <script src="../js/interfaz-movil.js"></script>
 </body>
 </html>
