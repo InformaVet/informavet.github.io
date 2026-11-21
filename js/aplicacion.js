@@ -717,8 +717,44 @@ async function buscar() {
     }
 }
 
+// ACTUALIZAR LA PALETA SEGÚN EL ANIMAL
+function actualizarTemaAnimal() {
+
+    const raiz = document.documentElement;
+
+    const animal = selTipo.value
+        ? selTipo.selectedOptions[0].textContent.trim()
+        : "";
+
+    const especie = nombresEspecies[animal];
+
+    const titulo = document.getElementById("titulo-cuidados");
+
+    if (especie) {
+
+        raiz.dataset.especie = especie;
+
+        titulo.textContent = "Cuidados para " +
+            (especie === "exoticos"
+                ? "animales exóticos"
+                : especie);
+
+    } else {
+
+        delete raiz.dataset.especie;
+
+        titulo.textContent =
+            "Encuentra información para tu mascota";
+
+    }
+
+}
+
 // Al cambiar animal: filtra razas y categorías localmente
 function alCambiarTipo() {
+
+    actualizarTemaAnimal();
+    
     const idTipo = selTipo.value ? Number(selTipo.value) : null
     selRaza.value      = ''
     selCategoria.value = ''
@@ -879,3 +915,75 @@ navegacionResultados.addEventListener("click", evento => {
 });
 
 document.addEventListener('DOMContentLoaded', iniciar)
+
+// ============================================================
+// FILTROS DESPLEGABLES EN TELÉFONOS
+// ============================================================
+
+const botonDesplegarFiltros =
+    document.getElementById("btn-desplegar-filtros");
+
+const camposFiltros =
+    document.getElementById("campos-filtros");
+
+const pantallaMovilFiltros =
+    window.matchMedia("(max-width: 650px)");
+
+function cambiarEstadoFiltros(abierto) {
+
+    camposFiltros.hidden = !abierto;
+
+    botonDesplegarFiltros.setAttribute(
+        "aria-expanded",
+        String(abierto)
+    );
+
+    botonDesplegarFiltros.textContent = abierto
+        ? "Ocultar filtros"
+        : "Mostrar filtros";
+
+}
+
+function adaptarFiltrosPantalla() {
+
+    const esMovil = pantallaMovilFiltros.matches;
+
+    botonDesplegarFiltros.hidden = !esMovil;
+
+    cambiarEstadoFiltros(!esMovil);
+
+}
+
+botonDesplegarFiltros.addEventListener("click", () => {
+
+    const abierto =
+        botonDesplegarFiltros.getAttribute("aria-expanded") === "true";
+
+    cambiarEstadoFiltros(!abierto);
+
+});
+
+// Actualizar al cambiar el tamaño de pantalla
+
+pantallaMovilFiltros.addEventListener(
+    "change",
+    adaptarFiltrosPantalla
+);
+
+// Cerrar filtros al presionar Buscar cuidados
+
+formFiltros.addEventListener("submit", () => {
+
+    if (pantallaMovilFiltros.matches) {
+
+        cambiarEstadoFiltros(false);
+
+        botonDesplegarFiltros.focus({
+            preventScroll: true
+        });
+
+    }
+
+});
+
+adaptarFiltrosPantalla();

@@ -95,7 +95,7 @@ main {
 
 /* ENCABEZADO PARA UNA ESPECIE ESPECÍFICA */
 
-html.especie-fija .cuidados-imagenes img {
+html[data-especie] .cuidados-imagenes img {
     display: none;
 }
 
@@ -1041,54 +1041,230 @@ button.filtro-activo:hover {
     flex-shrink: 0;
 }
 
-/* FONDO GENERAL DE LA PÁGINA DE CUIDADOS */
+/* ============================================================
+   PALETAS DE COLORES POR ESPECIE
+   ============================================================ */
+
+:root {
+    --tema-fondo: #f8f7f3;
+    --tema-encabezado: linear-gradient(120deg, #ffebad, #fce3a3);
+    --tema-base: #ffebad;
+    --tema-superficie: #fffdf5;
+    --tema-borde: #f0dfa8;
+    --tema-acento: #92400e;
+    --tema-hover: #78350f;
+}
+
+/* PERROS */
+
+html[data-especie="perros"] {
+    --tema-fondo: #fce4c7;
+    --tema-encabezado: #f0cda5;
+    --tema-base: #f0cda5;
+    --tema-superficie: #fff6e9;
+    --tema-borde: #deb68c;
+    --tema-acento: #92400e;
+    --tema-hover: #78350f;
+}
+
+/* GATOS */
+
+html[data-especie="gatos"] {
+    --tema-fondo: #f9ded9;
+    --tema-encabezado: #eec3c7;
+    --tema-base: #eec3c7;
+    --tema-superficie: #fff1ef;
+    --tema-borde: #dfb0b6;
+    --tema-acento: #9d4356;
+    --tema-hover: #7f3244;
+}
+
+/* AVES */
+
+html[data-especie="aves"] {
+    --tema-fondo: #c8f5f9;
+    --tema-encabezado: #93d1e4;
+    --tema-base: #b1e7ee;
+    --tema-superficie: #effcfd;
+    --tema-borde: #84c5d2;
+    --tema-acento: #17667b;
+    --tema-hover: #104c5e;
+}
+
+/* REPTILES */
+
+html[data-especie="reptiles"] {
+    --tema-fondo: #c3edab;
+    --tema-encabezado: #c0e07e;
+    --tema-base: #d1e9aa;
+    --tema-superficie: #f3fce9;
+    --tema-borde: #a9ca78;
+    --tema-acento: #3f6212;
+    --tema-hover: #304b0d;
+}
+
+/* ANIMALES EXÓTICOS */
+
+html[data-especie="exoticos"] {
+    --tema-fondo: #e5c9a4;
+    --tema-encabezado: #d1af86;
+    --tema-base: #e6cca9;
+    --tema-superficie: #faf4e9;
+    --tema-borde: #c5a47a;
+    --tema-acento: #79502c;
+    --tema-hover: #5d3c20;
+}
+
+/* FONDO GENERAL */
 
 body {
-    background-color: #f8f7f3;
+    background-color: var(--tema-fondo);
 }
 
-/* FONDO PARA CADA ESPECIE */
-
-html[data-especie="perros"] body {
-    background-color: #fce4c7
+.encabezado-cuidados {
+    background: var(--tema-encabezado);
+    border-color: var(--tema-borde);
 }
 
-html[data-especie="gatos"] body {
-    background-color: #f9ded9;
+/* FORMULARIO */
+
+.filtros,
+.filtros-encabezado,
+.filtros-botones {
+    border-color: var(--tema-borde);
 }
 
-html[data-especie="aves"] body {
-    background-color: #c8f5f9;
+.filtros select,
+.filtros input[type="search"] {
+    background-color: var(--tema-superficie);
+    border-color: var(--tema-borde);
 }
 
-html[data-especie="reptiles"] body {
-    background-color: #c3edab;
+.filtros select:hover,
+.filtros input[type="search"]:hover,
+.filtros select:focus,
+.filtros input[type="search"]:focus {
+    border-color: var(--tema-acento);
 }
 
-html[data-especie="exoticos"] body,
-html[data-especie="animales exóticos"] body {
-    background-color: #E5C9A4;
+.filtros select:focus,
+.filtros input[type="search"]:focus {
+    box-shadow: 0 0 0 3px var(--tema-base);
 }
 
-/* COLORES DEL ENCABEZADO SEGÚN EL ANIMAL */
+/* TÍTULOS E ICONOS */
 
-html[data-especie="perros"] .encabezado-cuidados {
-    background: #f0cda5;
+.encabezado-cuidados h2,
+.encabezado-cuidados .subtitulo,
+.filtros-encabezado h3,
+.filtros label,
+.titulo-resultados,
+.tarjeta-titulo,
+.icono-busqueda,
+.chevron,
+.grupo-contenido > h3,
+.grupo-contenido > h3 svg {
+    color: var(--tema-acento);
 }
 
-html[data-especie="gatos"] .encabezado-cuidados {
-    background: #eec3c7;
+/* BOTONES */
+
+.filtros-botones .btn-principal,
+.navegacion-resultados button[aria-pressed="true"] {
+    background-color: var(--tema-acento);
+    color: white;
 }
 
-html[data-especie="aves"] .encabezado-cuidados {
-    background: #93d1e4;
+.filtros-botones .btn-principal:hover {
+    background-color: var(--tema-hover);
 }
 
-html[data-especie="reptiles"] .encabezado-cuidados {
-    background: #c0e07e;
+.filtros-botones .btn-secundario {
+    border-color: var(--tema-acento);
+    color: var(--tema-acento);
 }
 
-html[data-especie="exoticos"] .encabezado-cuidados,
-html[data-especie="animales exóticos"] .encabezado-cuidados {
-    background: #d1af86;
+/* FILTROS ACTIVOS Y SELECTOR DE RESULTADOS */
+
+.filtro-activo,
+.navegacion-resultados {
+    background-color: var(--tema-base);
+    color: var(--tema-acento);
+    border-color: var(--tema-borde);
+}
+
+.navegacion-resultados button {
+    color: var(--tema-acento);
+}
+
+button.filtro-activo:hover,
+.navegacion-resultados button:hover:not([aria-pressed="true"]) {
+    background-color: var(--tema-superficie);
+}
+
+/* TARJETAS DE CUIDADOS */
+
+.tarjeta-info {
+    border-color: var(--tema-borde);
+}
+
+.tarjeta-info:hover,
+.tarjeta-info[open] {
+    border-color: var(--tema-acento);
+}
+
+.tarjeta-info[open] > summary,
+.grupo-contenido {
+    background-color: var(--tema-superficie);
+    border-color: var(--tema-borde);
+}
+
+/* ============================================================
+   FILTROS DESPLEGABLES EN TELÉFONOS
+   ============================================================ */
+
+.filtros-campos {
+    display: contents;
+}
+
+.filtros-campos[hidden] {
+    display: none !important;
+}
+
+.btn-desplegar-filtros {
+    display: none;
+}
+
+@media (max-width: 650px) {
+
+    .btn-desplegar-filtros {
+        display: flex;
+
+        align-items: center;
+        justify-content: space-between;
+
+        width: 100%;
+        margin-top: 16px;
+        padding: 14px;
+
+        background-color: var(--tema-base);
+        color: var(--tema-acento);
+
+        border: 1px solid var(--tema-borde);
+        border-radius: 10px;
+
+        font-size: 15px;
+        font-weight: 700;
+        cursor: pointer;
+    }
+
+    .btn-desplegar-filtros::after {
+        content: "⌄";
+        font-size: 22px;
+    }
+
+    .btn-desplegar-filtros[aria-expanded="true"]::after {
+        transform: rotate(180deg);
+    }
+
 }

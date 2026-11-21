@@ -370,3 +370,51 @@ body {
     }
 
 }
+
+/* REGISTRAR MASCOTA DESDE IA */
+
+.btn-registrar-ia {
+    background-color: #92400e;
+    color: white;
+    border: none;
+    border-radius: 10px;
+
+    padding: 14px 22px;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+
+    transition: background-color 0.2s;
+}
+
+.btn-registrar-ia:hover {
+    background-color: #78350f;
+}
+
+.btn-registrar-ia:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.estado-registro-ia {
+    color: #92400e;
+    font-size: 14px;
+    text-align: right;
+    margin-top: 12px;
+}
+
+.estado-registro-ia:empty {
+    margin-top: 0;
+}
+
+@media (max-width: 650px) {
+
+    .btn-registrar-ia {
+        width: 100%;
+    }
+
+    .estado-registro-ia {
+        text-align: center;
+    }
+
+}

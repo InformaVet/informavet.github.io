@@ -303,3 +303,362 @@
     font-size: 14px;
     white-space: pre-line;
 }
+
+/* IDENTIDAD VISUAL DE LA FICHA */
+
+#contenido-ficha {
+    --ficha-base: #ffebad;
+    --ficha-acento: #92400e;
+    --ficha-suave: #fffaf0;
+}
+
+#contenido-ficha[data-especie="Perro"] {
+    --ficha-base: #f0cda5;
+    --ficha-acento: #92400e;
+    --ficha-suave: #fff6e9;
+}
+
+#contenido-ficha[data-especie="Gato"] {
+    --ficha-base: #eec3c7;
+    --ficha-acento: #9d4356;
+    --ficha-suave: #fff1ef;
+}
+
+#contenido-ficha[data-especie="Ave"] {
+    --ficha-base: #93d1e4;
+    --ficha-acento: #17667b;
+    --ficha-suave: #effcfd;
+}
+
+#contenido-ficha[data-especie="Reptil"] {
+    --ficha-base: #c0e07e;
+    --ficha-acento: #3f6212;
+    --ficha-suave: #f3fce9;
+}
+
+#contenido-ficha[data-especie="Animal exótico"] {
+    --ficha-base: #d1af86;
+    --ficha-acento: #79502c;
+    --ficha-suave: #faf4e9;
+}
+
+/* CABECERA PERSONALIZADA */
+
+.cabecera-ficha {
+    background: linear-gradient(
+        120deg,
+        var(--ficha-base),
+        var(--ficha-suave)
+    );
+
+    border: 1px solid var(--ficha-base);
+    border-radius: 24px;
+    padding: 35px;
+    margin-bottom: 25px;
+}
+
+#foto-ficha img {
+    display: block;
+    width: 160px;
+    height: 160px;
+    object-fit: cover;
+    border: 5px solid white;
+    border-radius: 50%;
+}
+
+.datos-ficha {
+    min-width: 0;
+}
+
+.datos-ficha h1 {
+    color: var(--ficha-acento);
+    font-size: 42px;
+    margin: 12px 0;
+    overflow-wrap: anywhere;
+}
+
+.etiqueta-ficha {
+    color: var(--ficha-acento);
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.especie-ficha {
+    display: inline-block;
+    background-color: white;
+    color: var(--ficha-acento);
+    padding: 7px 18px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+/* PESTAÑAS DE NAVEGACION */
+
+.pestanas-ficha {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 10px;
+    margin-bottom: 25px;
+}
+
+.pestanas-ficha button {
+    background-color: white;
+    color: var(--ficha-acento);
+    border: 1px solid var(--ficha-base);
+    border-radius: 12px;
+
+    padding: 15px 10px;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+
+    transition:
+        background-color 0.2s,
+        color 0.2s;
+}
+
+.pestanas-ficha button:hover {
+    background-color: var(--ficha-base);
+}
+
+.pestanas-ficha button[aria-selected="true"] {
+    background-color: var(--ficha-acento);
+    color: white;
+    border-color: var(--ficha-acento);
+}
+
+.pestanas-ficha button:focus-visible {
+    outline: 2px solid var(--ficha-acento);
+    outline-offset: 3px;
+}
+
+.panel-ficha {
+    border: 1px solid var(--ficha-base);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+}
+
+.panel-ficha h2,
+.panel-ficha h3 {
+    color: var(--ficha-acento);
+}
+
+/* INFORMACION GENERAL */
+
+.informacion-general {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+    margin-bottom: 35px;
+}
+
+.dato-ficha {
+    padding: 20px;
+    background-color: var(--ficha-suave);
+    border: 1px solid var(--ficha-base);
+    border-radius: 12px;
+}
+
+.dato-ficha dt {
+    font-size: 14px;
+    color: #665849;
+    margin-bottom: 8px;
+}
+
+.dato-ficha dd {
+    color: var(--ficha-acento);
+    font-size: 21px;
+    font-weight: 700;
+    overflow-wrap: anywhere;
+}
+
+/* RESUMEN VETERINARIO */
+
+.resumen-ficha {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+}
+
+.indicador-ficha {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+
+    background-color: var(--ficha-suave);
+    border: 1px solid var(--ficha-base);
+    padding: 25px;
+    border-radius: 15px;
+}
+
+.indicador-ficha strong {
+    color: var(--ficha-acento);
+    font-size: 38px;
+    margin-bottom: 8px;
+}
+
+.indicador-ficha span {
+    color: #665849;
+    font-size: 14px;
+}
+
+/* DISTRIBUCION DE VACUNAS Y CONTROLES */
+
+.distribucion-panel {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr);
+    gap: 30px;
+}
+
+.bloque-formulario-ficha {
+    background-color: var(--ficha-suave);
+    border: 1px solid var(--ficha-base);
+    border-radius: 15px;
+    padding: 22px;
+    align-self: start;
+}
+
+.distribucion-panel h3 {
+    margin-top: 0;
+}
+
+.form-ficha button {
+    background-color: var(--ficha-acento);
+}
+
+.form-ficha button:hover {
+    opacity: 0.9;
+    background-color: var(--ficha-acento);
+}
+
+.form-ficha button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.form-ficha input:focus,
+.form-ficha select:focus {
+    border-color: var(--ficha-acento);
+}
+
+.registro-ficha {
+    background-color: var(--ficha-suave);
+    border-color: var(--ficha-base);
+}
+
+.registro-ficha strong {
+    color: var(--ficha-acento);
+    overflow-wrap: anywhere;
+}
+
+.registro-ficha > div {
+    min-width: 0;
+}
+
+/* ESTADOS DE LOS REGISTROS */
+
+.registro-ficha .estado-registro {
+    display: inline-block;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 700;
+    background-color: #fef3c7;
+    color: #92400e;
+}
+
+.estado-registro[data-estado="Aplicada"],
+.estado-registro[data-estado="Realizado"] {
+    background-color: #dcfce7;
+    color: #166534;
+}
+
+.estado-registro[data-estado="Programado"] {
+    background-color: #dbeafe;
+    color: #1e40af;
+}
+
+/* CUIDADOS RECOMENDADOS */
+
+.cuidados-recomendados {
+    margin-bottom: 0;
+}
+
+.tarjeta-info {
+    border-color: var(--ficha-base);
+}
+
+.tarjeta-info[open] summary {
+    background-color: var(--ficha-suave);
+    border-color: var(--ficha-base);
+}
+
+.badge-tipo-ficha {
+    background-color: var(--ficha-suave);
+    color: var(--ficha-acento);
+    border-color: var(--ficha-base);
+}
+
+/* VERSION MOVIL DE LA FICHA */
+
+@media (max-width: 850px) {
+
+    .distribucion-panel {
+        grid-template-columns: 1fr;
+    }
+
+}
+
+@media (max-width: 650px) {
+
+    .ficha-contenedor {
+        margin: 20px auto;
+        padding: 15px;
+    }
+
+    .cabecera-ficha {
+        flex-direction: column;
+        padding: 25px;
+        gap: 16px;
+        text-align: center;
+    }
+
+    #foto-ficha img {
+        width: 125px;
+        height: 125px;
+    }
+
+    .datos-ficha h1 {
+        font-size: 30px;
+    }
+
+    .pestanas-ficha {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .pestanas-ficha button {
+        font-size: 14px;
+    }
+
+    .panel-ficha {
+        padding: 20px 15px;
+    }
+
+    .informacion-general {
+        gap: 10px;
+    }
+
+    .dato-ficha {
+        padding: 15px;
+    }
+
+    .dato-ficha dd {
+        font-size: 17px;
+    }
+
+    .indicador-ficha {
+        padding: 16px 10px;
+    }
+
+}

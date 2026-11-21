@@ -477,3 +477,297 @@ header {
         gap: 12px 18px;
     }
 }
+
+/* NUEVO ENCABEZADO DE MIS MASCOTAS */
+
+.bienvenida {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 30px;
+
+    background: linear-gradient(120deg, #ffebad, #fff8e7);
+    border: 1px solid #f0dfa8;
+    border-radius: 24px;
+    padding: 35px;
+    text-align: left;
+}
+
+.bienvenida-texto {
+    max-width: 520px;
+}
+
+.etiqueta-perfil {
+    display: inline-block;
+    background-color: #ffdfa0;
+    color: #92400e;
+    border-radius: 20px;
+    padding: 7px 14px;
+    font-size: 13px;
+    font-weight: 700;
+    margin-bottom: 14px;
+}
+
+.bienvenida p {
+    line-height: 1.7;
+}
+
+.bienvenida-acciones {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 18px;
+}
+
+.contador-mascotas {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.contador-mascotas strong {
+    font-size: 42px;
+    color: #92400e;
+}
+
+.contador-mascotas span {
+    color: #665849;
+    font-size: 14px;
+}
+
+.btn-nueva-mascota {
+    background-color: #92400e;
+    color: white;
+    border: none;
+    border-radius: 12px;
+    padding: 15px 24px;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background-color 0.2s;
+}
+
+.btn-nueva-mascota:hover {
+    background-color: #78350f;
+}
+
+.descripcion-mascotas {
+    color: #665849;
+    margin-bottom: 25px;
+    line-height: 1.6;
+}
+
+#estado-perfil:not(:empty) {
+    background-color: white;
+    color: #92400e;
+    padding: 15px;
+    border-radius: 12px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+#mensaje-vacio:not([hidden]) {
+    background-color: white;
+    border: 2px dashed #e9cc91;
+    border-radius: 18px;
+    padding: 35px 20px;
+    text-align: center;
+}
+
+/* NUEVAS TARJETAS DE MASCOTAS */
+
+.grid-mascotas {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 25px;
+}
+
+.tarjeta-mascota {
+    --mascota-base: #ffebad;
+    --mascota-acento: #92400e;
+
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--mascota-base);
+    border-radius: 20px;
+    padding: 0;
+    overflow: hidden;
+    background-color: white;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.06);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+/* COLORES SEGÚN LA ESPECIE */
+
+.tarjeta-mascota[data-especie="Perro"] {
+    --mascota-base: #f0cda5;
+    --mascota-acento: #92400e;
+}
+
+.tarjeta-mascota[data-especie="Gato"] {
+    --mascota-base: #eec3c7;
+    --mascota-acento: #9d4356;
+}
+
+.tarjeta-mascota[data-especie="Ave"] {
+    --mascota-base: #93d1e4;
+    --mascota-acento: #17667b;
+}
+
+.tarjeta-mascota[data-especie="Reptil"] {
+    --mascota-base: #c0e07e;
+    --mascota-acento: #3f6212;
+}
+
+.tarjeta-mascota[data-especie="Animal exótico"] {
+    --mascota-base: #d1af86;
+    --mascota-acento: #79502c;
+}
+
+/* CABECERA DE LA TARJETA */
+
+.cabecera-mascota {
+    background-color: var(--mascota-base);
+    padding: 24px 15px 18px;
+}
+
+.cabecera-mascota .foto-mascota {
+    width: 130px;
+    height: 130px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 4px solid white;
+    margin: 0 auto 12px;
+}
+
+.etiqueta-especie {
+    display: inline-block;
+    padding: 6px 14px;
+    border-radius: 20px;
+    background-color: white;
+    color: var(--mascota-acento);
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.tarjeta-mascota h3 {
+    color: var(--mascota-acento);
+    font-size: 25px;
+    margin: 18px 15px 12px;
+    overflow-wrap: anywhere;
+}
+
+/* INFORMACIÓN DE LA MASCOTA */
+
+.detalles-mascota {
+    display: grid;
+    gap: 10px;
+    padding: 0 20px;
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.dato-mascota {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 12px;
+
+    background-color: #f8f6f2;
+    padding: 12px;
+    border-radius: 9px;
+    font-size: 14px;
+}
+
+.dato-mascota dt {
+    color: #776b5c;
+}
+
+.dato-mascota dd {
+    font-weight: 700;
+    color: #333;
+    text-align: right;
+    overflow-wrap: anywhere;
+    min-width: 0;
+}
+
+/* ACCIONES DE LA TARJETA */
+
+.tarjeta-mascota .acciones-tarjeta {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding: 0 20px 22px;
+    gap: 10px;
+    margin-top: auto;
+}
+
+.tarjeta-mascota .btn-ingresar-mascota {
+    grid-column: 1 / -1;
+    background-color: var(--mascota-acento);
+    font-size: 15px;
+    padding: 13px;
+}
+
+.tarjeta-mascota .btn-editar {
+    background-color: #fff4cc;
+    color: #92400e;
+}
+
+.tarjeta-mascota .btn-eliminar {
+    margin: 0;
+}
+
+@media (hover: hover) {
+
+    .tarjeta-mascota:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 10px 22px rgba(0, 0, 0, 0.1);
+    }
+
+}
+
+/* DISEÑO RESPONSIVE DE MIS MASCOTAS */
+
+@media (max-width: 1000px) {
+
+    .grid-mascotas {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+}
+
+@media (max-width: 650px) {
+
+    .contenedor {
+        margin: 20px auto;
+        padding: 15px;
+    }
+
+    .bienvenida {
+        flex-direction: column;
+        padding: 25px 20px;
+        text-align: center;
+        gap: 20px;
+    }
+
+    .bienvenida h1 {
+        font-size: 28px;
+    }
+
+    .bienvenida-acciones {
+        width: 100%;
+    }
+
+    .btn-nueva-mascota {
+        width: 100%;
+    }
+
+    .grid-mascotas {
+        grid-template-columns: 1fr;
+    }
+
+    .tarjeta-formulario {
+        padding: 20px;
+    }
+
+}

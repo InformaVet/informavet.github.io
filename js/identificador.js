@@ -27,6 +27,16 @@ document.addEventListener("DOMContentLoaded", async () => {
     const enlaceCuidados =
         document.getElementById("enlaceCuidadosIA");
 
+    const botonRegistrarIA =
+        document.getElementById("btnRegistrarIA");
+
+    const estadoRegistroIA =
+        document.getElementById("estadoRegistroIA");
+
+    let registroIA = null;
+    let preparandoRegistro = false;
+    let usuarioIAId = null;
+
     let sesionActiva = false;
     let procesando = false;
     let urlPrevia = null;
@@ -56,7 +66,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             return;
         }
 
-        if (procesando) {
+        if (procesando || preparandoRegistro) {
 
             mostrarEstadoIA(
                 "Ya estamos analizando una fotografía.",
@@ -92,6 +102,12 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         resultado.style.display = "none";
         enlaceCuidados.hidden = true;
+
+        botonRegistrarIA.hidden = true;
+
+        registroIA = null;
+
+        estadoRegistroIA.textContent = "";
 
         cargando.hidden = false;
 
@@ -131,6 +147,24 @@ document.addEventListener("DOMContentLoaded", async () => {
                     encodeURIComponent(especie);
 
                 enlaceCuidados.hidden = false;
+
+                const especiesRegistro = {
+                    perro: "Perro",
+                    gato: "Gato"
+                };
+
+                registroIA = {
+
+                    especie: especiesRegistro[datos.animal],
+
+                    raza: datos.raza_estimada || "",
+
+                    archivo: archivo
+
+                };
+
+                botonRegistrarIA.hidden = false;
+
             }
 
         } catch (error) {
@@ -155,12 +189,100 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     }
 
+    // TRANSFERIR RESULTADOS A MIS MASCOTAS
+
+    botonRegistrarIA.addEventListener("click", async function() {
+
+        if (
+            !registroIA ||
+            procesando ||
+            preparandoRegistro
+        ) return;
+
+        preparandoRegistro = true;
+
+        botonRegistrarIA.disabled = true;
+        botonSubir.disabled = true;
+        botonOtraFoto.disabled = true;
+
+        estadoRegistroIA.textContent =
+            "Preparando el registro de tu mascota...";
+
+        try {
+
+            const usuarioActual = await obtenerUsuario();
+
+            if (
+                !usuarioActual ||
+                usuarioActual.id !== usuarioIAId
+            ) {
+                throw new Error("La sesión ha cambiado.");
+            }
+
+            // Reducir la fotografía antes de transferirla
+
+            const foto = await reducirFoto(
+                registroIA.archivo
+            );
+
+            const datosRegistro = {
+
+                usuarioId: usuarioActual.id,
+
+                especie: registroIA.especie,
+
+                raza: registroIA.raza,
+
+                fotografia: foto.base64,
+
+                creadoEn: Date.now()
+
+            };
+
+            // Almacenar temporalmente los datos
+
+            sessionStorage.setItem(
+                "informavet:registro-ia",
+                JSON.stringify(datosRegistro)
+            );
+
+            // Redirigir a Mis mascotas
+
+            window.location.href =
+                "perfil_mascota.html?origen=ia";
+
+        } catch (error) {
+
+            console.error(
+                "Error preparando el registro:",
+                error
+            );
+
+            estadoRegistroIA.textContent =
+                "No pudimos preparar el registro. " +
+                "Comprueba tu sesión e inténtalo nuevamente.";
+
+        } finally {
+
+            preparandoRegistro = false;
+
+            botonRegistrarIA.disabled = false;
+            botonSubir.disabled = false;
+            botonOtraFoto.disabled = false;
+
+        }
+
+    });
+
 
     // SELECCIONAR IMAGEN DESDE EL DISPOSITIVO
-
     function abrirSelector() {
 
-        if (sesionActiva && !procesando) {
+        if (
+            sesionActiva &&
+            !procesando &&
+            !preparandoRegistro
+        ) {
             inputFoto.click();
         }
 
@@ -186,7 +308,11 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         evento.preventDefault();
 
-        if (sesionActiva && !procesando) {
+        if (
+            sesionActiva &&
+            !procesando &&
+            !preparandoRegistro
+        ) {
             zonaCarga.classList.add("arrastrando");
         }
 
@@ -234,6 +360,8 @@ document.addEventListener("DOMContentLoaded", async () => {
         const usuario = await obtenerUsuario();
 
         sesionActiva = Boolean(usuario);
+
+        usuarioIAId = usuario ? usuario.id : null;
 
         botonSubir.hidden = !sesionActiva;
         enlaceLogin.hidden = sesionActiva;

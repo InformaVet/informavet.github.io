@@ -55,18 +55,46 @@
         <!-- BIENVENIDA -->
         <section class="bienvenida">
 
-            <h1>Mi espacio de mascotas</h1>
+            <div class="bienvenida-texto">
+                <span class="etiqueta-perfil">Mi espacio personal</span>
 
-            <p>
-                Registra a tus mascotas y mantén su
-                información organizada en un solo lugar.
-            </p>
+                <h1>Mis mascotas</h1>
+
+                <p>
+                    Organiza la información y acompaña el bienestar
+                    de tus mascotas en cada etapa de su vida.
+                </p>
+            </div>
+
+            <div class="bienvenida-acciones">
+
+                <div class="contador-mascotas">
+                    <strong id="cantidad-mascotas">—</strong>
+                    <span>Mascotas registradas</span>
+                </div>
+
+                <button
+                    type="button"
+                    id="btn-nueva-mascota"
+                    class="btn-nueva-mascota"
+                    aria-controls="seccion-formulario"
+                    aria-expanded="false"
+                >
+                    + Registrar mascota
+                </button>
+
+            </div>
 
         </section>
 
-        <!-- FORMULARIO DE MASCOTAS -->
-        <section class="tarjeta-formulario">
+        <p id="estado-perfil" role="status" aria-live="polite"></p>
 
+        <!-- FORMULARIO DE MASCOTAS -->
+        <section
+            class="tarjeta-formulario"
+            id="seccion-formulario"
+            hidden
+        >
             <h2 id="titulo-formulario">
                 Registrar una mascota
             </h2>
@@ -228,7 +256,6 @@
                         type="button"
                         id="btn-cancelar"
                         class="btn-cancelar"
-                        hidden
                     >
                         Cancelar edición
                     </button>
@@ -242,7 +269,12 @@
         <!-- LISTADO DE MASCOTAS -->
         <section class="mis-mascotas">
 
-            <h2>Mis mascotas</h2>
+            <h2>Tus compañeros de vida</h2>
+
+            <p class="descripcion-mascotas">
+                Selecciona una mascota para acceder a su ficha personal
+                e historial veterinario.
+            </p>
 
             <!-- MENSAJE CUANDO NO HAY MASCOTAS -->
             <p id="mensaje-vacio" hidden>

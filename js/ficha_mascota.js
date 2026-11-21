@@ -23,6 +23,77 @@ const iconos = {
 };
 
 let registros = [];
+// NAVEGACION ENTRE PESTAÑAS
+
+const pestanasFicha = Array.from(
+    document.querySelectorAll(".pestanas-ficha button")
+);
+
+function seleccionarPestana(pestanaActiva) {
+
+    pestanasFicha.forEach(function(pestana) {
+
+        const activa = pestana === pestanaActiva;
+
+        pestana.setAttribute(
+            "aria-selected",
+            String(activa)
+        );
+
+        pestana.tabIndex = activa ? 0 : -1;
+
+        const panel = document.getElementById(
+            pestana.getAttribute("aria-controls")
+        );
+
+        panel.hidden = !activa;
+
+    });
+
+}
+
+pestanasFicha.forEach(function(pestana, indice) {
+
+    pestana.addEventListener("click", function() {
+        seleccionarPestana(pestana);
+    });
+
+    pestana.addEventListener("keydown", function(event) {
+
+        let siguiente = indice;
+
+        if (event.key === "ArrowRight") {
+
+            siguiente = (indice + 1) % pestanasFicha.length;
+
+        } else if (event.key === "ArrowLeft") {
+
+            siguiente = (
+                indice - 1 + pestanasFicha.length
+            ) % pestanasFicha.length;
+
+        } else if (event.key === "Home") {
+
+            siguiente = 0;
+
+        } else if (event.key === "End") {
+
+            siguiente = pestanasFicha.length - 1;
+
+        } else {
+
+            return;
+
+        }
+
+        event.preventDefault();
+
+        seleccionarPestana(pestanasFicha[siguiente]);
+        pestanasFicha[siguiente].focus();
+
+    });
+
+});
 
 function mostrarError(texto) {
     avisoError.textContent = texto || "No se encontró la mascota seleccionada.";
@@ -45,6 +116,15 @@ async function cargarRegistros() {
 // MOSTRAR CONTROLES Y VACUNAS
 
 function mostrarRegistros() {
+    document.getElementById("total-vacunas").textContent =
+        registros.filter(
+            registro => registro.tipo === "vacunas"
+        ).length;
+
+    document.getElementById("total-controles").textContent =
+        registros.filter(
+            registro => registro.tipo === "controles"
+        ).length;
 
     ["controles", "vacunas"].forEach(function(tipo) {
 
@@ -83,7 +163,10 @@ function mostrarRegistros() {
                 registro.fecha.split("-").reverse().join("/");
 
             const estado = document.createElement("p");
-            estado.textContent = "Estado: " + registro.estado;
+
+            estado.className = "estado-registro";
+            estado.dataset.estado = registro.estado;
+            estado.textContent = registro.estado;
 
             datos.append(nombre, fecha, estado);
 
@@ -193,24 +276,48 @@ async function cargarCuidados(mascota) {
     estadoEl.textContent = 'Buscando cuidados recomendados…'
 
     try {
-        const tipos = await cargarTiposAnimal()
-        const tipoEncontrado = tipos.find(function (t) {
-            return t.ta_nombre.toLowerCase() === (mascota.especie || '').toLowerCase()
-        })
+        const tipos = await cargarTiposAnimal();
 
+        const equivalencias = {
+
+            "Perro": "Canino",
+            "Gato": "Felino",
+            "Ave": "Ave",
+            "Reptil": "Reptil",
+            "Animal exótico": "Exótico"
+
+        };
+
+        const especieMascota =
+            equivalencias[mascota.especie] ||
+            mascota.especie ||
+            "";
+
+        const tipoEncontrado = tipos.find(function(t) {
+
+            return t.ta_nombre.trim().toLowerCase() ===
+                especieMascota.trim().toLowerCase();
+
+        });
         if (!tipoEncontrado) {
             estadoEl.textContent = 'No hay cuidados registrados para esta especie.'
             return
         }
 
-        const filtros = { idTipo: tipoEncontrado.id_tipo }
+        const filtros = {
+            idTipo: tipoEncontrado.id_tipo,
+            idCategoria: mascota.id_categoria || null
+        };
         const [guias, tips] = await Promise.all([
             buscarGuias(filtros),
             buscarTips(filtros)
         ])
 
-        const razaTexto = mascota.raza ? ' · ' + mascota.raza : ''
-        descripcion.textContent = 'Basado en: ' + tipoEncontrado.ta_nombre + razaTexto
+        descripcion.textContent =
+            "Recomendaciones según el tipo de animal" +
+            (mascota.id_categoria
+                ? " y su categoría registrada."
+                : ".");
 
         function crearTarjeta(item, campoCuerpo) {
             const detalle = document.createElement('details')
@@ -288,15 +395,68 @@ async function iniciar() {
     }
     contenido.hidden = false;
     // MOSTRAR INFORMACION DE LA MASCOTA
+
+    contenido.dataset.especie = mascota.especie;
+
     document.getElementById("nombre-ficha").textContent =
         mascota.m_nombre;
-    document.getElementById("informacion-ficha").textContent =
-        "Tipo: " + mascota.especie +
-        "\nRaza: " + (mascota.raza || "No especificada") +
-        "\nEdad: " + mascota.m_edad + " años" +
-        "\nPeso: " + (
-            mascota.m_peso ? mascota.m_peso + " kg" : "No indicado"
-        );
+
+    document.getElementById("especie-ficha").textContent =
+        mascota.especie;
+
+    const informacion = document.getElementById(
+        "informacion-ficha"
+    );
+
+    informacion.replaceChildren();
+
+    const datosFichaMascota = [
+
+        ["Tipo de animal", mascota.especie],
+
+        [
+            mascota.especie === "Ave" ||
+            mascota.especie === "Animal exótico"
+                ? "Especie específica"
+                : "Raza",
+
+            mascota.raza || "No especificada"
+        ],
+
+        [
+            "Edad",
+            mascota.m_edad + (
+                Number(mascota.m_edad) === 1
+                    ? " año"
+                    : " años"
+            )
+        ],
+
+        [
+            "Peso",
+            mascota.m_peso
+                ? mascota.m_peso + " kg"
+                : "No indicado"
+        ]
+
+    ];
+
+    datosFichaMascota.forEach(function(dato) {
+
+        const bloque = document.createElement("div");
+        bloque.className = "dato-ficha";
+
+        const etiqueta = document.createElement("dt");
+        etiqueta.textContent = dato[0];
+
+        const valor = document.createElement("dd");
+        valor.textContent = dato[1];
+
+        bloque.append(etiqueta, valor);
+
+        informacion.appendChild(bloque);
+
+    });
     // MOSTRAR FOTO (bucket privado: URL firmada de 1 hora)
     const fotoFicha = document.getElementById("foto-ficha");
     let urlFoto = null;
@@ -306,27 +466,75 @@ async function iniciar() {
             .createSignedUrl(mascota.foto_path, 3600);
         urlFoto = firmada ? firmada.signedUrl : null;
     }
-    if (urlFoto) {
-        const imagen = document.createElement("img");
-        imagen.src = urlFoto;
-        imagen.alt = "Foto de " + mascota.m_nombre;
-        fotoFicha.appendChild(imagen);
-        // CUIDADOS RECOMENDADOS
-        cargarCuidados(mascota)
-    } else {
-        const icono = document.createElement("div");
-        icono.className = "icono-mascota";
-        icono.textContent = iconos[mascota.especie] || "🐾";
-        fotoFicha.appendChild(icono);
-    }
+    const imagenesDefault = {
+
+        "Perro": "../recursos/imagenes/3,2.png",
+
+        "Gato": "../recursos/imagenes/4,2.png",
+
+        "Ave": "../recursos/imagenes/5,2.png",
+
+        "Animal exótico": "../recursos/imagenes/6,2.png",
+
+        "Reptil": "../recursos/imagenes/7,2.png"
+
+    };
+
+    const imagenDefault =
+        imagenesDefault[mascota.especie] ||
+        imagenesDefault["Animal exótico"];
+
+    const imagen = document.createElement("img");
+
+    imagen.src = urlFoto || imagenDefault;
+    imagen.alt = "Foto de " + mascota.m_nombre;
+
+    imagen.onerror = function() {
+
+        this.onerror = null;
+        this.src = imagenDefault;
+
+    };
+
+    fotoFicha.replaceChildren(imagen);
+
+    // CARGAR CUIDADOS INDEPENDIENTEMENTE DE LA FOTO
+
+    cargarCuidados(mascota);
     // HISTORIAL
-    activarFormularios();
+
     try {
+
         await cargarRegistros();
+
+        mostrarRegistros();
+        activarFormularios();
+
+        document.querySelectorAll(
+            ".form-ficha button[type='submit']"
+        ).forEach(function(boton) {
+
+            boton.disabled = false;
+
+        });
+
     } catch (error) {
+
         console.error("Error al cargar historial:", error);
+
+        ["lista-vacunas", "lista-controles"].forEach(function(id) {
+
+            const aviso = document.createElement("li");
+
+            aviso.className = "sin-registros";
+            aviso.textContent =
+                "No pudimos cargar el historial. Recarga la página.";
+
+            document.getElementById(id).replaceChildren(aviso);
+
+        });
+
     }
-    mostrarRegistros();
 }
 
 iniciar();
