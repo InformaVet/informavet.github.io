@@ -9,6 +9,11 @@ const lista = document.getElementById("lista-mascotas");
 const mensajeVacio = document.getElementById("mensaje-vacio");
 
 const fotoInput = document.getElementById("foto");
+const botonCamaraPerfil =
+    document.getElementById("btnCamaraPerfil");
+
+const fotoCamaraPerfil =
+    document.getElementById("fotoCamaraPerfil");
 const vistaFoto = document.getElementById("vista-foto");
 const mensaje = document.getElementById("mensaje-mascota");
 
@@ -225,6 +230,85 @@ fotoInput.addEventListener("change", function() {
     mensaje.textContent = "";
     urlTemporal = URL.createObjectURL(archivo);
     mostrarFoto(urlTemporal);
+});
+
+// ABRIR CAMARA PARA REGISTRAR MASCOTA
+
+botonCamaraPerfil.addEventListener("click", function() {
+
+    if (!btnGuardar.disabled) {
+
+        fotoCamaraPerfil.click();
+
+    }
+
+});
+
+// RECIBIR FOTOGRAFIA DE LA CAMARA
+
+fotoCamaraPerfil.addEventListener("change", async function() {
+
+    const archivo = fotoCamaraPerfil.files[0];
+
+    fotoCamaraPerfil.value = "";
+
+    if (!archivo || btnGuardar.disabled) return;
+
+    botonCamaraPerfil.disabled = true;
+    btnGuardar.disabled = true;
+    fotoInput.disabled = true;
+
+    mensaje.textContent = "Preparando fotografía...";
+
+    try {
+
+        // Reducir y convertir la imagen a JPEG
+
+        const blob = await procesarImagen(archivo);
+
+        const fotografia = new File(
+            [blob],
+            "foto-camara.jpg",
+            {
+                type: "image/jpeg"
+            }
+        );
+
+        // Incorporar la fotografía al formulario
+
+        const transferencia = new DataTransfer();
+
+        transferencia.items.add(fotografia);
+
+        fotoInput.files = transferencia.files;
+
+        // Activar la vista previa existente
+
+        fotoInput.dispatchEvent(
+            new Event("change", {
+                bubbles: true
+            })
+        );
+
+        mensaje.textContent =
+            "Fotografía capturada correctamente.";
+
+    } catch (error) {
+
+        console.error(error);
+
+        mensaje.textContent =
+            "No se pudo procesar la fotografía. " +
+            "Intenta nuevamente.";
+
+    } finally {
+
+        botonCamaraPerfil.disabled = false;
+        btnGuardar.disabled = false;
+        fotoInput.disabled = false;
+
+    }
+
 });
 
 // REDUCIR LA IMAGEN ANTES DE SUBIRLA (devuelve un Blob JPEG)

@@ -418,3 +418,27 @@ body {
     }
 
 }
+
+/* BOTON DE CAMARA */
+
+.ia-zona-carga .btn-camara-ia {
+    display: none;
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 14px;
+}
+
+.ia-zona-carga .btn-camara-ia:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* DISPOSITIVOS TACTILES */
+
+@media (any-pointer: coarse) {
+
+    .ia-zona-carga .btn-camara-ia {
+        display: inline-block;
+    }
+
+}

@@ -3,6 +3,12 @@ document.addEventListener("DOMContentLoaded", async () => {
     const inputFoto =
         document.getElementById("fotoMascotaInput");
 
+    const botonCamaraIA =
+        document.getElementById("btnCamaraIA");
+
+    const fotoCamaraIA =
+        document.getElementById("fotoCamaraIA");
+
     const vistaPrevia =
         document.getElementById("previewFoto");
 
@@ -99,6 +105,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         procesando = true;
 
         botonSubir.disabled = true;
+        botonCamaraIA.disabled = true;
 
         resultado.style.display = "none";
         enlaceCuidados.hidden = true;
@@ -183,6 +190,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             cargando.hidden = true;
 
             botonSubir.disabled = false;
+            botonCamaraIA.disabled = false;
 
             inputFoto.value = "";
         }
@@ -203,6 +211,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         botonRegistrarIA.disabled = true;
         botonSubir.disabled = true;
+        botonCamaraIA.disabled = true;
         botonOtraFoto.disabled = true;
 
         estadoRegistroIA.textContent =
@@ -268,6 +277,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
             botonRegistrarIA.disabled = false;
             botonSubir.disabled = false;
+            botonCamaraIA.disabled = false;
             botonOtraFoto.disabled = false;
 
         }
@@ -289,6 +299,38 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 
     botonSubir.addEventListener("click", abrirSelector);
+
+    // ABRIR CAMARA DEL DISPOSITIVO
+
+    botonCamaraIA.addEventListener("click", function() {
+
+        if (
+            sesionActiva &&
+            !procesando &&
+            !preparandoRegistro
+        ) {
+
+            fotoCamaraIA.click();
+
+        }
+
+    });
+
+    // PROCESAR FOTOGRAFIA CAPTURADA
+
+    fotoCamaraIA.addEventListener("change", function() {
+
+        const archivo = fotoCamaraIA.files[0];
+
+        fotoCamaraIA.value = "";
+
+        if (archivo) {
+
+            seleccionarFoto(archivo);
+
+        }
+
+    });
 
     botonOtraFoto.addEventListener("click", abrirSelector);
 
@@ -365,6 +407,8 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         botonSubir.hidden = !sesionActiva;
         enlaceLogin.hidden = sesionActiva;
+
+        botonCamaraIA.hidden = !sesionActiva;
 
         mostrarEstadoIA("", false);
 
