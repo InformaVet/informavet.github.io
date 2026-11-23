@@ -2249,3 +2249,21 @@ div.equipo-foto {
     }
 
 }
+
+.btn-conocer-profesional {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 12px 20px;
+    border-radius: 10px;
+    background-color: #92400e;
+    color: white;
+    font-size: 14px;
+    font-weight: 700;
+    text-decoration: none;
+    transition: background-color 0.2s, transform 0.2s;
+}
+
+.btn-conocer-profesional:hover {
+    background-color: #78350f;
+    transform: translateY(-2px);
+}
