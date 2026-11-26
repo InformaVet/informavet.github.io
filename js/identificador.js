@@ -142,7 +142,11 @@ document.addEventListener("DOMContentLoaded", async () => {
 
             const especies = {
                 perro: "Canino",
-                gato: "Felino"
+                gato: "Felino",
+                ave: "Ave",
+                reptil: "Reptil",
+                pez: "Exótico",
+                exotico: "Exótico"
             };
 
             const especie = especies[datos.animal];
@@ -157,7 +161,11 @@ document.addEventListener("DOMContentLoaded", async () => {
 
                 const especiesRegistro = {
                     perro: "Perro",
-                    gato: "Gato"
+                    gato: "Gato",
+                    ave: "Ave",
+                    reptil: "Reptil",
+                    pez: "Pez",
+                    exotico: "Exótico"
                 };
 
                 registroIA = {

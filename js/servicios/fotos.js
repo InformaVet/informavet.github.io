@@ -86,9 +86,9 @@ function pintarResultadoIA(resultado) {
     document.getElementById("resAnimal").textContent = resultado.animal.toUpperCase()
     document.getElementById("resRaza").textContent = resultado.raza_estimada || "No determinada"
     document.getElementById("resPatron").textContent = resultado.patron_o_subtipo || "No disponible"
-    document.getElementById("resTemperamento").textContent = detalles.temperament || "No disponible"
-    document.getElementById("resEsperanza").textContent = detalles.life_span || "No disponible"
-    document.getElementById("resOrigen").textContent = detalles.origin || "No disponible"
+    document.getElementById("resTemperamento").textContent = detalles?.temperament || "No disponible"
+    document.getElementById("resEsperanza").textContent = detalles?.life_span || "No disponible"
+    document.getElementById("resOrigen").textContent = detalles?.origin || "No disponible"
     contenedor.style.display = "block"
 
     if (typeof resultado.restantes === "number") {

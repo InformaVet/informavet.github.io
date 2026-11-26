@@ -28,14 +28,25 @@ const RAZAS_LOCALES: Record<string, { temperament: string; life_span: string; or
   },
 };
 
-const PROMPT = `Analiza la imagen de la mascota. Determina si es un perro o un gato, estima su raza o mestizaje principal, su patrón de pelaje y el código ID más cercano para TheCatAPI (ej: 'esho', 'siam') o TheDogAPI. Si es un perro mestizo chileno, usa "api_target": "local" y "api_breed_id": "quiltro". Si en la imagen no se ve claramente un perro o un gato, usa "animal": "otro".
-Responde estrictamente con este esquema JSON:
+const PROMPT = `Analiza la imagen y determina qué animal doméstico aparece. Clasifícalo en una de estas categorías:
+- "perro": cualquier raza canina o mestizo
+- "gato": cualquier raza felina o mestiza
+- "ave": loros, periquitos, canarios, ninfas, agapornis, cacatúas, pinzones, cotorras, etc.
+- "reptil": serpientes, tortugas (terrestres o acuáticas), lagartos, iguanas, etc.
+- "pez": peces de acuario (goldfish, betta, guppy, tetra, etc.)
+- "exotico": hurón, erizo, conejo, cobaya, cuy, chinchilla, hámster, petauro del azúcar, degu, rata doméstica, jerbo, etc.
+- "otro": si no se ve claramente un animal doméstico en la imagen.
+
+Para perros y gatos, indica también el código ID para TheDogAPI o TheCatAPI (ej: 'esho', 'siam'). Si es un perro mestizo chileno, usa "api_target": "local" y "api_breed_id": "quiltro".
+Para aves, reptiles, peces y exóticos, usa "api_target": "ninguno" y "api_breed_id": "".
+
+Responde estrictamente con este esquema JSON (sin texto adicional):
 {
-    "animal": "gato" | "perro" | "otro",
-    "raza_estimada": "Nombre de raza",
-    "patron_o_subtipo": "Patrón visual",
-    "api_target": "catapi" | "dogapi" | "local",
-    "api_breed_id": "id_codigo"
+    "animal": "perro" | "gato" | "ave" | "reptil" | "pez" | "exotico" | "otro",
+    "raza_estimada": "Nombre de especie o raza (ej: Loro Amazona, Periquito Australiano, Hurón Doméstico)",
+    "patron_o_subtipo": "Patrón visual o descripción del ejemplar",
+    "api_target": "catapi" | "dogapi" | "local" | "ninguno",
+    "api_breed_id": "id_codigo_o_cadena_vacia"
 }`;
 
 interface ClienteAdmin {
@@ -107,6 +118,7 @@ async function buscarDetalles(
   objetivo: string,
 ) {
   try {
+    if (objetivo === "ninguno") return null;
     if (objetivo === "local") {
       return RAZAS_LOCALES[idRaza] ?? RAZAS_LOCALES.comun_mestizo;
     }
@@ -203,7 +215,7 @@ export function crearManejador(deps: Dependencias) {
       return responderJson(req, 502, { error: "ia_no_disponible" });
     }
 
-    const animal = ["gato", "perro", "otro"].includes(String(clasificacion?.animal))
+    const animal = ["gato", "perro", "ave", "reptil", "pez", "exotico", "otro"].includes(String(clasificacion?.animal))
       ? String(clasificacion.animal)
       : "otro";
     if (animal === "otro") {
@@ -215,7 +227,11 @@ export function crearManejador(deps: Dependencias) {
     const idRaza = /^[a-z0-9_-]{1,40}$/i.test(String(clasificacion.api_breed_id ?? ""))
       ? String(clasificacion.api_breed_id)
       : "";
-    const objetivo = animal === "perro" && clasificacion.api_target === "local" ? "local" : "api";
+    const objetivo = animal === "perro" && clasificacion.api_target === "local"
+      ? "local"
+      : (animal === "gato" || animal === "perro")
+        ? "api"
+        : "ninguno";
 
     const detalles = await buscarDetalles(deps, animal, idRaza, razaEstimada, objetivo);
     return responderJson(req, 200, {
